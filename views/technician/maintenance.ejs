@@ -1,0 +1,317 @@
+<div
+    class="flex-1 overflow-auto flex flex-col items-center justify-start gap-4 p-0 animate-fade-in-down transition-opacity duration-500 ease-out">
+    <div class="bg-white p-4 rounded-lg shadow-lg w-full max-w-lg">
+        <h2 class="text-2xl font-bold mb-4">Add Maintenance History</h2>
+
+        <form id="maintenanceForm" class="space-y-4">
+
+            <div class="w-full">
+                <label class="block text-sm font-medium dark:text-white">Gateway | Device</label>
+                <div class="w-full flex items-center justify-center gap-2">
+                    <select id="gateway_id" name="gateway_id"
+                        class="w-full text-sm px-2 py-2 gap-1 rounded-lg  text-light-text  bg-light-background border border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300">
+                        <% if (gatewayList.length==0) { %>
+                            <option value="">Not found Gateway</option>
+                            <% } %>
+                                <% gatewayList.forEach(item=> { %>
+                                    <option value="<%= item.gateway_id %>">
+                                        <%= item.gateway_name %>
+                                    </option>
+                                    <% }) %>
+                    </select>
+                    <select id="device_id" name="device_id"
+                        class="w-full text-sm px-2 py-2 gap-1 rounded-lg  text-light-text  bg-light-background border border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300">
+                        <% if (gatewayList.length==0) { %>
+                            <option value="">Not found Device</option>
+                            <% } %>
+                                <% deviceList.forEach(item=> { %>
+                                    <option value="<%= item.device_id %>">
+                                        <%= item.device_name %>
+                                    </option>
+                                    <% }) %>
+                    </select>
+                </div>
+                <p id="deviceError" class="text-red-500 text-xs hidden">Please select a gateway and device.</p>
+            </div>
+
+            <div class="w-full">
+                <label class="block text-sm font-medium dark:text-white">Maintenance Date Time</label>
+                <div class="w-full flex items-center justify-center gap-2">
+                    <div class="relative w-full max-w-lg">
+                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                            </svg>
+                        </div>
+                        <input id="maintenance_date" name="maintenance_date" datepicker datepicker-autohide
+                            datepicker-format="dd/mm/yyyy" type="text" name="date_start"
+                            class=" block w-full ps-10 p-2 rounded-lg text-light-text  bg-light-background border border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300"
+                            placeholder="Select date" autocomplete="off">
+                    </div>
+                    <div class="relative w-full max-w-lg">
+                        <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                            <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd"
+                                    d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <input type="time" id="maintenance_time" name="maintenance_time"
+                            class="bg-gray-50 p-2 w-full rounded-lg  leading-none border border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300"
+                            required />
+                    </div>
+                </div>
+                <p id="dateError" class="text-red-500 text-xs hidden">Please enter a valid date and time.</p>
+            </div>
+
+            <div class="w-full">
+                <label class="block text-sm font-medium dark:text-white">Maintenance Type</label>
+                <select id="maintenance_type" name="maintenance_type"
+                    class="w-full text-sm px-2 py-2 gap-1 rounded-lg  text-light-text  bg-light-background border border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300">
+                    <option value="Repair">Repair</option>
+                    <option value="Inspection">Inspection</option>
+                    <option value="Replacement">Replacement</option>
+                </select>
+                <p id="typeError" class="text-red-500 text-xs hidden">Please select a maintenance type.</p>
+            </div>
+
+            <div class="w-full">
+                <label class="block text-sm font-medium dark:text-white">Description</label>
+                <textarea id="description" name="description"
+                    class="w-full text-sm px-2 py-2 gap-1 rounded-lg  text-light-text  bg-light-background border border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300"
+                    rows="5" placeholder="Enter maintenance details..."></textarea>
+                <p id="descError" class="text-red-500 text-xs hidden">Please enter a description.</p>
+            </div>
+
+
+            <!-- <div>
+                        <label class="block text-sm font-medium dark:text-white">Status</label>
+                        <select id="status"
+                            class="w-full text-sm px-2 py-2 gap-1 rounded-lg  text-light-text  bg-light-background border border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300">
+                            <option value="Pending">Pending</option>
+                            <option value="Completed">Completed</option>
+                            <option value="In Progress">In Progress</option>
+                        </select>
+                    </div> -->
+
+            <div class="w-full flex justify-between">
+                <button type="button" id="resetBtn"
+                    class="block w-40 px-2 py-2 text-sm font-medium rounded-lg border hover:bg-gray-200 dark:text-white">Reset</button>
+                <button type="submit"
+                    class="w-40 flex items-center justify-center font-medium text-sm px-2 py-2 gap-1 rounded-lg text-dark-text bg-dark-background dark:text-light-text dark:bg-light-background">Submit</button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<script>
+    var translations={
+        ok: "<%= i18n.__('ok') %>",
+        error: "<%= i18n.__('error') %>",
+        success: "<%= i18n.__('success') %>",
+    };
+    const site_label= <%- JSON.stringify(site_label)%>;
+    const maintenanceDate=document.getElementById('maintenance_date');
+    const maintenanceTime=document.getElementById('maintenance_time');
+    const form=document.getElementById('maintenanceForm');
+
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const confirmSubmit=await showConfirmationModal(
+            "Confirm Submission",
+            "Are you sure you want to submit this maintenance record?"
+        );
+
+        if (!confirmSubmit) return;
+
+        showLoading();
+
+        let valid=true;
+        const formData=new FormData(form);
+        const gateway_id=formData.get('gateway_id');
+        const device_id=formData.get('device_id');
+        const maintenance_date=formData.get('maintenance_date');
+        const maintenance_time=formData.get('maintenance_time');
+        const maintenance_type=formData.get('maintenance_type');
+        const description=formData.get('description');
+
+
+        document.getElementById("deviceError").classList.toggle("hidden", gateway_id!=""&&device_id!="");
+        document.getElementById("dateError").classList.toggle("hidden", maintenance_date!=""&&maintenance_time!="");
+        document.getElementById("typeError").classList.toggle("hidden", maintenance_type!="");
+        document.getElementById("descError").classList.toggle("hidden", description!="");
+
+
+        valid=gateway_id&&device_id&&maintenance_date&&maintenance_time&&description;
+        if (!valid) {
+            hideLoading();
+            return;
+        }
+
+        const formattedDateTime=convertToISODateTime(maintenance_date, maintenance_time);
+        let msg, status;
+        try {
+            const response=await fetch(`/api/${site_label}/add-maintenance`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    gateway_id,
+                    device_id,
+                    maintenance_date: formattedDateTime,
+                    maintenance_type,
+                    description,
+                }),
+            });
+
+            const result=await response.json();
+            if (!response.ok) {
+                status=0
+                msg=result.message
+            } else {
+                status=1
+                msg=result.message
+            }
+        } catch (error) {
+            console.error("Error:", error.message);
+            status=0
+            msg=error.message
+        } finally {
+            setTimeout(() => {
+                hideLoading();
+            }, 1500)
+            setTimeout(() => {
+                if (status==0) {
+                    showModalPopup(msg, false, false);
+                } else {
+                    showModalPopup(msg, true, false);
+                }
+                form.reset();
+                setDefaultDateTime();
+            }, 1500);
+        }
+    })
+
+
+    document.getElementById("resetBtn").addEventListener("click", function (e) {
+        e.preventDefault();
+        form.reset();
+        setDefaultDateTime();
+    });
+
+    function showConfirmationModal(title, message) {
+        return new Promise((resolve) => {
+            const modal=document.createElement("div");
+            modal.innerHTML=`
+            <div class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+                <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+                    <h2 class="text-lg font-bold mb-3">${title}</h2>
+                    <p class="mb-4">${message}</p>
+                    <div class="flex justify-end gap-2">
+                        <button id="cancelBtn" class="px-4 py-2 bg-gray-300 rounded">Cancel</button>
+                        <button id="confirmBtn" class="px-4 py-2 bg-blue-500 text-white rounded">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+            document.body.appendChild(modal);
+
+            document.getElementById("confirmBtn").addEventListener("click", () => {
+                document.body.removeChild(modal);
+                resolve(true);
+            });
+
+            document.getElementById("cancelBtn").addEventListener("click", () => {
+                document.body.removeChild(modal);
+                resolve(false);
+            });
+        });
+    }
+
+
+    function showLoading() {
+        const loadingElem=document.createElement("div");
+        loadingElem.id="loading-overlay";
+        loadingElem.innerHTML=`
+        <div class="fixed inset-0 flex items-center justify-center bg-black/80 z-50">
+            <div class="flex items-center justify-center w-56 h-32 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+                <div role="status">
+                    <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                        viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                            fill="currentColor" />
+                        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                            fill="currentFill" />
+                    </svg>
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    `;
+        document.body.appendChild(loadingElem);
+    }
+
+    function hideLoading() {
+        const loadingElem=document.getElementById("loading-overlay");
+        if (loadingElem) {
+            loadingElem.remove();
+        }
+    }
+
+    function setDefaultDateTime() {
+        const now=new Date();
+        maintenanceDate.value=formatDate(now);
+        maintenanceTime.value=formatTime(now);
+    }
+
+    function formatDate(date) {
+        const year=date.getFullYear();
+        const month=String(date.getMonth()+1).padStart(2, "0");
+        const day=String(date.getDate()).padStart(2, "0");
+        return `${day}/${month}/${year}`;
+    }
+
+    function formatTime(date) {
+        const hours=String(date.getHours()).padStart(2, "0");
+        const minutes=String(date.getMinutes()).padStart(2, "0");
+        return `${hours}:${minutes}`;
+    }
+
+    function convertToISODateTime(date, time) {
+        // Check if the date is in DD/MM/YYYY format
+        const datePattern=/^(\d{2})\/(\d{2})\/(\d{4})$/;
+        const dateMatch=date.match(datePattern);
+
+        // Check if the time is in HH:MM format
+        const timePattern=/^(\d{2}):(\d{2})$/;
+        const timeMatch=time.match(timePattern);
+
+        if (!dateMatch||!timeMatch) {
+            console.error("Invalid date or time format. Expected DD/MM/YYYY and HH:MM.");
+            return null;
+        }
+
+        // Extract day, month, and year from the date match
+        const [, day, month, year]=dateMatch;
+
+        // Extract hour and minute from the time match
+        const [, hour, minute]=timeMatch;
+
+        // Return the date and time in the desired format
+        return `${year}-${month}-${day} ${hour}:${minute}:00.000`;
+    }
+
+    setDefaultDateTime();
+</script>

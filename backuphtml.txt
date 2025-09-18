@@ -1,0 +1,128 @@
+                  
+                  // tooltip
+                  
+                    // const batteryLevel=Math.floor(dev.last_value/10)*10;
+                    // console.log(batteryLevel)
+
+                    //         return `
+                    // <button data-tooltip-target="tooltipBatt${device.gateway_id}${device.device_id}" type="button" class="flex items-center text-2xl">
+                    //     <i class='bx bxs-battery text-black dark:text-white'></i>
+                    //     <div class="w-full bg-gray-300 rounded-full h-2"></div>
+                    // </button>
+                    // <div id="tooltipBatt${device.gateway_id}${device.device_id}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                    //     <span id="labelBatt${device.gateway_id}${device.device_id}">${dev.last_value}</span><span> %</span>
+                    //     <div class="tooltip-arrow" data-popper-arrow></div>
+                    // </div>`;
+
+
+                        <% allLog.forEach(log=> { %>
+        <ul>
+            <li>
+                <%= log.log_id %>
+            </li>
+            <li>
+                <%= log.type %>
+            </li>
+            <li>
+                <% log.log_detail.forEach(dev=> { %>
+                    <%= dev.gateway_name %>
+                        <%= dev.device_name %>
+                            <%= dev.control_name %>
+                                <%= dev.V %>
+                                    <% }) %>
+            </li>
+            <li>
+                <%= log.member_id %>
+            </li>
+            <li>
+                <%= log.member_name %>
+            </li>
+            <li>
+                <%= log.created_at %>
+            </li>
+        </ul>
+        <% }) %>
+
+
+
+
+
+
+
+    <!-- <div class="w-full bg-white p-4 shadow-xl rounded-xl border border-gray-200">
+        <h1 class="text-2xl font-semibold text-gray-800 mb-2">Power Input</h1>
+        <button onclick="resetZoom()">Reset Zoom</button>
+        <div id="inputPowerChart"></div>
+    </div> -->
+
+
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> -->
+
+        // const today=new Date();
+    // const past30Days=new Date();
+    // today.setHours(0, 0, 0, 0);
+
+    // const filteredData=logData.filter(log => {
+    //     const logDate=new Date(log.timestamp);
+    //     return logDate>=today&&logDate<new Date(today.getTime()+24*60*60*1000)&&log.device_id==2001;
+    // })
+    //     .sort((a, b) => new Date(a.timestamp)-new Date(b.timestamp));
+
+    // console.log(filteredData);
+
+    // const labels=filteredData.map(item => item.timestamp);
+    // const datasets={
+    //     input: filteredData.map(item => parseFloat(item.input.volt*item.input.current)),
+    //     // output: filteredData.map(item => parseFloat(item.output.volt * item.output.current)),
+    //     // battery: filteredData.map(item => parseFloat(item.battery.level))
+    // };
+
+    // // Create the ApexCharts chart
+    // function createApexChart(chartId, title, data, color, yLabel) {
+    //     const options={
+    //         chart: {
+    //             type: 'line',
+    //             height: 350,
+    //             zoom: { enabled: true },
+    //             toolbar: { show: false }
+    //         },
+    //         series: [{
+    //             name: title,
+    //             data: data
+    //         }],
+    //         dataLabels: {
+    //             enabled: false
+    //         },
+    //         xaxis: {
+    //             categories: labels,
+    //             title: { text: 'Date', style: { fontWeight: 'bold' } }
+    //         },
+    //         yaxis: {
+    //             title: { text: yLabel, style: { fontWeight: 'bold' } },
+    //             min: 0
+    //         },
+    //         stroke: {
+    //             curve: 'straight',
+    //             width: 2
+    //         },
+    //         fill: {
+    //             opacity: 0.8,
+    //             type: 'solid'
+    //         },
+    //         colors: [color],
+    //         tooltip: {
+    //             y: {
+    //                 formatter: (val) => `${yLabel}: ${val.toFixed(2)}`
+    //             }
+    //         },
+    //         grid: {
+    //             show: true
+    //         }
+    //     };
+
+    //     const chart=new ApexCharts(document.querySelector(`#${chartId}`), options);
+    //     chart.render();
+    // }
+
+    // createApexChart('inputPowerChart', 'Input Power (W)', datasets.input, '#22C55E', 'Power (W)');

@@ -1,0 +1,1541 @@
+<div
+    class="flex-1 overflow-y-hidden overflow-x-hidden flex flex-col items-start justify-start gap-4 p-4 animate-fade-in-down transition-opacity duration-500 ease-out">
+
+    <div class="w-full grid grid-cols-2 md:grid-cols-3 md:gap-2 xl:grid-cols-3 gap-2">
+
+        <div class="col-span-3 w-full flex gap-2 justify-end">
+            <button id="btnReset"
+                class="block w-20 h-8 text-sm font-medium rounded-lg border hover:bg-gray-200 dark:text-white">
+                Reset
+            </button>
+        </div>
+
+        <div class="w-full flex flex-col gap-2 justify-center">
+            <label class="block text-sm font-medium dark:text-white">
+                <%= i18n.__('contractNumber') %>
+            </label>
+            <select id="selectContractNumber"
+                class="w-full text-sm px-2 py-2 gap-1 rounded-lg  text-light-text  bg-light-background border border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300">
+                <option value="">
+                    <%= i18n.__('contractNumber') %>
+                </option>
+                <% contractListOnSite.forEach(c=> { %>
+                    <option value="<%= c.id %>">
+                        <%= c.contract_number %>
+                    </option>
+                    <% }) %>
+            </select>
+        </div>
+
+        <div class="w-full flex flex-col gap-2 justify-center">
+            <label class="block text-sm font-medium dark:text-white">
+                <%= i18n.__('group') %>
+            </label>
+            <select id="selectGroup"
+                class="w-full text-sm px-2 py-2 gap-1 rounded-lg  text-light-text  bg-light-background border border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300">
+                <option value="">
+                    <%= i18n.__('group') %>
+                </option>
+                <% groupListOnSite.forEach(g=> { %>f
+                    <option value="<%= g.id %>">
+                        <%= g.group_name %>
+                    </option>
+                    <% }) %>
+            </select>
+        </div>
+
+        <div class="w-full flex flex-col gap-2 justify-start col-span-2 md:col-span-1">
+            <label class="block text-sm font-medium dark:text-white">
+                <%= i18n.__('search') %>
+            </label>
+            <div class="flex items-center relative">
+                <input type="text" id="searchData"
+                    class="z-20 block w-full ps-4 p-2.5 text-sm rounded-lg rounded-r-none  border border-r-0  text-light-text  bg-light-background border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300"
+                    placeholder="<%= i18n.__('placeholderSearch') %>" autocomplete="off" required />
+                <button id="searchDataBtn"
+                    class="z-20 flex items-center h-full px-4 py-1 rounded-r-lg text-xl bg-purple-500 dark:bg-[#77DDFF] text-white dark:text-black"><i
+                        class='bx bx-search'></i></button>
+                <!-- search recommend -->
+                <div id="inputSearchShow"
+                    class="hidden overflow-y-auto z-10 absolute w-full max-h-64 top-10 left-0 rounded-bl-lg rounded-br-lg border shadow-xl dark:border-gray-600  bg-white dark:bg-[#1C1E1F] ">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id=""
+        class="w-full overflow-auto  bg-gray-100 dark:bg-[#1C1E1F] px-4 py-4 rounded-t-lg border-b border-gray-500 dark:border-gray-700">
+        <div class="w-full flex flex-col items-center justify-center gap-2 md:flex-row md:justify-between">
+            <div class="flex-1 flex items-center order-last md:order-none">
+                <input id="checkAllDevices" type="checkbox"
+                    class="cursor-pointer w-5 h-5 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 dark:text-cyan-500 dark:focus:ring-[#77DDFF] dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600" />
+                <label for="checkAllDevices" class="cursor-pointer ml-4 font-normal dark:text-white">
+                    <%= i18n.__('youseleted') %> <span id="checkStatus">0</span>
+                        <%= i18n.__('lamp') %></span>
+            </div>
+            <div class="flex items-center gap-2 ">
+                <div class="flex gap-2">
+                    <button id="btnPowerOnLampSelect" class="px-4 h-[30px] bg-green-400 rounded-md text-black text-xs">
+                        <%= i18n.__('poweron') %>
+                    </button>
+                    <button id="btnPowerOffLampSelect" class="px-4 h-[30px] bg-red-400 rounded-md text-black text-xs">
+                        <%= i18n.__('poweroff') %>
+                    </button>
+                </div>
+            </div>
+            <div class="flex justify-center items-center gap-2 h-full pr-2 dark:border-white ">
+                <h5 class="text-black dark:text-white">
+                    <%= i18n.__('brightness') %>
+                </h5>
+                <input type="number" id="inputBrightSelect" aria-describedby="helper-text-explanation" placeholder="%"
+                    class="h-full bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-20  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-[#77DDFF] dark:focus:border-[#77DDFF]"
+                    min="0" max="100" maxlength="3" />
+                <button id="btnSetBrightSelect"
+                    class="px-4 h-[30px] bg-purple-500 text-white text-xs rounded-md dark:bg-[#77DDFF] dark:text-black">
+                    <%= i18n.__('set') %>
+                </button>
+            </div>
+            <div class="flex justify-center items-center gap-2">
+                <button id="btnMangeSelectedDevices"
+                    class="px-4 h-[30px] bg-blue-600 hover:bg-blue-700 text-white rounded-md text-xs">
+                    <%= i18n.__('manage') %>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id="containerDevices""
+    class=" w-full flex-1 relative overflow-auto shadow-md sm:rounded-lg space-y-2">
+
+    </div>
+
+    <div id="paginationContainer" class="w-full flex items-center justify-between">
+
+    </div>
+
+
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/flowbite@1.4.5/dist/flowbite.min.js"></script>
+
+<script>
+
+    var translations={
+        createMember: "<%= i18n.__('createMember') %>",
+        enabled: "<%= i18n.__('enabled') %>",
+        disabled: "<%= i18n.__('disabled') %>",
+        status: "<%= i18n.__('status') %>",
+        username: "<%= i18n.__('username') %>",
+        memberName: "<%= i18n.__('memberName') %>",
+        email: "<%= i18n.__('email') %>",
+        role: "<%= i18n.__('role') %>",
+        cancle: "<%= i18n.__('cancle') %>",
+        create: "<%= i18n.__('create') %>",
+        change: "<%= i18n.__('change') %>",
+        showing: "<%= i18n.__('showing') %>",
+        to: "<%= i18n.__('to') %>",
+        of: "<%= i18n.__('of') %>",
+        entries: "<%= i18n.__('entries') %>",
+        delete: "<%= i18n.__('delete') %>",
+        deleteConfirm: "<%= i18n.__('deleteConfirm') %>",
+        textDelete: "<%= i18n.__('textDelete') %>",
+        ok: "<%= i18n.__('ok') %>",
+        error: "<%= i18n.__('error') %>",
+        success: "<%= i18n.__('success') %>",
+        noMember: "<%= i18n.__('noMember') %>",
+    };
+
+    var ws;
+    const devicesList=<%- JSON.stringify(devicesList)%>;
+    const siteID= <%- JSON.stringify(site_id)%>;
+    const tableBody=document.getElementById("containerDevices");
+    const selectContractNumber=document.getElementById("selectContractNumber");
+    const selectGroup=document.getElementById("selectGroup");
+    const searchData=document.getElementById("searchData");
+    const searchDropdown=document.getElementById("inputSearchShow");
+    const searchDataBtn=document.getElementById("searchDataBtn");
+    const btnPowerOnLampSelect=document.getElementById('btnPowerOnLampSelect')
+    const btnPowerOffLampSelect=document.getElementById('btnPowerOffLampSelect')
+    const btnSetBrightSelect=document.getElementById('btnSetBrightSelect')
+
+    let currentPage=1;
+    let itemsPerpage=10;
+    const btnMangeSelectedDevices=document.getElementById("btnMangeSelectedDevices");
+    const selectedDevices={};
+    const days=[
+        {
+            id: 1,
+            name: "Sun"
+        },
+        {
+            id: 2,
+            name: "Mon"
+        },
+        {
+            id: 3,
+            name: "Tue"
+        },
+        {
+            id: 4,
+            name: "Wed"
+        },
+        {
+            id: 5,
+            name: "Thu"
+        },
+        {
+            id: 6,
+            name: "Fri"
+        },
+        {
+            id: 7,
+            name: "Sat"
+        },
+    ]
+
+
+
+    function handleCheckboxClick(event, gateway_id, device_id) {
+        const isChecked=event.target.checked;
+        selectedDevices[`${gateway_id}-${device_id}`]=isChecked;
+        updateSelectedCount();
+    }
+
+    function handleSelectAllClick(event) {
+        const isChecked=event.target.checked;
+        document.querySelectorAll(".checkbox-item").forEach(checkbox => {
+            checkbox.checked=isChecked;
+            const [gatewayId, deviceId]=checkbox.id.replace("checkbox", "").split("-");
+            selectedDevices[`${gatewayId}-${deviceId}`]=isChecked;
+        })
+        updateSelectedCount();
+    }
+
+    function updateSelectedCount() {
+        const selectedCount=Object.values(selectedDevices).filter(Boolean).length;
+        document.getElementById("checkStatus").innerText=selectedCount;
+    }
+
+    function handelDevicesBySeleted(type) {
+        const selectedDeviceEntries=Object.entries(selectedDevices).filter(([key, value]) => value===true);
+        const isSelectedDevices=selectedDeviceEntries.map(([key]) => {
+            const [gateway_id, device_id]=key.split("-");
+            return { gateway_id, device_id };
+        });
+
+        if (isSelectedDevices.length>0) {
+            const matchedDevices=isSelectedDevices.map(selected => {
+                const matchedGateway=devicesList.find(d => d.gateway_id==selected.gateway_id&&d.device_id==selected.device_id);
+
+                return matchedGateway? {
+                    ...matchedGateway,
+                    device_id: selected.device_id
+                }:null;
+            }).filter(item => item!=null);
+
+            if (type=='manage') {
+                showManageDevice('Manage Lamp', matchedDevices, false)
+                setTimeout(() => {
+                    document.getElementById(`btnPowerOn`).addEventListener('click', () => {
+                        matchedDevices.forEach(device => {
+                            sendWs('on', device)
+                        })
+                        sendUsage('on', matchedDevices, null, true)
+                    })
+                    document.getElementById(`btnPowerOff`).addEventListener('click', () => {
+                        matchedDevices.forEach(device => {
+                            sendWs('off', device)
+                        })
+                        sendUsage('off', matchedDevices, null, true)
+                    })
+                    document.getElementById(`rangeBrightness`).addEventListener('input', (e) => {
+                        const ratio=(e.target.value-e.target.min)/(e.target.max-e.target.min)*100;
+                        e.target.style.background=`linear-gradient(90deg, #3b82f6 ${ratio}%, #d1d5db ${ratio}%)`;
+                        document.getElementById(`rangeBrightnessValue`).innerText=e.target.value;
+                    })
+                    document.getElementById(`rangeBrightness`).addEventListener('change', (e) => {
+                        const value=parseInt(e.target.value)
+                        matchedDevices.forEach(device => {
+                            sendWs('bright', device, value)
+                        })
+                        sendUsage('bright', matchedDevices, value, true)
+                    })
+                    document.getElementById('saveMangeDevice').addEventListener('click', () => {
+                        handleSchedulConfig(matchedDevices)
+                    });
+                }, 250)
+            } else if (type=='on') {
+                matchedDevices.forEach(device => {
+                    sendWs('on', device)
+                })
+                sendUsage('on', matchedDevices, null, true)
+            } else if (type=='off') {
+                matchedDevices.forEach(device => {
+                    sendWs('off', device)
+                })
+                sendUsage('off', matchedDevices, null, true)
+            } else if (type=='bright') {
+                const value=parseInt(document.getElementById('inputBrightSelect').value)
+                if (isNaN(value)) {
+                    showModalPopup('Input Brightness', false);
+                } else if (value<0||value>100) {
+                    showModalPopup('error', false);
+                } else {
+                    matchedDevices.forEach(device => {
+                        sendWs('bright', device, value)
+                    })
+                    sendUsage('bright', matchedDevices, value, true)
+                }
+            }
+        } else {
+            showModalPopup('no select devices', false);
+        }
+    }
+
+    async function handelDeviceSchedule(dataConfig) {
+        const btn=document.getElementById('confirmSaveMangeDevice');
+        btn.addEventListener('click', async () => {
+            try {
+                sendWs('schedule', dataConfig);
+
+                const response=await fetch("/api/save-schedule/"+siteID, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ dataConfig: dataConfig }),
+                });
+                const result=await response.json();
+                if (!response.ok) {
+                    throw new Error(result.message);
+                }
+                showModalPopup(result.message, true, false);
+            } catch (error) {
+                console.error("Error:", error.message);
+                showModalPopup(error.message, false);
+            }
+        });
+    }
+
+    function handleSchedulConfig(device) {
+        const schTimes=days.map((day) => {
+            const offTimeInput=document.getElementById(`off-time-${day.id}`);
+            const onTimeInput=document.getElementById(`on-time-${day.id}`);
+            return {
+                id: day.id,
+                day_of_week: day.name,
+                off_time: offTimeInput.value,
+                on_time: onTimeInput.value,
+            };
+        })
+
+        const isDeviceArray=Array.isArray(device);
+
+        const dataConfig=isDeviceArray
+            ? device.map(d => ({
+                gateway_id: d.gateway_id,
+                device_id: d.device_id,
+                type: "schedule",
+                detail: schTimes
+            }))
+            :[{
+                gateway_id: device.gateway_id,
+                device_id: device.device_id,
+                type: "schedule",
+                detail: schTimes
+            }];
+
+        const spanDevicesName=isDeviceArray&&device.length
+            ? device.map(m => m.device_name).join(', ')
+            :device.device_name||'';
+
+        let rows="";
+        if (dataConfig) {
+            const scheduleDetails=Array.isArray(dataConfig)
+                ? dataConfig[0].detail
+                :dataConfig.detail;
+            rows=scheduleDetails.map(schedule => `
+            <tr class="border-b border-gray-300 dark:border-gray-600">
+                <td class="py-2 px-4 text-gray-800 dark:text-white">${schedule.day_of_week}</td>
+                <td class="py-2 px-4 text-gray-600 dark:text-gray-300">${schedule.off_time||"Not set"}</td>
+                <td class="py-2 px-4 text-gray-600 dark:text-gray-300">${schedule.on_time||"Not set"}</td>
+            </tr>
+        `).join("");
+        }
+        let content=`
+                                    <div class="w-full max-h-[48px] overflow-y-auto text-gray-800 dark:text-white mb-4">
+                                        Schedule for ${Array.isArray(device)? spanDevicesName:device.device_name||''}</div>
+                                    <table class="w-full border-collapse">
+                                        <thead>
+                                            <tr class="bg-light-primary dark:bg-dark-primary text-gray-800 dark:text-white">
+                                                <th class="py-2 px-4 text-left">Day</th>
+                                                <th class="py-2 px-4 text-left">OFF Time</th>
+                                                <th class="py-2 px-4 text-left">ON Time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="scheduleTableBody">${rows}</tbody>
+                                    </table>`
+        showConfirmationModal('Save Schedule', content);
+        handelDeviceSchedule(dataConfig);
+    }
+
+
+    function createTableRow(device) {
+        if (device.type=='gateway') {
+            return `
+                <div class="grid grid-cols-[20px_repeat(10,minmax(0,1fr))_128px] px-4 py-2 gap-4 min-w-[900px] items-start auto-rows-auto">
+                   <div class="w-full flex items-center justify-start">
+                    </div>
+                   <div class="col-span-2 w-full flex flex-col items-start justify-start text-black dark:text-white">
+                        <label class="font-normal break-all text-lg">${device.gateway_name}</label>
+                        <label class="font-light break-all text-xs">KM101-102</label>
+                    </div>
+                   <div class="col-span-2 w-full flex flex-col items-start justify-start text-black dark:text-white">
+                        <label class="font-light break-all text-xs"><%= i18n.__('contractNumber') %></label>
+                        <label class="font-normal break-all text-lg">${device.contract_number}</label>
+                    </div>
+                   <div class="col-span-2 w-full flex flex-col items-start justify-center text-black dark:text-white">
+                        <div class="flex items-start gap-2">
+                            <label class="font-light text-xs"><%= i18n.__('site') %></label>
+                            <label class="font-semibold text-xs break-all">${device.site_id}</label>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <label class="font-light text-xs"><%= i18n.__('group') %></label>
+                            <label class="font-semibold text-xs break-all">${device.group_name||translations.undefined}</label>
+                        </div>
+                    </div>
+                   <div class="col-span-4 w-full flex flex-col items-start justify-center text-black dark:text-white">
+                    <label class="font-ligh text-xs"><%= i18n.__('status') %></label>
+                        <div class="w-full flex items-center gap-1">
+                            <span class="relative flex h-2 w-2" id="onlineStatus${device.gateway_id}">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${device.status==1? "bg-green-500":"bg-red-500"}"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 ${device.status==1? "bg-green-500":"bg-red-500"}"></span>
+                            </span>
+                            <span class="font-semibold break-all ${device.status==1? "text-green-500":"text-red-500"}"
+                            id="gateway_status${device.gateway_id}">${device.status==1? "Online":"Offline"}</span>
+                        </div>
+                    </div>
+                    <div class="col-span-1 w-full flex flex-col items-start justify-center text-black dark:text-white"></div>
+                </div>
+            `
+        } else {
+            const isChecked=selectedDevices[`${device.gateway_id}-${device.device_id}`]||false;
+
+            const charge=device.controls
+                .filter(dev => dev.control_id==12)
+                .map(dev => {
+                    return `
+                    <div id="charge${device.gateway_id}${device.device_id}" class="text-xs ${dev.last_value==0? "hidden":""}">
+                        <i class='bx bxs-zap'></i>
+                    </div>`
+                });
+
+            const battery=device.controls
+                .filter(dev => dev.control_id==10)
+                .map(dev => {
+                    return `
+                <div class="h-5 w-[52px] flex items-center justify-center rounded-md p-1 gap-1 border border-gray-800 dark:border-gray-200">
+                    ${charge}
+                    <span class="font-semibold text-xs">
+                        <span id="percentage${device.gateway_id}${device.device_id}">${dev.last_value}</span>%
+                    </span>
+                </div>
+                `;
+                }).join("");
+
+            const powerVolt=device.controls.find(dev => dev.control_id==13);
+            const formattedPowerVolt=(powerVolt.last_value/10).toFixed(2);
+
+            const powerCurrent=device.controls.find(dev => dev.control_id==14)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+            const formattedpowerCurrent=(powerCurrent.last_value/1000).toFixed(2);
+
+            const powerVoltOut=device.controls.find(dev => dev.control_id==15);
+            const formattedPowerVoltOut=(powerVoltOut.last_value/10).toFixed(2);
+
+            const powerCurrentOut=device.controls.find(dev => dev.control_id==16)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+            const formattedpowerCurrentOut=(powerCurrentOut.last_value/1000).toFixed(2);
+
+            const temp=device.controls.find(dev => dev.control_id==11)
+
+            const battVolt_mv= device.controls.find(dev => dev.control_id==17);
+            const formattedBattVolt = (battVolt_mv.last_value/1000).toFixed(2);
+
+            const capacity= device.controls.find(dev => dev.control_id==18);
+            const formattedCapacity = (capacity.last_value/1000).toFixed(2);
+
+            const batt_health= device.controls.find(dev => dev.control_id==19);
+
+            const cycle_count= device.controls.find(dev => dev.control_id==20);
+
+            return `
+                <div class="grid grid-cols-[20px_repeat(10,minmax(0,1fr))_128px] px-4 py-2 gap-4 min-w-[900px] items-start auto-rows-auto">
+                   <div class="w-full flex items-center justify-start">
+                        <input id="checkbox${device.gateway_id}-${device.device_id}" type="checkbox" 
+                        class="checkbox-item w-5 h-5 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 dark:text-cyan-500 dark:focus:ring-[#77DDFF] dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        ${isChecked? "checked":""} 
+                        onchange="handleCheckboxClick(event, '${device.gateway_id}', '${device.device_id}')">                    
+                    </div>
+                   <div class="col-span-2 w-full flex flex-col items-start justify-start text-black dark:text-white">
+                        <label for="checkbox${device.gateway_id}-${device.device_id}" class="font-normal break-all text-lg">${device.device_name}</label>
+                        <label for="checkbox${device.gateway_id}-${device.device_id}" class="font-light break-all text-xs">KM101-102</label>
+                    </div>
+                   <div class="col-span-2 w-full flex flex-col items-start justify-start text-black dark:text-white">
+                        <label class="font-light break-all text-xs"><%= i18n.__('contractNumber') %></label>
+                        <label class="font-normal break-all text-lg">${device.contract_number}</label>
+                    </div>
+                   <div class="col-span-2 w-full flex flex-col items-start justify-center text-black dark:text-white">
+                        <div class="flex items-start gap-2">
+                            <label class="font-light text-xs"><%= i18n.__('site') %></label>
+                            <label class="font-semibold text-xs break-all">${device.site_id}</label>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <label class="font-light text-xs"><%= i18n.__('group') %></label>
+                            <label class="font-semibold text-xs">${device.group_name||translations.undefined}</label>
+                        </div>
+                    </div>
+                   <div class="col-span-4 w-full flex flex-col items-start justify-center text-black dark:text-white">
+                        <div class="w-full flex items-center gap-1">
+                            <label class="font-ligh text-xs"><%= i18n.__('status') %></label>
+                            <div class="relative inline-block">
+                                <button id="info${device.gateway_id}${device.device_id}" type="button"" class="inline-flex ittems=center"><i class='bx bx-info-circle' ></i></button>
+                                <div id="tooltipInfo${device.gateway_id}${device.device_id}"
+                                    class="absolute bg-gray-900 text-white text-sm px-2 py-1 rounded shadow-lg opacity-0 transition-opacity duration-300 pointer-events-none whitespace-nowrap">
+                                    Status Explanation
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full flex items-center gap-1 flex-wrap">
+                            <span class="relative flex h-2 w-2" id="onlineStatus${device.gateway_id}${device.device_id}">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${device.controls[0].last_value==1? "bg-green-500":"bg-red-500"}"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 ${device.controls[0].last_value==1? "bg-green-500":"bg-red-500"}"></span>
+                            </span>                            
+                            <span class="text-gray-800 dark:text-gray-200">|</span> 
+                                ${device.controls[2].last_value==0
+                    ? `<span class="w-[30px] text-sm text-center break-all text-red-500 font-semibold" id="power${device.gateway_id}${device.device_id}">OFF</span>`
+                    :`<span class="w-[30px] test-sm text-center break-all text-green-500 font-semibold" id="power${device.gateway_id}${device.device_id}">ON</span>`}
+                            <span class="text-gray-800 dark:text-gray-200">|</span> 
+                            <span class="text-orange-400""><i class='bx bxs-sun'></i></span>
+                            <span class="font-semibold w-[30px] text-center" id="bright${device.gateway_id}${device.device_id}">${device.controls[1].last_value}</span><span>%</span>
+                            <span class="text-gray-800 dark:text-gray-200">|</span> 
+                            ${battery}
+                            <span class="text-gray-800 dark:text-gray-200">|</span> 
+                                <span class="font-semibold text-xs"><span id="temp${device.gateway_id}${device.device_id}">${temp.last_value.toFixed(1)}</span> °C</span>   
+                        </div>
+                        <div class="w-full flex items-center gap-1 flex-wrap">
+                            <span class="text-xs">IN</span>
+                            <!--<span class="text-xs"><span id="powerVolt${device.gateway_id}${device.device_id}" class="font-semibold">${formattedPowerVolt}</span> V</span>-->
+                            <span class="text-xs"><span id="powerCurrent${device.gateway_id}${device.device_id}" class="font-semibold">${formattedpowerCurrent}</span> mA</span>
+                             <span class="text-gray-800 dark:text-gray-200">|</span>
+                             <span class="text-xs">OUT</span>
+                            <!--<span class="text-xs"><span id="powerOutVolt${device.gateway_id}${device.device_id}" class="font-semibold">${formattedPowerVoltOut}</span> V</span>-->
+                            <span class="text-xs"><span id="powerOutCurrent${device.gateway_id}${device.device_id}" class="font-semibold">${formattedpowerCurrentOut}</span> mA</span> 
+                        </div>
+                        <div class="w-full flex items-center gap-1 flex-wrap">
+                            <span class="text-xs">Batt</span>
+                            <span class="text-xs"><span id="batt_volt${device.gateway_id}${device.device_id}" class="font-semibold">${formattedBattVolt}</span> V</span>
+                            <span class="text-gray-800 dark:text-gray-200">|</span>
+                            <span class="text-xs">Capacity</span>
+                            <span class="text-xs"><span id="capacity${device.gateway_id}${device.device_id}" class="font-semibold">${formattedCapacity}</span> Ah</span>                          
+                        </div>
+                        <div class="w-full flex items-center gap-1 flex-wrap">
+                            <span class="text-xs">Batt Health</span>
+                            <span class="text-xs"><span id="batt_health${device.gateway_id}${device.device_id}" class="font-semibold">${batt_health.last_value}</span> %</span>
+                            <span class="text-gray-800 dark:text-gray-200">|</span>
+                            <span class="text-xs">Cycle</span>
+                            <span class="text-xs"><span id="cycle_count${device.gateway_id}${device.device_id}" class="font-semibold">${cycle_count.last_value}</span></span>                          
+                        </div>                                                                     
+                    </div>
+                   <div class="col-span-1 w-full h-full flex items-center justify-end text-black dark:text-white">
+                        <button type="button" id="manageDevice${device.gateway_id}${device.device_id}" class="text-center px-4 h-[30px] bg-blue-600 text-white rounded-md hover:bg-blue-700"><%= i18n.__('manage') %></button>
+                        </div>
+                </div>`
+        }
+    }
+
+    function renderTable(page, filteredData) {
+        tableBody.innerHTML="";
+
+        if (filteredData.length===0) {
+            tableBody.innerHTML=`
+            <div class="flex items-center justify-center w-full text-black dark:text-white">
+                <label class="font-normal break-all text-lg">not found reuslt</label>
+            </div>`;
+            updatePaginationButtons(filteredData);
+            return;
+        }
+
+
+        const start=(page-1)*itemsPerpage;
+        const end=start+itemsPerpage;
+        const paginatedItems=filteredData.slice(start, end);
+        // (start+index+1)
+
+        paginatedItems.forEach((device, index) => {
+            if (device.type=='gateway') {
+                if (device.gateway_lat==null||device.gateway_long==null) return
+            } else {
+                if (device.lat==null||device.long==null) return
+            }
+            tableBody.innerHTML+=createTableRow(device);
+            setTimeout(() => {
+                if (device.type!='gateway') {
+                    const btnMangeDevice=document.getElementById(`manageDevice${device.gateway_id}${device.device_id}`)
+                    btnMangeDevice.addEventListener('click', () => {
+                        let title=`<h3 class="text-2xl font-semibold dark:text-white">${device.device_name} </h3>`
+                        showManageDevice(title, device);
+                        setTimeout(() => {
+                            document.getElementById(`btnPowerOn${device.gateway_id}${device.device_id}`).addEventListener('click', () => {
+                                sendWs('on', device)
+                                sendUsage('on', device)
+                            })
+                            document.getElementById(`btnPowerOff${device.gateway_id}${device.device_id}`).addEventListener('click', () => {
+                                sendWs('off', device)
+                                sendUsage('off', device)
+                            })
+                            document.getElementById(`rangeBrightness${device.gateway_id}${device.device_id}`).addEventListener('input', (e) => {
+                                const ratio=(e.target.value-e.target.min)/(e.target.max-e.target.min)*100;
+                                e.target.style.background=`linear-gradient(90deg, #3b82f6 ${ratio}%, #d1d5db ${ratio}%)`;
+                                document.getElementById(`rangeBrightnessValue${device.gateway_id}${device.device_id}`).innerText=e.target.value;
+                            })
+                            document.getElementById(`rangeBrightness${device.gateway_id}${device.device_id}`).addEventListener('change', (e) => {
+                                const value=parseInt(e.target.value)
+                                sendWs('bright', device, value)
+                                sendUsage('bright', device, value)
+                            })
+                            document.getElementById('saveMangeDevice').addEventListener('click', () => {
+                                handleSchedulConfig(device)
+                            });
+                        }, 250)
+                    })
+                    const buttonInfo=document.getElementById(`info${device.gateway_id}${device.device_id}`);
+                    const tooltip=document.getElementById(`tooltipInfo${device.gateway_id}${device.device_id}`);
+                    buttonInfo.addEventListener("mouseenter", () => {
+                        tooltip.classList.remove("opacity-0");
+                        tooltip.classList.add("opacity-100");
+                        const rect=buttonInfo.getBoundingClientRect();
+                        const tooltipRect=tooltip.getBoundingClientRect();
+                        tooltip.style.top=`${window.scrollY+(rect.height/2)-(tooltipRect.height/2)}px`;
+                        tooltip.style.left=`${window.scrollX+(rect.width+10)}px`;
+                    });
+                    buttonInfo.addEventListener("mouseleave", () => {
+                        tooltip.classList.remove("opacity-100");
+                        tooltip.classList.add("opacity-0");
+                    });
+
+                    buttonInfo.addEventListener('click', () => {
+                        let elem = `
+                            <p class="text-xs text-gray-700 dark:text-gray-300">
+                                <strong>Online / Offline:</strong> 
+                                Indicates whether the device is connected and communicating with the system.<br>  
+                                <span class="ms-2 text-green-500 font-semibold">🟢 Online</span> → The device is active and connected.  
+                                <br>
+                                <span class="ms-2 text-red-500 font-semibold">🔴 Offline</span> → No response, possibly turned off or disconnected.
+                            </p>
+                            <p class="text-xs text-gray-700 dark:text-gray-300">
+                                <strong>ON / OFF:</strong> 
+                                Shows whether the device is currently operational.
+                                <br>    
+                                <span class="ms-2 text-green-500 font-semibold">ON</span> → The device is powered on and working.  
+                                <br>
+                                <span class="ms-2 text-red-500 font-semibold">OFF</span> → The device is off, possibly powered down or disconnected.
+                            </p>
+                            <p class="text-xs text-gray-700 dark:text-gray-300">
+                                <strong>Brightness (%):</strong> 
+                                Represents the brightness level of the device (0% = off, 100% = fully bright).
+                            </p>
+                            <p class="text-xs text-gray-700 dark:text-gray-300">
+                                <strong>Battery (%):</strong> 
+                                Displays the remaining battery percentage. A lower percentage may indicate the need for recharging or replacing the battery.
+                            </p>
+                            <p class="text-xs text-gray-700 dark:text-gray-300">
+                                <strong>Battery Voltage (V):</strong>  
+                                The current voltage level of the battery. A normal voltage indicates the battery is functioning well, while too low voltage may indicate discharge or problem.
+                            </p>
+                            <p class="text-xs text-gray-700 dark:text-gray-300">
+                                <strong>Capacity (Ah):</strong>  
+                                The total amount of electric charge the battery can store. Higher capacity means longer battery life before needing recharge.
+                            </p>
+                            <p class="text-xs text-gray-700 dark:text-gray-300">
+                                <strong>Battery Health (%):</strong>  
+                                Indicates the overall condition of the battery compared to its original state. 100% means battery is in perfect condition, while lower values suggest aging or degradation.
+                            </p>
+                            <p class="text-xs text-gray-700 dark:text-gray-300">
+                                <strong>Cycle Count:</strong>  
+                                Number of full charge-discharge cycles the battery has undergone. Higher cycles generally mean battery aging and reduced capacity.
+                            </p>
+                            <p class="text-xs text-gray-700 dark:text-gray-300">
+                                <strong>Charging Status:</strong> 
+                                <br>
+                                <span class="ms-2 font-semibold">Charging ⚡</span> → The battery is actively charging.  
+                                <br>
+                                <span class="ms-2 font-semibold"> Not Charging</span> → The device is running on battery or external power.
+                            </p>
+                            <p class="text-xs text-gray-700 dark:text-gray-300">
+                                <strong>Temperature (°C):</strong> 
+                                Displays the device's temperature. A high temperature may indicate heavy usage or environmental conditions.
+                            </p>
+                            <p class="text-xs text-gray-700 dark:text-gray-300">
+                                <strong>Power Input (IN):</strong>
+                                <br> 
+                                <span class="ms-2 font-semibold">Solar Power Voltage (V):</span> The voltage received from the solar panel. Low voltage may indicate insufficient sunlight.
+                                <br> 
+                                <span class="ms-2 font-semibold">Solar Power Current (mA):</span> The electrical current generated by the solar panel, showing the amount of power being produced. 
+                            </p>
+                            <p class="text-xs text-gray-700 dark:text-gray-300">
+                                <strong>Power Output (OUT):</strong>
+                                <br>
+                                <span class="ms-2 font-semibold">Power Output Voltage (V):</span> The voltage supplied from the solar panel to the device.
+                                <br>
+                                <span class="ms-2 font-semibold">Power Output Current (mA):</span> The current being supplied from the solar panel to the device.
+                            </p>
+                        `
+                        showModal('Status Explanation', elem, true);
+                        })
+                }
+            }, 100);
+        });
+
+        updatePaginationButtons(filteredData);
+    }
+
+
+
+    function updatePaginationButtons(filteredData) {
+        paginationContainer.innerHTML="";
+        const totalPages=Math.ceil(filteredData.length/itemsPerpage);
+        paginationContainer.innerHTML=`
+        <div class="block">${translations.showing} ${(currentPage-1)*itemsPerpage+1} ${translations.to} 
+            ${Math.min(currentPage*itemsPerpage, filteredData.length)} ${translations.of} ${filteredData.length} ${translations.entries}</div>
+        <div class="flex items-center gap-2">
+            <button id="prevBtn"
+                class="inline-flex items-center hover:bg-light-primary hover:dark:bg-dark-primary rounded-full p-2">
+                <i class='bx bx-chevron-left'></i>
+            </button>
+            <span>${currentPage} / ${totalPages}</span>
+            <button id="nextBtn"
+                class="inline-flex items-center hover:bg-light-primary hover:dark:bg-dark-primary rounded-full p-2">
+                <i class='bx bx-chevron-right'></i>
+            </button>
+        </div>
+    `;
+        const prevBtn=document.getElementById('prevBtn');
+        prevBtn.disabled=currentPage==1;
+        prevBtn.addEventListener("click", () => changePage(currentPage-1, filteredData));
+        const nextBtn=document.getElementById('nextBtn');
+        nextBtn.disabled=currentPage==totalPages;
+        nextBtn.addEventListener("click", () => changePage(currentPage+1, filteredData));
+    }
+
+
+    function changePage(page, filteredData) {
+        if (page>=1&&page<=Math.ceil(devicesList.length/itemsPerpage)) {
+            currentPage=page;
+            renderTable(page, filteredData);
+        }
+    }
+
+
+    function filterTable() {
+
+        const searchValue=searchData.value.trim().toLowerCase();
+        const contractNumberValue=selectContractNumber.value;
+        const groupValue=selectGroup.value;
+
+        if (!searchValue&&!contractNumberValue&&!groupValue) {
+            renderTable(currentPage, devicesList);
+        }
+
+
+        const filteredDevices=devicesList.filter(device => {
+
+            const matchesSearch=searchValue==""||
+                device.device_name?.toLowerCase().includes(searchValue)||
+                device.gateway_name?.toLowerCase().includes(searchValue)||
+                device.group_name?.toLowerCase().includes(searchValue);
+
+            const matchesContract=contractNumberValue==""||
+                device.contract_id==contractNumberValue;
+
+            const matchesGroup=groupValue==""||
+                device.group_id==groupValue;
+
+            return matchesSearch&&matchesContract&&matchesGroup;
+        })
+
+        currentPage=1;
+        renderTable(currentPage, filteredDevices);
+    }
+
+    renderTable(currentPage, devicesList);
+    // searchData.addEventListener("input", filterTable);
+    searchData.addEventListener("input", function (e) {
+        const query=e.target.value.toLowerCase().trim();
+        searchDropdown.innerHTML="";
+
+        if (!query) {
+            searchDropdown.classList.add("hidden");
+            return;
+        }
+
+        const keyFilter=createKeyFilter(query);
+        if (keyFilter.length==0) {
+            searchDropdown.classList.add("hidden");
+            return;
+        }
+
+        searchDropdown.classList.remove("hidden");
+
+        keyFilter.forEach((data) => {
+            let highlightedText=data.highlight.replace(/\[(.*?)\]/g, '<span class="bg-yellow-200 font-normal dark:bg-gray-600">$1</span>');
+            highlightedText+=` <span class="text-gray-500 dark:text-gray-400">(${data.fullKey})</span>`;
+            let searchItem=document.createElement("p");
+            searchItem.classList.add("search-item", "text-sm", "font-light", "text-black", "py-2", "px-4", "border-b", "hover:bg-gray-100", "cursor-pointer", "dark:hover:bg-gray-800", "dark:text-white", "dark:border-gray-600");
+            searchItem.setAttribute("data-key", data.fullKey);
+            searchItem.setAttribute("data-type", data.matchType);
+            searchItem.innerHTML=`${highlightedText}<br><span class="font-medium text-xs text-gray-500 dark:text-gray-400">In ${data.matchType}</span>`;
+            searchItem.addEventListener("click", function () {
+                e.target.value=data.fullKey;
+                searchDropdown.classList.add("hidden");
+            });
+            searchDropdown.appendChild(searchItem);
+        });
+    })
+
+    document.addEventListener("click", function (event) {
+        if (!searchDropdown.contains(event.target)&&event.target!==searchData) {
+            searchDropdown.classList.add("hidden");
+        }
+    });
+
+    searchDataBtn.addEventListener("click", filterTable);
+    selectContractNumber.addEventListener("change", filterTable);
+    selectGroup.addEventListener("change", filterTable);
+    document.getElementById("checkAllDevices").addEventListener("change", handleSelectAllClick);
+    btnMangeSelectedDevices.addEventListener('click', () => handelDevicesBySeleted('manage'))
+    btnPowerOnLampSelect.addEventListener('click', () => handelDevicesBySeleted('on'))
+    btnPowerOffLampSelect.addEventListener('click', () => handelDevicesBySeleted('off'))
+    btnSetBrightSelect.addEventListener('click', () => handelDevicesBySeleted('bright'))
+
+    connectWS()
+
+    function connectWS() {
+        ws=new WebSocket("ws://192.168.1.66:8000/echo");
+        // ws=new WebSocket("wss://archismarthome.com:8001/echo");
+        console.log("Connection : "+ws.url);
+
+        ws.onmessage=(event) => {
+            // console.log("data : "+event.data);
+            const obj=JSON.parse(event.data);
+            checkCommand(obj.cmd, obj.param)
+        }
+        ws.onopen=(event) => {
+            console.log("onopen : "+JSON.stringify(event));
+            sendLogin();
+        }
+        ws.onclose=(event) => {
+            console.log("onclose : code("+event.code+"), reason("+event.reason+")");
+        }
+    }
+
+    function sendLogin() {
+        const data=JSON.stringify({ "cmd": 1, "param": { "Username": "bird", "Password": "123456789" } })
+        ws.send(data);
+    }
+
+    function checkCommand(cmd, payload) {
+        // console.log({ cmd, payload })
+        if (cmd==1) {
+            // res.LoginResult
+            if (payload.Success==1) {
+                ws.send(JSON.stringify({
+                    cmd: 32,
+                    param: {},
+                })
+                );
+            }
+            console.log("Login :"+(payload.Success==1? "Success":"Failed"));
+        } else if (cmd==31) {
+            const { Ctrl, Device, Member, V }=payload
+            console.log({ Ctrl, Device, Member, V })
+            const dev=devicesList.find(dev => dev.gateway_id==Member&&dev.device_id==Device);
+            if (dev!=null) {
+                if (dev.device_style==3) {
+                    if (Ctrl==0) {
+                        // online-offline
+                        dev.controls[0].last_value=V
+                        const onlineStatus=document.getElementById(`onlineStatus${Member}${Device}`)
+                        if (onlineStatus) {
+                            if (V==0) {
+                                onlineStatus.innerHTML=`                               
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-red-500"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>`;
+                            } else {
+                                onlineStatus.innerHTML=`                               
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-green-500"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>`;
+                            }
+                            const elements=[
+                                document.getElementById(`btnPowerOn${device.gateway_id}${device.device_id}`),
+                                document.getElementById(`btnPowerOff${device.gateway_id}${device.device_id}`),
+                                document.getElementById(`rangeBrightness${device.gateway_id}${device.device_id}`),
+                            ]
+                            const validElements=elements.filter(el => el!==null);
+                            if (validElements.length>0) {
+                                validElements.forEach(element => {
+                                    V==0? element.disabled=true:element.disabled=false;
+                                });
+                            }
+                        }
+                    } else if (Ctrl==1) {
+                        // bright
+                        if (dev.controls[1].last_value!=V) {
+                            dev.controls[1].last_value=V;
+                            const activeColor="#3b82f6";
+                            const inactiveColor="#d1d5db";
+                            const elements=[
+                                document.getElementById(`bright${Member}${Device}`),
+                                document.getElementById(`rangeBrightnessValue${Member}${Device}`),
+                                document.getElementById(`rangeBrightness${Member}${Device}`),
+                            ];
+                            const validElements=elements.filter(el => el!==null);
+                            if (validElements.length>0) {
+                                validElements.forEach(element => {
+                                    element.innerText=V;
+                                    element.value=V
+                                    const ratio=(element.value-element.min)/(element.max-element.min)*100;
+                                    element.style.background=`linear-gradient(90deg, ${activeColor} ${ratio}%, ${inactiveColor} ${ratio}%)`;
+                                })
+                            }
+                        }
+                    } else if (Ctrl==2) {
+                        // status
+                        dev.controls[2].last_value=V;
+                        const elements=[
+                            document.getElementById(`power${Member}${Device}`),
+                            document.getElementById(`label${Member}${Device}`)
+                        ]
+                        const validElements=elements.filter(el => el!==null);
+                        if (validElements.length>0) {
+                            validElements.forEach(element => {
+                                if (V==0) {
+                                    element.innerText='OFF';
+                                    updateClass(element, 'text-green-500', 'text-red-500');
+                                } else {
+                                    element.innerText='ON';
+                                    updateClass(element, 'text-red-500', 'text-green-500');
+                                }
+                            });
+                        }
+                    } else if (Ctrl==10) {
+                        const batt=dev.controls.find(d => d.control_id==Ctrl)
+                        if (batt) {
+                            batt.last_value=V>100? 100:V
+                            const percentage=document.getElementById(`percentage${Member}${Device}`)
+                            if (percentage) {
+                                percentage.innerText=V>100? 100:V
+                            }
+                        }
+                    } else if (Ctrl==11) {
+                        const temp=dev.controls.find(d => d.control_id==Ctrl);
+                        if (temp) {
+                            temp.last_value=V;
+                            const tempLabel=document.getElementById(`temp${Member}${Device}`);
+                            if (tempLabel) {
+                                tempLabel.innerText=V.toFixed(1)
+                            }
+                        }
+                    } else if (Ctrl==12) {
+                        const charge=dev.controls.find(d => d.control_id==Ctrl)
+                        if (charge) {
+                            charge.last_value=V;
+                            const chargeing=document.getElementById(`charge${Member}${Device}`);
+                            if (chargeing) {
+                                V==0? updateClass(chargeing, 'block', 'hidden'):updateClass(chargeing, 'hidden', 'block');
+                            }
+                        }
+                    } else if (Ctrl==13) {
+                        const powerVolt=dev.controls.find(d => d.control_id==Ctrl)
+                        if (powerVolt) {
+                            powerVolt.last_value=V;
+                            const labelPowerVolt=document.getElementById(`powerVolt${Member}${Device}`)
+                            if (labelPowerVolt) {
+                                const value=(V/10).toFixed(2);
+                                labelPowerVolt.innerText=value;
+                            }
+                        }
+                    } else if (Ctrl==14) {
+                        const powerCurrent=dev.controls.find(d => d.control_id==Ctrl)
+                        if (powerCurrent) {
+                            const labelPowerCurrent=document.getElementById(`powerCurrent${Member}${Device}`)
+                            if (labelPowerCurrent) {
+                                const value=(V/1000).toFixed(2);
+                                labelPowerCurrent.innerText=value;
+                            }
+                        }
+                    } else if (Ctrl==15) {
+                        const powerOutVolt=dev.controls.find(d => d.control_id==Ctrl)
+                        if (powerOutVolt) {
+                            powerOutVolt.last_value=V;
+                            const labelPowerOutVolt=document.getElementById(`powerOutVolt${Member}${Device}`)
+                            if (labelPowerOutVolt) {
+                                const value=(V/10).toFixed(2);
+                                labelPowerOutVolt.innerText=value;
+                            }
+                        }
+                    } else if (Ctrl==16) {
+                        const powerOutCurrent=dev.controls.find(d => d.control_id==Ctrl)
+                        if (powerOutCurrent) {
+                            powerOutCurrent.last_value=V;
+                            const labelpowerOutCurrent=document.getElementById(`powerOutCurrent${Member}${Device}`)
+                            if (labelpowerOutCurrent) {
+                                const value=(V/10).toFixed(2);
+                                labelpowerOutCurrent.innerText=value;
+                            }
+                        }
+                    } else if (Ctrl == 17){
+                        const batt_volt=dev.controls.find(d => d.control_id==Ctrl)
+                        if (batt_volt) {
+                            batt_volt.last_value=V;
+                            const labelbatt_volt=document.getElementById(`batt_volt${Member}${Device}`)
+                            if (labelbatt_volt) {
+                                const value=(V/1000).toFixed(2);
+                                labelbatt_volt.innerText=value;
+                            }
+                        }
+                    }else if (Ctrl == 18){
+                        const capacity=dev.controls.find(d => d.control_id==Ctrl)
+                        if (capacity) {
+                            capacity.last_value=V;
+                            const labelcapacity=document.getElementById(`capacity${Member}${Device}`)
+                            if (labelcapacity) {
+                                const value=(V/1000).toFixed(2);
+                                labelcapacity.innerText=value;
+                            }
+                        }
+                    }else if (Ctrl == 19){
+                        const batt_health=dev.controls.find(d => d.control_id==Ctrl)
+                        if (batt_health) {
+                            batt_health.last_value=V;
+                            const labelbatt_health=document.getElementById(`batt_health${Member}${Device}`)
+                            if (labelbatt_health) {
+                                labelbatt_health.innerText=batt_health.last_value;
+                            }
+                        }                       
+                    }else if (Ctrl == 20){
+                        const cycle_count=dev.controls.find(d => d.control_id==Ctrl)
+                        if (cycle_count) {
+                            cycle_count.last_value=V;
+                            const labelcycle_count=document.getElementById(`cycle_count${Member}${Device}`)
+                            if (labelcycle_count) {
+                                labelcycle_count.innerText=cycle_count.last_value;
+                            }
+                        }                        
+                    }
+                }
+            }
+        } else if (cmd==9) {
+            // gateway status
+            const { MemberID, Status }=payload
+            const device=devicesList.find(d => d.type=='gateway'&&d.gateway_id==MemberID);
+            device.status=Status;
+            let lableGatewayStatus=document.getElementById(`gateway_status${MemberID}`);
+            if (lableGatewayStatus) {
+                if (Status==0) {
+                    lableGatewayStatus.innerText='Offline';
+                    updateClass(lableGatewayStatus, 'text-green-500', 'text-red-500');
+                    document.getElementById(`onlineStatus${MemberID}`).innerHTML=`                               
+                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-red-500"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>`;
+                } else {
+                    lableGatewayStatus.innerText='Online';
+                    updateClass(lableGatewayStatus, 'text-red-500', 'text-green-500');
+                    document.getElementById(`onlineStatus${MemberID}`).innerHTML=`                               
+                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-green-500"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>`;
+                }
+            }
+        } else if (cmd==34) {
+            // res.friendinformation
+            const { Member }=payload;
+            devicesList.forEach(device => {
+                if (device.type=='gateway') {
+                    const id=String(device.gateway_id)
+                    device.status=Member[id].Status;
+                    if (Member[id].Status==0) {
+                        document.getElementById(`gateway_status${id}`).innerText='Offline';
+                        updateClass(document.getElementById(`gateway_status${id}`), 'text-green-500', 'text-red-500');
+                        document.getElementById(`onlineStatus${id}`).innerHTML=`                               
+                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-red-500"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>`;
+                    } else {
+                        document.getElementById(`gateway_status${id}`).innerText='Online';
+                        updateClass(document.getElementById(`gateway_status${id}`), 'text-red-500', 'text-green-500');
+                        document.getElementById(`onlineStatus${id}`).innerHTML=`                               
+                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-green-500"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>`;
+                    }
+                }
+            })
+        } else if (cmd==99) {
+            // reject command
+            const { Status, Message }=payload
+            if (Status==0) {
+                const content=`<p>${Message}</p>`
+                showModalPopup(content, false)
+            }
+
+        }
+    }
+
+    function updateClass(element, removeClass, addClass) {
+        if (element) {
+            element.classList.remove(removeClass);
+            element.classList.add(addClass);
+        } else {
+            console.error("Element not found");
+        }
+    }
+
+    function showManageDevice(title, device, isOneSelected=true) {
+        const existingModal=document.getElementById("dynamic-modal");
+        if (existingModal) {
+            existingModal.remove();
+        }
+
+        const modal=document.createElement("div");
+        modal.id="dynamic-modal";
+        modal.className="fixed inset-0 flex items-center justify-end bg-black/80 z-50 opacity-0 transition-opacity duration-300";
+        modal.addEventListener("click", closeManageDevice);
+
+        const modalContent=document.createElement("div");
+        modalContent.className="relative w-full max-w-md h-screen bg-light-secondary shadow-sm dark:bg-dark-secondary transform translate-x-full transition-transform duration-300 flex flex-col";
+        modalContent.addEventListener("click", (event) => event.stopPropagation());
+
+        const footerContent=`
+        <div class="flex items-center justify-end p-4 space-x-3 border-t border-gray-200 dark:border-gray-600">
+            <button onclick="closeModal()" class="w-24 flex items-center justify-center font-medium text-sm px-2 py-2 gap-1 rounded-lg  text-light-text border border-light-text dark:text-dark-text dark:border-dark-text">Cancel</button>
+            <button id="saveMangeDevice" class="w-24 flex items-center justify-center font-medium text-sm px-2 py-2 gap-1 rounded-lg text-dark-text bg-dark-background dark:text-light-text dark:bg-light-background">Save</button>
+        </div>`
+
+        const tabSch=days.map((day, index) => {
+            let textColor;
+            if (day.id==1) {
+                textColor="text-red-600"
+            } else if (day.id==2) {
+                textColor="text-yellow-400"
+            } else if (day.id==3) {
+                textColor="text-pink-600"
+            } else if (day.id==4) {
+                textColor="text-green-600"
+            } else if (day.id==5) {
+                textColor="text-orange-600"
+            } else if (day.id==6) {
+                textColor="text-cyan-600"
+            } else if (day.id==7) {
+                textColor="text-purple-600"
+            }
+            return `
+                        <li class="" role="presentation">
+                            <button class="${textColor} text-start w-24 inline-block p-4 rounded-t-xl hover:rounded-tl-none hover:bg-white dark:hover:bg-[#141615]  ${index===0? "bg-white dark:bg-[#141615]":""}" 
+                            id="${day.id}-styled-tab" data-tabs-target="#styled-${day.id}" type="button" role="tab" aria-controls="${day.id}" ${index==0? 'aria-selected="true"':'aria-selected="false"'}>${day.name}</button>
+                        </li>`
+        }).join("");
+
+
+        if (isOneSelected==true) {
+            const configSch=device.config.find(d => d.type=="schedule")||{};
+            const schDetail=configSch.detail? JSON.parse(configSch.detail):[];
+            const tableSch=days.map((day, index) => {
+                const sch=schDetail.find(s => s.day_of_week==day.name)||{ off_time: "", on_time: "" };
+                return `
+                            <div class="rounded-tr-2xl rounded-br-2xl shadow-[inset_7px_-6px_8px_-8px_rgba(71,_85,_105,_0.5)] ${index==0? "":"hidden"} w-full h-full p-4 bg-gray-200 dark:bg-[#1C1E1F]" id="styled-${day.id}" role="tabpanel" aria-labelledby="${day.id}">
+                                                <p class="text-sm mb-4 dark:text-white">Automation for <span class="font-semibold">${day.name}</span></p>
+                                                <form class="max-w-[16rem] mx-auto grid grid-cols-1 gap-4 sm:mx-0">
+                                                    <div>
+                                                        <label class="block mb-2 text-sm font-medium dark:text-white">OFF:</label>
+                                                        <div class="relative">
+                                                            <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                                                                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                                    <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
+                                                                </svg>
+                                                            </div>
+                                                            <input type="time" id="off-time-${day.id}" class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 block w-full p-2.5 dark:focus:ring-[#77DDFF]" 
+                                                            value="${sch.off_time}" required />
+                                                         </div>
+                                                    </div>
+                                                    <div>
+                                                        <label class="block mb-2 text-sm font-medium dark:text-white">ON:</label>
+                                                        <div class="relative">
+                                                            <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                                                                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                                    <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
+                                                                </svg>
+                                                            </div>
+                                                            <input type="time" id="on-time-${day.id}" class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purring-purple-500 block w-full p-2.5 dark:focus:ring-[#77DDFF]" 
+                                                            value="${sch.on_time}" required />
+                                                         </div>
+                                                    </div>
+                                                </form>
+                                            </div>`
+            }).join("");
+
+            modalContent.innerHTML=`
+        <div class="flex items-start justify-start p-4 border-b dark:border-gray-600 border-gray-200">
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">${title}</h3>
+        </div>
+        <div class="flex-1 overflow-auto p-4 space-y-4">
+            <h3 class="text-md font-medium dark:text-white">
+                <span id="badgeConfigOffline${device.gateway_id}${device.device_id}" class="${device.controls[0].last_value==1? " hidden":"w-full"} bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
+                    Offline</span>
+                        ${device.device_name} <span class="text-xs">#${device.device_id}</span>|
+                            <span id="label${device.gateway_id}${device.device_id}" class="${device.controls[2].last_value==1? " text-green-500":"text-red-500"}">
+                                ${device.controls[2].last_value==1? 'On':'Off'}
+                                    </span> 
+                                </h3>
+                                <div class="flex items-center justify-start gap-2 w-full">
+                                    <button class="w-[110px] h-[30px] bg-green-400 rounded-md text-black" id="btnPowerOn${device.gateway_id}${device.device_id}" ${device.controls[0].last_value==1? "":"disabled"}>Power on</button>
+                                    <button class="w-[110px] h-[30px] bg-red-400 rounded-md text-black" id="btnPowerOff${device.gateway_id}${device.device_id}" ${device.controls[0].last_value==1? "":"disabled"}>Power off</button>
+                                </div>
+                                <div class="flex flex-col items-start gap-2 w-full">
+                                    <div class="flex space-x-2">
+                                        <h5 class=" text-black dark:text-white">Brightness</h5>
+                                        <h5 class=" text-black dark:text-white"><span id="rangeBrightnessValue${device.gateway_id}${device.device_id}">${device.controls[1].last_value}</span>%</h5>
+                                    </div>
+                                </div>
+                                <div class="w-full flex flex-col justify-center space-y-2">
+                                    <div class="w-full flex items-center">
+                                        <input id="rangeBrightness${device.gateway_id}${device.device_id}" ${device.controls[0].last_value==1? "":"disabled"}
+                                        value="${device.controls[1].last_value}" min="0" max="100" 
+                                        type="range" 
+                                        class="inputRange"
+                                        style="background: linear-gradient(90deg, #3b82f6 ${(device.controls[1].last_value)/(100)*100}%, #d1d5db ${(device.controls[1].last_value)/(100)*100}%);" />
+                                    </div>
+                                    <div class="grid grid-cols-3 text-black dark:text-white">
+                                        <label class="text-left">0</label>
+                                        <label class="text-center">50</label>
+                                        <label class="text-end">100</label>
+                                    </div>
+                                </div>
+                                <h3 class="text-md font-medium dark:text-white">AutomationSchedule</h3>
+                                <div class="w-full flex flex-row border-gray-200 dark:border-gray-700 bg-gray-200 rounded-2xl dark:bg-[#1C1E1F]">
+                                    <ul class="flex flex-col -mb-px text-sm font-medium text-left" id="default-styled-tab" data-tabs-toggle="#default-styled-tab-content" role="tablist">
+                                        ${tabSch}
+                                    </ul>
+                                    <div id="default-styled-tab-content" class="w-full">
+                                        ${tableSch}
+                                    </div>                               
+                                </div>
+        </div>
+        ${footerContent}`;
+        } else {
+
+            const configSch=device[0].config.find(d => d.type=="schedule")||{};
+            const schDetail=configSch.detail? JSON.parse(configSch.detail):[];
+            const tableSch=days.map((day, index) => {
+                const sch=schDetail.find(s => s.day_of_week==day.name)||{ off_time: "", on_time: "" };
+                return `
+                            <div class="rounded-tr-2xl rounded-br-2xl shadow-[inset_7px_-6px_8px_-8px_rgba(71,_85,_105,_0.5)] ${index==0? "":"hidden"} w-full h-full p-4 bg-gray-200 dark:bg-[#1C1E1F]" id="styled-${day.id}" role="tabpanel" aria-labelledby="${day.id}">
+                                                <p class="text-sm mb-4 dark:text-white">Automation for <span class="font-semibold">${day.name}</span></p>
+                                                <form class="max-w-[16rem] mx-auto grid grid-cols-1 gap-4 sm:mx-0">
+                                                    <div>
+                                                        <label class="block mb-2 text-sm font-medium dark:text-white">OFF:</label>
+                                                        <div class="relative">
+                                                            <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                                                                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                                    <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
+                                                                </svg>
+                                                            </div>
+                                                            <input type="time" id="off-time-${day.id}" class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 block w-full p-2.5 dark:focus:ring-[#77DDFF]" 
+                                                            value="${sch.off_time}" required />
+                                                         </div>
+                                                    </div>
+                                                    <div>
+                                                        <label class="block mb-2 text-sm font-medium dark:text-white">ON:</label>
+                                                        <div class="relative">
+                                                            <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                                                                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                                    <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
+                                                                </svg>
+                                                            </div>
+                                                            <input type="time" id="on-time-${day.id}" class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purring-purple-500 block w-full p-2.5 dark:focus:ring-[#77DDFF]" 
+                                                            value="${sch.on_time}" required />
+                                                         </div>
+                                                    </div>
+                                                </form>
+                                            </div>`
+            }).join("");
+
+            const spanDevicesName=device.map((m) => {
+                return `${m.device_name}`
+            }).join(', ')
+            modalContent.innerHTML=`
+        <div class="flex items-start justify-start p-4 border-b dark:border-gray-600 border-gray-200">
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">${title}</h3>
+        </div>
+        <div class="flex-1 overflow-auto p-4 space-y-4">
+            <div class="w-full max-h-[48px] overflow-y-auto text-md font-medium dark:text-white">${spanDevicesName}</div>
+                                <div class="flex items-center justify-start gap-2 w-full">
+                                    <button class="w-[110px] h-[30px] bg-green-400 rounded-md text-black" id="btnPowerOn">Power on</button>
+                                    <button class="w-[110px] h-[30px] bg-red-400 rounded-md text-black" id="btnPowerOff">Power off</button>
+                                </div>
+                                <div class="flex flex-col items-start gap-2 w-full">
+                                    <div class="flex space-x-2">
+                                        <h5 class=" text-black dark:text-white">Brightness</h5>
+                                        <h5 class=" text-black dark:text-white"><span id="rangeBrightnessValue">${device[0].controls[1].last_value}</span>%</h5>
+                                    </div>
+                                </div>
+                                <div class="w-full flex flex-col justify-center space-y-2">
+                                    <div class="w-full flex items-center">
+                                        <input id="rangeBrightness"
+                                        value="${device[0].controls[1].last_value}" min="0" max="100" 
+                                        type="range" 
+                                        class="inputRange"
+                                        style="background: linear-gradient(90deg, #3b82f6 ${(device[0].controls[1].last_value)/(100)*100}%, #d1d5db ${(device[0].controls[1].last_value)/(100)*100}%);" />
+                                    </div>
+                                    <div class="grid grid-cols-3 text-black dark:text-white">
+                                        <label class="text-left">0</label>
+                                        <label class="text-center">50</label>
+                                        <label class="text-end">100</label>
+                                    </div>
+                                </div>
+                                <h3 class="text-md font-medium dark:text-white">AutomationSchedule</h3>
+                                <div class="w-full flex flex-row border-gray-200 dark:border-gray-700 bg-gray-200 rounded-2xl dark:bg-[#1C1E1F]">
+                                    <ul class="flex flex-col -mb-px text-sm font-medium text-left" id="default-styled-tab" data-tabs-toggle="#default-styled-tab-content" role="tablist">
+                                        ${tabSch}
+                                    </ul>
+                                    <div id="default-styled-tab-content" class="w-full">
+                                        ${tableSch}
+                                    </div>                               
+                                </div>
+        </div>
+        ${footerContent}`;
+        }
+
+
+        modal.appendChild(modalContent);
+        document.body.appendChild(modal);
+
+        const tabsContainer=document.querySelector(`#dynamic-modal ul`);
+        const tabButtons=tabsContainer.querySelectorAll('[data-tabs-target]');
+        const tabContents=document.querySelectorAll(`#dynamic-modal [role="tabpanel"]`);
+
+        tabButtons.forEach((tabButton) => {
+            tabButton.addEventListener('click', () => {
+
+                tabButtons.forEach((btn) => {
+                    btn.classList.remove('bg-gray-200', 'bg-white', 'dark:bg-[#1C1E1F]', 'dark:bg-[#141615]', 'active');
+                    btn.classList.add('hover:bg-white', 'dark:hover:bg-[#141615]');
+                });
+                tabContents.forEach((content) => content.classList.add('hidden'));
+
+                tabButton.classList.add('bg-white', 'active', 'rounded-tl-none', 'dark:bg-[#141615]',);
+                tabButton.classList.remove('hover:bg-white', 'hover:dark:bg-[#141615]');
+                const targetId=tabButton.getAttribute('data-tabs-target');
+                const targetContent=document.querySelector(targetId);
+                targetContent.classList.remove('hidden');
+            });
+        });
+
+        setTimeout(() => {
+            modal.classList.remove("opacity-0");
+            modalContent.classList.remove("translate-x-full");
+        }, 10);
+    }
+
+    function closeManageDevice() {
+        const modal=document.getElementById("dynamic-modal");
+        if (modal) {
+            const modalContent=modal.querySelector("div");
+
+            modal.classList.add("opacity-0");
+            modalContent.classList.add("translate-x-full");
+
+            setTimeout(() => {
+                modal.remove();
+            }, 300);
+        }
+    }
+
+    function createKeyFilter(getSearchInputData) {
+        const filterTypes=["contract_number", "gateway_id", "gateway_name", "device_id", "device_name", "group_name"];
+        return devicesList.map((data) => {
+            return filterTypes
+                .filter((key) => {
+                    return data[key]&&data[key].toString().toLowerCase().includes(getSearchInputData.toLowerCase());
+                })
+                .map((matchType) => {
+                    const keyWithHighlight=data[matchType].toString().replace(
+                        new RegExp(getSearchInputData, 'i'),
+                        (match) => `[${match}]`
+                    );
+                    return {
+                        fullKey: data.device_name||data.gateway_name,
+                        matchType,
+                        highlight: keyWithHighlight
+                    };
+                });
+        }).flat();
+    }
+
+    async function sendWs(type, device, value) {
+        if (type=='on') {
+            let dataBright;
+            let dataOnOff;
+            const bright=device?.controls[1]?.last_value;
+            if (bright==0) {
+                dataBright=JSON.stringify({
+                    cmd: 3,
+                    param: { Member: device.gateway_id, Device: device.device_id, Ctrl: 1, V: 100 },
+                });
+                dataOnOff=JSON.stringify({
+                    cmd: 3,
+                    param: { Member: device.gateway_id, Device: device.device_id, Ctrl: 2, V: 1 },
+                });
+            } else {
+                dataBright=JSON.stringify({
+                    cmd: 3,
+                    param: { Member: device.gateway_id, Device: device.device_id, Ctrl: 1, V: bright },
+                });
+                dataOnOff=JSON.stringify({
+                    cmd: 3,
+                    param: { Member: device.gateway_id, Device: device.device_id, Ctrl: 2, V: 1 },
+                });
+            }
+            ws.send(dataBright);
+            ws.send(dataOnOff);
+        } else if (type=='off') {
+            const dataOnOff=JSON.stringify({ "cmd": 3, "param": { "Member": device.gateway_id, "Device": device.device_id, "Ctrl": 2, "V": 0 } })
+            ws.send(dataOnOff)
+        } else if (type=='bright') {
+            let dataBright;
+            let dataOnOff;
+            if (value==0) {
+                dataBright=JSON.stringify({ "cmd": 3, "param": { "Member": device.gateway_id, "Device": device.device_id, "Ctrl": 1, "V": value } })
+                dataOnOff=JSON.stringify({ "cmd": 3, "param": { "Member": device.gateway_id, "Device": device.device_id, "Ctrl": 2, "V": 0 } })
+            } else {
+                dataBright=JSON.stringify({ "cmd": 3, "param": { "Member": device.gateway_id, "Device": device.device_id, "Ctrl": 1, "V": value } })
+                dataOnOff=JSON.stringify({ "cmd": 3, "param": { "Member": device.gateway_id, "Device": device.device_id, "Ctrl": 2, "V": 1 } })
+            }
+            ws.send(dataBright)
+            ws.send(dataOnOff)
+        } else if (type=='schedule') {
+            for (const dev of device) {
+                ws.send(JSON.stringify({
+                    cmd: 301,
+                    param: {
+                        Member: dev.gateway_id,
+                        config: dev.detail
+                    }
+                }));
+                await new Promise(resolve => setTimeout(resolve, 250));
+            }
+        } else {
+            console.error('Invalid type specified:', type);
+            return;
+        }
+    }
+
+    async function sendUsage(type, devices, value=null, isGroup=false) {
+        let data=[];
+
+        const deviceList=Array.isArray(devices)? devices:[devices];
+
+        deviceList.forEach(device => {
+            if (type==='on') {
+                const bright=device?.controls?.[1]?.last_value||100;
+                data.push(
+                    {
+                        gateway_id: device.gateway_id,
+                        device_id: device.device_id,
+                        control_id: 1,
+                        V: bright
+                    },
+                    {
+                        gateway_id: device.gateway_id,
+                        device_id: device.device_id,
+                        control_id: 2,
+                        V: 1
+                    }
+                );
+            } else if (type==='off') {
+                data.push(
+                    {
+                        gateway_id: device.gateway_id,
+                        device_id: device.device_id,
+                        control_id: 2,
+                        V: 0
+                    });
+            } else if (type==='bright') {
+                data.push(
+                    {
+                        gateway_id: device.gateway_id,
+                        device_id: device.device_id,
+                        control_id: 1,
+                        V: value
+                    },
+                    {
+                        gateway_id: device.gateway_id,
+                        device_id: device.device_id,
+                        device_name: device.device_name,
+                        control_id: 2,
+                        V: value===0? 0:1
+                    }
+                );
+            }
+        });
+
+        if (data.length>0) {
+            try {
+                const response=await fetch(`/api/save-usage/${siteID}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        type: isGroup? 'usage_group':'usage',
+                        device_usage: data
+                    }),
+                });
+
+                const result=await response.json();
+                if (!response.ok) {
+                    throw new Error(result.message);
+                }
+            } catch (error) {
+                console.error("Error:", error.message);
+            }
+        }
+    }
+
+function showConfirmationModal(title, message) {
+        return new Promise((resolve) => {
+            const modal=document.createElement("div");
+            modal.innerHTML=`
+            <div class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+                <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+                    <h2 class="text-lg font-bold mb-3">${title}</h2>
+                    ${message}
+                     <div class="flex justify-end gap-2 mt-4">
+                        <button id="cancelBtn" class="px-4 py-2 bg-gray-300 rounded">Cancel</button>
+                         <button id="confirmSaveMangeDevice" class="px-4 py-2 bg-blue-500 text-white rounded">Confirm</button>
+                     </div>
+                </div>
+            </div>
+        `;
+
+            document.body.appendChild(modal);
+
+            // document.getElementById("confirmBtn").addEventListener("click", () => {
+            //     document.body.removeChild(modal);
+            //     resolve(true);
+            // });
+
+            document.getElementById("cancelBtn").addEventListener("click", () => {
+                document.body.removeChild(modal);
+                resolve(false);
+            });
+        });
+    }
+</script>

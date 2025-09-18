@@ -1,0 +1,340 @@
+ตาราง
+- โคมไฟ - สร้างแล้ว (ใช้ที่มีอยู่)
+- เมมเบอร์ - สร้างแล้ว (ใช้ที่มีอยู่)
+- โรลว์
+- เมมเบอร์โรลว์
+- ไซต์
+- สัญญา
+- สัญญาแมพปิ้ง
+- กรุ๊ป
+- กรุ๊ปแมพปิ้ง
+- ดาต้าล็อก
+
+- โรลว์ จะแสดง โรลว์ทั้งหมด
+- เมมเบอร์โรลว์ จะแสดง โรวล์ ของแต่ละ เมมเบอร์
+- ไซต์ จะแสดง ไซต์ทั้งหมด
+- สัญญา จะแสดง สัญญา ของแต่ละ ไซต์
+- สัญญาแมพปิ้ง จะแสดง ไซต์, เมมเบอร์(เกตเวย์) ที่อยู่ใน เลขสัญญา
+- กรุ๊ป จะแสดง ไซต์ ที่อยู่ใน กรุ๊ป
+- กรุ๊ปแมพปิ้ง จะแสดง ไซต์, เมมเบอร์(เกตเวย์), โคมไฟ ที่อยู่ใน กรุ๊ป, สามารถ จัดกรุ๊ปด้วยกันได้ แม้อยู่ คนละเกตเวย์
+- 2132, 2133
+- owener
+    - management (CRUD)
+        - role
+        - member_role
+        - member
+        - gateway
+        - device
+        - contract
+        - contract_mapping
+        - group
+        - group_mapping
+
+
+- admin
+
+- agent
+
+- customer
+
+
+
+
+ALTER TABLE [Lamp_MemberRole] ADD FOREIGN KEY ([member_id]) REFERENCES [Lamp_Member] ([id])
+GO
+
+ALTER TABLE [Lamp_MemberRole] ADD FOREIGN KEY ([role_id]) REFERENCES [Lamp_Role] ([id])
+GO
+
+ALTER TABLE [Lamp_MemberRole] ADD FOREIGN KEY ([site_id]) REFERENCES [Lamp_Site] ([id])
+GO
+
+ALTER TABLE [Lamp_Contract] ADD FOREIGN KEY ([site_id]) REFERENCES [Lamp_Site] ([id])
+GO
+
+ALTER TABLE [Lamp_ContractMapping] ADD FOREIGN KEY ([site_id]) REFERENCES [Lamp_Site] ([id])
+GO
+
+ALTER TABLE [Lamp_ContractMapping] ADD FOREIGN KEY ([contract_id]) REFERENCES [Lamp_Contract] ([id])
+GO
+
+ALTER TABLE [Lamp_ContractMapping] ADD FOREIGN KEY ([gateway_id]) REFERENCES [Lamp_Gateway] ([id])
+GO
+
+ALTER TABLE [Lamp_Group] ADD FOREIGN KEY ([site_id]) REFERENCES [Lamp_Site] ([id])
+GO
+
+ALTER TABLE [GroupMapping] ADD FOREIGN KEY ([site_id]) REFERENCES [Sites] ([id])
+GO
+
+ALTER TABLE [GroupMapping] ADD FOREIGN KEY ([group_id]) REFERENCES [Groups] ([id])
+GO
+
+ALTER TABLE [GroupMapping] ADD FOREIGN KEY ([gateway_id]) REFERENCES [Gateways] ([id])
+GO
+
+ALTER TABLE [GroupMapping] ADD FOREIGN KEY ([device_id]) REFERENCES [Devices] ([id])
+GO
+
+ALTER TABLE [Devices] ADD FOREIGN KEY ([gateway_id]) REFERENCES [Gateways] ([id])
+GO
+
+ALTER TABLE [DataLogs] ADD FOREIGN KEY ([gateway_id]) REFERENCES [Gateways] ([id])
+GO
+
+ALTER TABLE [DataLogs] ADD FOREIGN KEY ([device_id]) REFERENCES [Devices] ([id])
+GO
+
+
+------------------------------------------------------------------------------------------------------
+ในส่วนของ ล็อคอิน
+ระบบของฉันจะมี โรวล์ ไว้ใช้ ล็อคอิน ของแต่ละ สมาชิก เช่น Owener, Agent, Customer
+ซึ่งหน้าที่จะแตกต่างกันไป ตาม โรวล์
+
+ในส่วนของการ ระบบจัดการ
+ระบบของฉันจะมี  ไซต์, เลขสัญญา, กลุ่ม, โคมไฟ, เกตเวย์
+ซึ่งในแต่ละ ไซต์ จะประกอบไปด้วย เลขสัญญา ต่างๆ ในแต่ละ เลขสัญญา จะประกอบไปด้วย เกตเวย์ และ  โคมไฟ ของแต่ละ เลขสัญญา ใน ไซต์ นั้นๆ 
+ซึ่ง แต่ละ โคมไฟ ก็จะอยู่ภายใต้ เกตเวย์ นั้นๆ 
+ตัวอย่าง เช่น 10 โคมไฟ อยู่ใน 1 เกตเวย์ และ อยู่ใน เลขสัญญา 101 ของ ไซต์ test101
+และ กลุ่ม จะแสดง ไซต์ ที่อยู่ใน กลุ่ม และ สามารถจัด กลุ่ม ด้วยกันได้ แม้อยู่ คนละ เลขสัญญา คนละ เกตเวย์
+
+ในส่วนของระดับในการใช้งาน
+กรณี owener เพิ่ม customer เข้ามาในระบบ customer ก็จะสามารถใช้งานข้อมูล ไซต์ เฉพาะที่ owener ให้สิทธิ์
+และ customer ก็จะสามารถ เพิ่ม สมาชิก ของ ไซต์ ที่ customer ใช้งานได้ และ จัดการ โรวล์ ภายใน ไซต์ ของ customer เอง
+----------------------------------------------------------------------------------------------------------
+
+ตารางผู้ใช้ (Members)
+CREATE TABLE Lamp_Members (
+    id INT PRIMARY KEY,
+    username NVARCHAR(255) NOT NULL,
+    password NVARCHAR(255) NOT NULL,
+    member_name NVARCHAR(255) NOT NULL,
+    email NVARCHAR(255) NOT NULL,
+    img TEXT NULL,
+    role NVARCHAR(50) NOT NULL,  -- เช่น 'Owner', 'Agent', 'Customer'
+);
+
+ตารางไซต์ (Sites)
+CREATE TABLE Lamp_Sites (
+    id INT PRIMARY KEY IDENTITY,
+    name NVARCHAR(255) NOT NULL,
+    description NVARCHAR(255) NULL
+);
+
+ตารางสัญญา (Contracts)
+CREATE TABLE Lamp_Contracts (
+    id INT PRIMARY KEY IDENTITY,
+    contract_number NVARCHAR(100) NOT NULL,
+    site_id INT,
+    FOREIGN KEY (site_id) REFERENCES Sites(id)
+);
+
+ตารางกลุ่ม (Groups)
+CREATE TABLE Lamp_Groups (
+    id INT PRIMARY KEY IDENTITY,
+    group_name NVARCHAR(255) NOT NULL
+    description NVARCHAR(255) NULL
+    site_id INT,
+    FOREIGN KEY (site_id) REFERENCES Sites(id)
+);
+
+สัญญาแมพปิ้ง (Contract Mapping)
+CREATE TABLE Lamp_Contract_Mapping (
+    site_id INT,
+    contract_id INT,
+    gateway_id INT,
+    FOREIGN KEY (site_id) REFERENCES Sites(id),
+    FOREIGN KEY (contract_id) REFERENCES Contracts(id),
+    FOREIGN KEY (gateway_id) REFERENCES Gateways(id)
+);
+
+กรุ๊ปแมพปิ้ง (Group Mapping)
+CREATE TABLE Lamp_Group_Mapping (
+    site_id INT,
+    group_id INT,
+    gateway_id INT,
+    device_id INT,
+    FOREIGN KEY (site_id) REFERENCES Sites(id),
+    FOREIGN KEY (group_id) REFERENCES Groups(id),
+    FOREIGN KEY (gateway_id) REFERENCES Gateways(id),
+    FOREIGN KEY (device_id) REFERENCES Devices(id)
+);
+
+ตารางเกตเวย์ (Gateways)
+CREATE TABLE Lamp_Gateways (
+    id INT PRIMARY KEY IDENTITY,
+    gateway_name NVARCHAR(255) NOT NULL,
+    lat FLOAT NULL
+    long FLOAT NULL
+);
+
+ตารางโคมไฟ (Devices)
+
+
+ตารางการเชื่อมโยงผู้ใช้กับไซต์ (User-Site Mapping)
+CREATE TABLE Lamp_Member_Site_Mapping (
+    member_id INT,
+    site_id INT,
+    FOREIGN KEY (member_id) REFERENCES Lamp_Members(id),
+    FOREIGN KEY (site_id) REFERENCES Lamp_Sites(id)
+);
+
+ต้องให้ owener เพิ่ม member มาก่อน และ ให้ Customer ใน site จัดการต่อ
+
+ตารางการอนุญาต (Permissions)
+กำหนดสิทธิ์ในการเข้าถึง Sites และการใช้งาน Roles ให้กับสมาชิกของ Customer
+CREATE TABLE Lamp_Permissions (
+    id INT PRIMARY KEY IDENTITY,
+    user_id INT,
+    site_id INT,
+    role NVARCHAR(50),  -- เช่น 'Admin on site', 'Member' on site,
+    FOREIGN KEY (member_id) REFERENCES Lamp_Members(id),
+    FOREIGN KEY (site_id) REFERENCES Lamp_Sites(id)
+);
+
+
+ตารางฟังชันท์ (Function)
+
+
+
+
+CREATE TABLE Lamp_Log(
+	id INT IDENTITY(1,1) PRIMARY KEY,
+	gateway_id INT NOT NUll,
+	device_id SMALLINT NOT NULL,
+	type VARCHAR(50) NOT NULL,
+	detail NVARCHAR(MAX) NULL,
+	performed_by INT NULL,
+	performed_at DATETIME DEFAULT GETDATE()
+	FOREIGN KEY (gateway_id) REFERENCES Lamp_Gateways(id)
+);
+
+
+INSERT INTO DevicetControl (MemberID, DeviceID, ControlID, ConTypeID, Label, LastValue) 
+VALUES 
+(1018, 2001, 10, 1, 'batt', 0),
+(1018, 2001, 11, 1, 'temp', 0),
+(1018, 2001, 12, 1, 'charge', 0),
+(1018, 2001, 13, 1, 'solarpower/volt', 0),
+(1018, 2001, 14, 1, 'solarpower/current', 0),
+(1018, 2001, 15, 1, 'powerout/volt', 0),
+(1018, 2001, 16, 1, 'powerout/current', 0),
+
+(1018, 2002, 10, 1, 'batt', 0),
+(1018, 2002, 11, 1, 'temp', 0),
+(1018, 2002, 12, 1, 'charge', 0),
+(1018, 2002, 13, 1, 'solarpower/volt', 0),
+(1018, 2002, 14, 1, 'solarpower/current', 0),
+(1018, 2002, 15, 1, 'powerout/volt', 0),
+(1018, 2002, 16, 1, 'powerout/current', 0),
+
+(1018, 2003, 10, 1, 'batt', 0),
+(1018, 2003, 11, 1, 'temp', 0),
+(1018, 2003, 12, 1, 'charge', 0),
+(1018, 2003, 13, 1, 'solarpower/volt', 0),
+(1018, 2003, 14, 1, 'solarpower/current', 0),
+(1018, 2003, 15, 1, 'powerout/volt', 0),
+(1018, 2003, 16, 1, 'powerout/current', 0),
+
+(1018, 2004, 10, 1, 'batt', 0),
+(1018, 2004, 11, 1, 'temp', 0),
+(1018, 2004, 12, 1, 'charge', 0),
+(1018, 2004, 13, 1, 'solarpower/volt', 0),
+(1018, 2004, 14, 1, 'solarpower/current', 0),
+(1018, 2004, 15, 1, 'powerout/volt', 0),
+(1018, 2004, 16, 1, 'powerout/current', 0),
+
+(1018, 2005, 10, 1, 'batt', 0),
+(1018, 2005, 11, 1, 'temp', 0),
+(1018, 2005, 12, 1, 'charge', 0),
+(1018, 2005, 13, 1, 'solarpower/volt', 0),
+(1018, 2005, 14, 1, 'solarpower/current', 0),
+(1018, 2005, 15, 1, 'powerout/volt', 0),
+(1018, 2005, 16, 1, 'powerout/current', 0),
+
+(1018, 2006, 10, 1, 'batt', 0),
+(1018, 2006, 11, 1, 'temp', 0),
+(1018, 2006, 12, 1, 'charge', 0),
+(1018, 2006, 13, 1, 'solarpower/volt', 0),
+(1018, 2006, 14, 1, 'solarpower/current', 0),
+(1018, 2006, 15, 1, 'powerout/volt', 0),
+(1018, 2006, 16, 1, 'powerout/current', 0),
+
+(1018, 2007, 10, 1, 'batt', 0),
+(1018, 2007, 11, 1, 'temp', 0),
+(1018, 2007, 12, 1, 'charge', 0),
+(1018, 2007, 13, 1, 'solarpower/volt', 0),
+(1018, 2007, 14, 1, 'solarpower/current', 0),
+(1018, 2007, 15, 1, 'powerout/volt', 0),
+(1018, 2007, 16, 1, 'powerout/current', 0),
+
+(1018, 2008, 10, 1, 'batt', 0),
+(1018, 2008, 11, 1, 'temp', 0),
+(1018, 2008, 12, 1, 'charge', 0),
+(1018, 2008, 13, 1, 'solarpower/volt', 0),
+(1018, 2008, 14, 1, 'solarpower/current', 0),
+(1018, 2008, 15, 1, 'powerout/volt', 0),
+(1018, 2008, 16, 1, 'powerout/current', 0),
+
+(1018, 2009, 10, 1, 'batt', 0),
+(1018, 2009, 11, 1, 'temp', 0),
+(1018, 2009, 12, 1, 'charge', 0),
+(1018, 2009, 13, 1, 'solarpower/volt', 0),
+(1018, 2009, 14, 1, 'solarpower/current', 0),
+(1018, 2009, 15, 1, 'powerout/volt', 0),
+(1018, 2009, 16, 1, 'powerout/current', 0),
+
+(1018, 2010, 10, 1, 'batt', 0),
+(1018, 2010, 11, 1, 'temp', 0),
+(1018, 2010, 12, 1, 'charge', 0),
+(1018, 2010, 13, 1, 'solarpower/volt', 0),
+(1018, 2010, 14, 1, 'solarpower/current', 0),
+(1018, 2010, 15, 1, 'powerout/volt', 0),
+(1018, 2010, 16, 1, 'powerout/current', 0),
+
+(1018, 2011, 10, 1, 'batt', 0),
+(1018, 2011, 11, 1, 'temp', 0),
+(1018, 2011, 12, 1, 'charge', 0),
+(1018, 2011, 13, 1, 'solarpower/volt', 0),
+(1018, 2011, 14, 1, 'solarpower/current', 0),
+(1018, 2011, 15, 1, 'powerout/volt', 0),
+(1018, 2011, 16, 1, 'powerout/current', 0),
+
+(1018, 2012, 10, 1, 'batt', 0),
+(1018, 2012, 11, 1, 'temp', 0),
+(1018, 2012, 12, 1, 'charge', 0),
+(1018, 2012, 13, 1, 'solarpower/volt', 0),
+(1018, 2012, 14, 1, 'solarpower/current', 0),
+(1018, 2012, 15, 1, 'powerout/volt', 0),
+(1018, 2012, 16, 1, 'powerout/current', 0),
+
+(1018, 2013, 10, 1, 'batt', 0),
+(1018, 2013, 11, 1, 'temp', 0),
+(1018, 2013, 12, 1, 'charge', 0),
+(1018, 2013, 13, 1, 'solarpower/volt', 0),
+(1018, 2013, 14, 1, 'solarpower/current', 0),
+(1018, 2013, 15, 1, 'powerout/volt', 0),
+(1018, 2013, 16, 1, 'powerout/current', 0),
+
+(1018, 2014, 10, 1, 'batt', 0),
+(1018, 2014, 11, 1, 'temp', 0),
+(1018, 2014, 12, 1, 'charge', 0),
+(1018, 2014, 13, 1, 'solarpower/volt', 0),
+(1018, 2014, 14, 1, 'solarpower/current', 0),
+(1018, 2014, 15, 1, 'powerout/volt', 0),
+(1018, 2014, 16, 1, 'powerout/current', 0);
+
+
+    (4, 104, 'charge', '{"battery_level": 85, "charge_status": "charging"}', 'technician', GETDATE()),
+    (5, 105, 'batt', '{"battery_level": 30, "status": "low"}', 'system', GETDATE());
+
+
+ charge:
+[
+    {
+        gateway_id: "",
+        device_id: "",
+        control_id: "",
+        V: ""
+    }
+]

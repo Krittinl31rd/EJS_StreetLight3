@@ -1,0 +1,9 @@
+<div
+    class="p-4 flex-1 overflow-y-hidden overflow-x-hidden flex flex-col items-start justify-start gap-4 animate-fade-in-down transition-opacity duration-500 ease-out">
+
+    <% sites_list.forEach(site=> { %>
+        <p>
+            <%= site.id %> | <%= site.name %> | <%= site.description %>
+        </p>
+        <% }) %>
+</div>

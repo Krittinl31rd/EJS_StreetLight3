@@ -1,0 +1,538 @@
+<div
+  class="flex-1 overflow-auto flex flex-col items-start justify-start gap-4 p-4 animate-fade-in-down transition-opacity duration-500 ease-out"
+>
+  <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">
+    Report | Devices
+  </h1>
+  <form id="generateChart" class="w-full grid grid-cols-4 gap-2">
+    <div class="col-span-4 w-full flex gap-2 justify-end">
+      <button
+        type="reset"
+        class="block w-20 h-8 text-sm font-medium rounded-lg border hover:bg-gray-200 dark:text-white"
+      >
+        Reset
+      </button>
+    </div>
+
+    <div class="col-span-4 w-full flex flex-col gap-2 justify-center">
+      <label class="block text-sm font-medium dark:text-white">
+        Report Type
+      </label>
+      <div class="flex items-center gap-2">
+        <input
+          id="radioPowerInput"
+          type="radio"
+          value="input"
+          name="type"
+          required
+          class="w-4 h-4 rounded-lg text-light-text bg-light-background border border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300"
+        />
+        <label
+          for="radioPowerInput"
+          class="text-sm font-medium text-gray-900 dark:text-gray-300"
+        >
+          Power Input</label
+        >
+        <input
+          id="radioPowerOutput"
+          type="radio"
+          value="output"
+          name="type"
+          required
+          class="w-4 h-4 rounded-lg text-light-text bg-light-background border border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300"
+        />
+        <label
+          for="radioPowerOutput"
+          class="text-sm font-medium text-gray-900 dark:text-gray-300"
+        >
+          Power Output</label
+        >
+        <input
+          id="radioBattery"
+          type="radio"
+          value="battery"
+          name="type"
+          required
+          class="w-4 h-4 rounded-lg text-light-text bg-light-background border border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300"
+        />
+        <label
+          for="radioBattery"
+          class="text-sm font-medium text-gray-900 dark:text-gray-300"
+        >
+          Battery</label
+        >
+      </div>
+    </div>
+
+    <div
+      class="col-span-2 md:col-span-1 w-full flex flex-col gap-2 justify-center"
+    >
+      <label class="block text-sm font-medium dark:text-white"> From </label>
+      <div class="relative max-w-lg">
+        <div
+          class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+        >
+          <svg
+            class="w-4 h-4 text-gray-500 dark:text-gray-400"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
+            />
+          </svg>
+        </div>
+        <input
+          id="dateStart"
+          name="date_start"
+          datepicker
+          datepicker-autohide
+          type="text"
+          class="block w-full ps-10 p-2 rounded-lg text-light-text bg-light-background border border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300"
+          placeholder="Select date"
+          autocomplete="off"
+          required
+        />
+      </div>
+    </div>
+
+    <div
+      class="col-span-2 md:col-span-1 w-full flex flex-col gap-2 justify-center"
+    >
+      <div class="w-full flex items-center justify-between">
+        <label class="block text-sm font-medium dark:text-white"> To </label>
+      </div>
+      <div class="relative max-w-lg">
+        <div
+          class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+        >
+          <svg
+            class="w-4 h-4 text-gray-500 dark:text-gray-400"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
+            />
+          </svg>
+        </div>
+        <input
+          id="dateEnd"
+          name="date_end"
+          datepicker
+          datepicker-autohide
+          type="text"
+          class="block w-full ps-10 p-2 rounded-lg text-light-text bg-light-background border border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300"
+          placeholder="Select date"
+          autocomplete="off"
+          required
+        />
+      </div>
+    </div>
+
+    <div
+      class="col-span-4 md:col-span-2 w-full flex flex-col gap-2 justify-start"
+    >
+      <label class="block text-sm font-medium dark:text-white">
+        <%= i18n.__('search') %>
+      </label>
+      <div class="flex items-center relative">
+        <input
+          type="text"
+          id="searchData"
+          name="search_data"
+          class="z-20 block w-full ps-4 p-2.5 text-sm rounded-lg rounded-r-none border border-r-0 text-light-text bg-light-background border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300"
+          placeholder="Devices"
+          autocomplete="off"
+          required
+        />
+        <button
+          id="searchDataBtn"
+          type="submit"
+          class="z-20 flex items-center h-full px-4 py-1 rounded-r-lg text-xl bg-purple-500 dark:bg-[#77DDFF] text-white dark:text-black"
+        >
+          <i class="bx bx-search"></i>
+        </button>
+        <!-- search recommend -->
+        <div
+          id="inputSearchShow"
+          class="hidden overflow-y-auto z-10 absolute w-full max-h-64 top-10 left-0 rounded-bl-lg rounded-br-lg border shadow-xl dark:border-gray-600 bg-white dark:bg-[#1C1E1F]"
+        ></div>
+      </div>
+    </div>
+  </form>
+
+  <div
+    class="w-full bg-white dark:bg-dark-primary p-4 shadow-xl rounded-xl border border-gray-200 dark:border-gray-800"
+  >
+    <div class="w-full flex items-center justify-end gap-2">
+      <button
+        class="block w-8 h-8 border rounded-lg dark:border-gray-800"
+        onclick="resetZoom('reportChart')"
+      >
+        <i class="bx bx-reset"></i>
+      </button>
+    </div>
+    <div
+      id="loadingIndicator"
+      class="hidden text-center align-middle text-lg font-semibold text-gray-500"
+    >
+      Loading...
+    </div>
+    <canvas
+      id="reportChart"
+      style="width: 100% !important; height: 500px !important"
+    ></canvas>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+<script>
+  var translations={
+      ok: "<%= i18n.__('ok') %>",
+      error: "<%= i18n.__('error') %>",
+      success: "<%= i18n.__('success') %>",
+  };
+  const site_id= <%- JSON.stringify(site_id)%>;
+  const deviceList= <%- JSON.stringify(allDevice)%>;
+  const form=document.getElementById('generateChart');
+  const chartList={};
+  const filterTypes=["contract_number", "device_id", "device_name", "gateway_id", "gateway_name", "group_name"];
+  const searchInput=document.getElementById("searchData");
+  const searchDropdown=document.getElementById("inputSearchShow");
+  const dateStart=document.getElementById("dateStart");
+  const dateEnd=document.getElementById("dateEnd");
+
+  function formatDate(date) {
+      if (!date) return "";
+      const d=new Date(date);
+      const year=d.getFullYear();
+      const month=String(d.getMonth()+1).padStart(2, "0");
+      const day=String(d.getDate()).padStart(2, "0");
+      return `${month}-${day}-${year}`;
+  }
+
+  function showToast(message) {
+      const toast=document.createElement("div");
+      toast.classList.add(
+          "fixed", "top-5", "right-5", "bg-gray-900", "text-white",
+          "px-4", "py-2", "rounded-lg", "shadow-lg", "opacity-0",
+          "transition-opacity", "duration-300", "toast"
+      );
+      toast.textContent=message;
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+          toast.classList.remove("opacity-0");
+      }, 100);
+
+      setTimeout(() => {
+          toast.classList.add("opacity-0");
+          setTimeout(() => toast.remove(), 300);
+      }, 3000);
+  }
+
+  const today=new Date();
+  const firstDayOfMonth=new Date(today.getFullYear(), today.getMonth(), 1);
+
+  dateStart.value=formatDate(firstDayOfMonth);
+  dateEnd.value=formatDate(today);
+
+  dateStart.addEventListener("changeDate", (event) => {
+      const startDate=new Date(dateStart.value);
+      const endDate=new Date(dateEnd.value);
+      if (endDate<startDate) {
+          dateEnd.value=dateStart.value;
+          showToast("Start date updated. End date adjusted.");
+      }
+  });
+
+  dateEnd.addEventListener("changeDate", (event) => {
+      const startDate=new Date(dateStart.value);
+      const endDate=new Date(dateEnd.value);
+      if (endDate<startDate) {
+          dateStart.value=dateEnd.value;
+          showToast("End date updated. Start date adjusted.");
+      }
+  });
+
+  searchInput.addEventListener("input", function () {
+      const query=searchInput.value.toLowerCase().trim();
+      searchDropdown.innerHTML="";
+
+      if (!query) {
+          searchDropdown.classList.add("hidden");
+          return;
+      }
+
+
+
+      const keyFilter=createKeyFilter(query);
+      if (keyFilter.length==0) {
+          searchDropdown.classList.add("hidden");
+          return;
+      }
+
+      searchDropdown.classList.remove("hidden");
+
+      keyFilter.forEach((data) => {
+          let highlightedText=data.highlight.replace(/\[(.*?)\]/g, '<span class="bg-yellow-200 font-normal dark:bg-gray-600">$1</span>');
+          highlightedText+=` <span class="text-gray-500 dark:text-gray-400">(${data.fullKey})</span>`;
+          let searchItem=document.createElement("p");
+          searchItem.classList.add("search-item", "text-sm", "font-light", "text-black", "py-2", "px-4", "border-b", "hover:bg-gray-100", "cursor-pointer", "dark:hover:bg-gray-800", "dark:text-white", "dark:border-gray-600");
+          searchItem.setAttribute("data-key", data.fullKey);
+          searchItem.setAttribute("data-type", data.matchType);
+          searchItem.innerHTML=`${highlightedText}<br><span class="font-medium text-xs text-gray-500 dark:text-gray-400">In ${data.matchType}</span>`;
+          searchItem.addEventListener("click", function () {
+              searchInput.value=data.fullKey;
+              searchDropdown.classList.add("hidden");
+          });
+          searchDropdown.appendChild(searchItem);
+      });
+  });
+
+  document.addEventListener("click", function (event) {
+      if (!searchDropdown.contains(event.target)&&event.target!==searchInput) {
+          searchDropdown.classList.add("hidden");
+      }
+  });
+
+  function createKeyFilter(getSearchInputData) {
+
+      return deviceList.map((data) => {
+          return filterTypes
+              .filter((key) => {
+                  return data[key]&&data[key].toString().toLowerCase().includes(getSearchInputData.toLowerCase());
+              })
+              .map((matchType) => {
+                  const keyWithHighlight=data[matchType].toString().replace(
+                      new RegExp(getSearchInputData, 'i'),
+                      (match) => `[${match}]`
+                  );
+                  return {
+                      fullKey: data.device_name,
+                      matchType,
+                      highlight: keyWithHighlight
+                  };
+              });
+      }).flat();
+  }
+
+
+  function toUTCDate(dateString) {
+      const [month, day, year]=dateString.split('/');
+      return new Date(Date.UTC(year, month-1, day));
+  }
+
+  function calculateDayDifference(dateStart, dateEnd) {
+      const startDate=new Date(dateStart);
+      const endDate=new Date(dateEnd);
+      startDate.setUTCHours(0, 0, 0, 0);
+      endDate.setUTCHours(0, 0, 0, 0);
+      const differenceInMillis=endDate-startDate;
+      const differenceInDays=differenceInMillis/(1000*3600*24);
+      return differenceInDays;
+  }
+
+
+  let lastSearch={
+      type: null,
+      dateStart: null,
+      dateEnd: null,
+      deviceId: null,
+      dataset: null,
+      labels: null,
+  };
+
+  form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData=new FormData(form);
+      const type=formData.get("type");
+      const dateStart=toUTCDate(formData.get("date_start")).toISOString();
+      const dateEnd=toUTCDate(formData.get("date_end")).toISOString();
+      const search_data=formData.get("search_data");
+      const filterDevice=deviceList.find(dev => dev.device_name==search_data);
+
+      if (!filterDevice) {
+          showModalPopup('Not found device this name.', false);
+          return;
+      }
+
+      if (dateStart>dateEnd) {
+          showModalPopup('Start date cannot be later than the end date.', false);
+          return;
+      }
+
+      const dayDifference=calculateDayDifference(dateStart, dateEnd);
+      if (dayDifference<0||dayDifference>31) {
+          showModalPopup("The date range must be between 1 and 31 days.", false);
+          return;
+      }
+
+      if (
+          lastSearch.dataset&&
+          lastSearch.labels&&
+          lastSearch.dateStart==dateStart&&
+          lastSearch.dateEnd==dateEnd&&
+          lastSearch.deviceId==filterDevice.device_id
+      ) {
+          updateChart(type, lastSearch.labels, lastSearch.dataset[type]);
+          return;
+      }
+
+      document.getElementById('searchDataBtn').disabled=true;
+      document.getElementById('loadingIndicator').classList.remove('hidden');
+
+      try {
+        // console.log(filterDevice)
+          const response=await fetch(`/api/get-chart/${site_id}?${new URLSearchParams({
+              type,
+              date_start: dateStart,
+              date_end: dateEnd,
+              gateway_id: filterDevice.gateway_id,
+              device_id: filterDevice.device_id
+          })}`, {
+              method: "GET",
+              headers: { "Content-Type": "application/json" }
+          });
+
+          if (!response.ok) throw new Error("Failed to fetch data");
+
+          const { data }=await response.json();
+          if (!data.length) throw new Error("No data available");
+
+          let labels=data.map(item => item.timestamp);
+          let datasets={
+              input: data.map(item => parseFloat(item.input.volt*item.input.current)),
+              output: data.map(item => parseFloat(item.output.volt*item.output.current)),
+              battery: data.map(item => parseFloat(item.battery.level))
+          };
+
+
+          lastSearch={
+              type,
+              dateStart,
+              dateEnd,
+              deviceId: filterDevice.device_id,
+              dataset: datasets,
+              labels,
+          };
+
+          updateChart(type, labels, datasets[type]);
+
+      } catch (error) {
+          console.error("Error:", error.message);
+          showModalPopup(error.message, false);
+      } finally {
+          document.getElementById('searchDataBtn').disabled=false;
+          document.getElementById('loadingIndicator').classList.add('hidden');
+      }
+  });
+
+
+  form.addEventListener('reset', async (e) => {
+      resetChart('reportChart');
+  })
+
+
+
+
+  function updateChart(type, labels, data) {
+      const ctx=document.getElementById('reportChart').getContext('2d');
+      const chartId=ctx.canvas.id;
+
+      const chartConfigs={
+          input: { label: "Power Input (W)", yLabel: "Input (W)", borderColor: "rgb(34, 107, 197)", backgroundColor: "rgba(34, 107, 197, 0.4)" },
+          output: { label: "Power Output (W)", yLabel: "Output (W)", borderColor: "rgb(220, 53, 69)", backgroundColor: "rgba(220, 53, 69, 0.4)" },
+          battery: { label: "Battery (%)", yLabel: "Battery (%)", borderColor: "rgb(40, 167, 69)", backgroundColor: "rgba(40, 167, 69, 0.4)" }
+      };
+
+      const { label, yLabel, borderColor, backgroundColor }=chartConfigs[type];
+
+      const formattedLabels=labels.map(timestamp => {
+          const date=new Date(timestamp);
+          const hours=String(date.getUTCHours()).padStart(2, '0');
+          const minutes=String(date.getUTCMinutes()).padStart(2, '0');
+          const seconds=String(date.getUTCSeconds()).padStart(2, '0');
+          return `T${hours}:${minutes}:${seconds}`;
+      });
+
+      if (chartList[chartId]) {
+          const chart=chartList[chartId];
+          chart.data.labels=formattedLabels;
+          chart.data.datasets[0].data=data;
+          chart.data.datasets[0].label=label;
+          chart.data.datasets[0].borderColor=borderColor;
+          chart.data.datasets[0].backgroundColor=backgroundColor;
+          chart.options.scales.y.title.text=yLabel;
+          chart.options.plugins.tooltip.callbacks={
+              label: (tooltipItem) => `${yLabel}: ${tooltipItem.raw.toFixed(2)}`
+          };
+          chart.update();
+      } else {
+          chartList[chartId]=new Chart(ctx, {
+              type: 'line',
+              data: {
+                  labels: formattedLabels,
+                  datasets: [{
+                      label,
+                      data,
+                      borderColor,
+                      backgroundColor,
+                      fill: true,
+                      tension: 0.0,
+                      borderWidth: 1.5,
+                      pointRadius: 0,
+                      pointHoverRadius: 2
+                  }]
+              },
+              options: {
+                  responsive: true,
+                  interaction: { mode: 'nearest', intersect: false },
+                  plugins: {
+                      tooltip: { callbacks: { label: tooltipItem => `${yLabel}: ${tooltipItem.raw.toFixed(2)}` } },
+                      zoom: {
+                          pan: { enabled: true, mode: 'x', threshold: 10 },
+                          zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'x' }
+                      }
+                  },
+                  scales: {
+                      x: {
+                          title: { display: true, text: 'Time', color: 'gray', font: { weight: 'bold' } },
+                          ticks: { autoSkip: true, maxTicksLimit: 24 },
+                          grid: { display: true }
+                      },
+                      y: {
+                          title: { display: true, text: yLabel, color: 'gray', font: { weight: 'bold' } },
+                          beginAtZero: true
+                      }
+                  }
+              }
+          });
+      }
+  }
+
+  function resetChart(id) {
+      const canvas=document.getElementById(id);
+      const width=canvas.offsetWidth;
+      const height=canvas.offsetHeight;
+      if (chartList[id]) {
+          chartList[id].destroy();
+          chartList[id]=null;
+      }
+      const ctx=canvas.getContext('2d');
+      canvas.width=width;
+      canvas.height=height;
+  }
+
+  function resetZoom(id) {
+      if (chartList[id]) chartList[id].resetZoom();
+  }
+</script>

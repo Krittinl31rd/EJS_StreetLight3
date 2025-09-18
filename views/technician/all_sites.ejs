@@ -1,0 +1,27 @@
+<div
+    class="flex-1 overflow-y-hidden overflow-x-hidden flex flex-col items-start justify-start gap-4 animate-fade-in-down transition-opacity duration-500 ease-out">
+
+    <div class="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 p-4">
+
+        <% sites.forEach(site=> { %>
+            <a href="/technician/<%= site.label %>"
+                class="rounded-3xl shadow-md lg:col-span-2 transition duration-300 hover:scale-105">
+                <div class="relative">
+                    <div class="w-full h-56">
+                        <img src="/images/bg01.jpg" alt="site_images"
+                            class="w-full h-full bg-blue-300 rounded-3xl object-cover">
+                    </div>
+                    <div
+                        class="w-full absolute bottom-0 bg-purple-700/10 backdrop-blur-sm drop-shadow-lg rounded-b-3xl p-4">
+                        <h2 class="text-gray-100 text-lg font-semibold">
+                            <%= site.site_name %>
+                        </h2>
+                        <p class="text-gray-300 truncate">
+                            <%= site.description %>
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <% }) %>
+
+    </div>

@@ -1,0 +1,674 @@
+<div
+  class="flex-1 overflow-hidden flex flex-col items-start justify-start gap-4 p-4 animate-fade-in-down transition-opacity duration-500 ease-out"
+>
+  <h1 class="text-2xl font-semibold">Log</h1>
+
+  <form id="generateLog" class="w-full grid grid-cols-4 gap-2">
+    <div class="col-span-4 w-full flex gap-2 justify-end">
+      <button
+        type="reset"
+        class="block w-20 h-8 text-sm font-medium rounded-lg border hover:bg-gray-200 dark:text-white"
+      >
+        Reset
+      </button>
+    </div>
+
+    <div class="col-span-1 w-full flex flex-col gap-2 justify-center">
+      <label class="block text-sm font-medium dark:text-white"> Member </label>
+      <select
+        id="selectMember"
+        name="member_name"
+        class="w-full text-sm px-2 py-2 gap-1 rounded-lg text-light-text bg-light-background border border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300"
+      >
+        <option value="all">Member</option>
+        <% allMember.forEach(m=> { %>
+        <option value="<%= m.member_id %>">
+          <%= m.member_name %> #<%= m.member_id %>
+        </option>
+        <% }) %>
+      </select>
+    </div>
+
+    <div class="col-span-1 w-full flex flex-col gap-2 justify-center">
+      <label class="block text-sm font-medium dark:text-white"> Gateway </label>
+      <select
+        id="selectGateway"
+        name="gateway_name"
+        class="w-full text-sm px-2 py-2 gap-1 rounded-lg text-light-text bg-light-background border border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300"
+      >
+        <option value="all">Gateway</option>
+        <% allGateway.forEach(g=> { %>
+        <option value="<%= g.gateway_id %>">
+          <%= g.gateway_name %> #<%= g.gateway_id %>
+        </option>
+        <% }) %>
+      </select>
+    </div>
+
+    <div class="col-span-1 w-full flex flex-col gap-2 justify-center">
+      <label class="block text-sm font-medium dark:text-white"> Device </label>
+      <select
+        id="selectDevice"
+        name="device_name"
+        class="w-full text-sm px-2 py-2 gap-1 rounded-lg text-light-text bg-light-background border border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300"
+      >
+        <option value="all">Device</option>
+        <% allDevice.forEach(d=> { %>
+        <option value="<%= d.device_id %>">
+          <%= d.device_name %> #<%= d.device_id %>
+        </option>
+        <% }) %>
+      </select>
+    </div>
+
+    <div class="col-span-1 w-full flex flex-col gap-2 justify-center">
+      <label class="block text-sm font-medium dark:text-white"> Type </label>
+      <select
+        id="selectType"
+        name="type"
+        class="w-full text-sm px-2 py-2 gap-1 rounded-lg text-light-text bg-light-background border border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300"
+      >
+        <option value="">Type</option>
+        <option value="usage">Usage</option>
+        <option value="log">Log</option>
+        <option value="schedule">Schedule</option>
+      </select>
+    </div>
+
+    <div
+      class="col-span-2 sm:col-span-1 w-full flex flex-col gap-2 justify-center"
+    >
+      <label class="block text-sm font-medium dark:text-white"> From </label>
+      <div class="relative max-w-lg">
+        <div
+          class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+        >
+          <svg
+            class="w-4 h-4 text-gray-500 dark:text-gray-400"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
+            />
+          </svg>
+        </div>
+        <input
+          id="dateStart"
+          datepicker
+          datepicker-autohide
+          type="text"
+          name="date_start"
+          class="block w-full ps-10 p-2 rounded-lg text-light-text bg-light-background border border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300"
+          placeholder="Select date"
+          autocomplete="off"
+        />
+      </div>
+    </div>
+
+    <div
+      class="col-span-2 sm:col-span-1 w-full flex flex-col gap-2 justify-center"
+    >
+      <div class="w-full flex items-center justify-between">
+        <label class="block text-sm font-medium dark:text-white"> To </label>
+      </div>
+      <div class="relative max-w-lg">
+        <div
+          class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+        >
+          <svg
+            class="w-4 h-4 text-gray-500 dark:text-gray-400"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
+            />
+          </svg>
+        </div>
+        <input
+          id="dateEnd"
+          datepicker
+          datepicker-autohide
+          type="text"
+          name="date_end"
+          class="block w-full ps-10 p-2 rounded-lg text-light-text bg-light-background border border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300"
+          placeholder="Select date"
+          autocomplete="off"
+        />
+      </div>
+    </div>
+
+    <div
+      class="col-span-4 sm:col-span-2 w-full flex flex-col gap-2 justify-start"
+    >
+      <label class="block text-sm font-medium dark:text-white">
+        <%= i18n.__('search') %>
+      </label>
+      <div class="flex items-center relative">
+        <input
+          type="text"
+          id="searchData"
+          name="search_data"
+          class="z-20 block w-full ps-4 p-2.5 text-sm rounded-lg rounded-r-none border border-r-0 text-light-text bg-light-background border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300"
+          placeholder="Member, Gateway, Device"
+          autocomplete="off"
+        />
+        <button
+          id="searchDataBtn"
+          class="z-20 flex items-center h-full px-4 py-1 rounded-r-lg text-xl bg-purple-500 dark:bg-[#77DDFF] text-white dark:text-black"
+        >
+          <i class="bx bx-search"></i>
+        </button>
+        <!-- search recommend -->
+        <div
+          id="inputSearchShow"
+          class="hidden overflow-y-auto z-10 absolute w-full max-h-64 top-10 left-0 rounded-bl-lg rounded-br-lg border shadow-xl dark:border-gray-600 bg-white dark:bg-[#1C1E1F]"
+        ></div>
+      </div>
+    </div>
+  </form>
+
+  <div class="w-full flex-1 relative overflow-auto shadow-md sm:rounded-lg">
+    <div
+      id="loadingIndicator"
+      class="hidden text-center align-middle text-lg font-semibold text-gray-500"
+    >
+      Loading...
+    </div>
+    <table class="w-full text-sm text-left text-light-text dark:text-dark-text">
+      <thead
+        class="text-xs uppercase text-light-text bg-light-background dark:bg-dark-primary dark:text-dark-text"
+      >
+        <tr>
+          <th scope="col" class="px-6 py-3">Date</th>
+          <th scope="col" class="px-6 py-3">Member</th>
+          <th scope="col" class="px-6 py-3">Action</th>
+        </tr>
+      </thead>
+      <tbody id="logTable"></tbody>
+    </table>
+  </div>
+
+  <div
+    id="paginationContainer"
+    class="w-full flex items-center justify-between"
+  ></div>
+</div>
+
+<script>
+    var translations={
+        createMember: "<%= i18n.__('createMember') %>",
+        enabled: "<%= i18n.__('enabled') %>",
+        disabled: "<%= i18n.__('disabled') %>",
+        status: "<%= i18n.__('status') %>",
+        username: "<%= i18n.__('username') %>",
+        memberName: "<%= i18n.__('memberName') %>",
+        email: "<%= i18n.__('email') %>",
+        role: "<%= i18n.__('role') %>",
+        cancle: "<%= i18n.__('cancle') %>",
+        create: "<%= i18n.__('create') %>",
+        change: "<%= i18n.__('change') %>",
+        showing: "<%= i18n.__('showing') %>",
+        to: "<%= i18n.__('to') %>",
+        of: "<%= i18n.__('of') %>",
+        entries: "<%= i18n.__('entries') %>",
+        delete: "<%= i18n.__('delete') %>",
+        deleteConfirm: "<%= i18n.__('deleteConfirm') %>",
+        textDelete: "<%= i18n.__('textDelete') %>",
+        ok: "<%= i18n.__('ok') %>",
+        error: "<%= i18n.__('error') %>",
+        success: "<%= i18n.__('success') %>",
+        noMember: "<%= i18n.__('noMember') %>",
+    };
+    // const logData=<%#- JSON.stringify(allLog)%>;
+    // console.log(logData)
+    let allData;
+    const siteID= <%- JSON.stringify(site_id)%>;
+    const tableBody=document.getElementById('logTable');
+    const paginationContainer=document.getElementById('paginationContainer');
+
+    const selectMember=document.getElementById('selectMember');
+    const selectGateway=document.getElementById('selectGateway');
+    const selectType=document.getElementById('selectType');
+    const selectDevice=document.getElementById('selectDevice');
+    const dateStart=document.getElementById('dateStart');
+    const dateEnd=document.getElementById('dateEnd');
+    const searchData=document.getElementById('searchData');
+    const clearStartEnd=document.getElementById('clearStartEnd')
+    const form=document.getElementById('generateLog')
+
+    let currentPage=1;
+    const itemsPerpage=20;
+
+    const today=new Date();
+    const firstDayOfMonth=new Date(today.getFullYear(), today.getMonth(), 1);
+
+    dateStart.value=formatDate(firstDayOfMonth);
+    dateEnd.value=formatDate(today);
+
+    dateStart.addEventListener("changeDate", (event) => {
+        const startDate=new Date(dateStart.value);
+        const endDate=new Date(dateEnd.value);
+        if (endDate<startDate) {
+            dateEnd.value=dateStart.value;
+            // showToast("Start date updated. End date adjusted.");
+        }
+    });
+
+    dateEnd.addEventListener("changeDate", (event) => {
+        const startDate=new Date(dateStart.value);
+        const endDate=new Date(dateEnd.value);
+        if (endDate<startDate) {
+            dateStart.value=dateEnd.value;
+            // showToast("End date updated. Start date adjusted.");
+        }
+    });
+
+    function createTableRow(log, index) {
+        const row=document.createElement("tr");
+        row.className="bg-gray-50 hover:bg-gray-100 border-b dark:bg-dark-secondary dark:hover:bg-dark-primary dark:border-b-gray-800";
+
+        let actionRow;
+        if (log.log_type=="usage_group"||log.log_type=="usage") {
+            actionRow=`
+                <div class="text-xs">Usage</div>
+                <div class="font-semibold text-gray-500">
+                    From[${log.gateway_id}] | Device: ${log.device_id}, Ctrl: ${log.control_id}, V: ${log.last_value}
+                </div>`
+        } else if (log.log_type=="schedule") {
+            actionRow=`
+            <div class="text-xs">Schedule</div>
+            <div class="relative inline-block">
+                <button id="schDetail${index}" class="font-semibold text-gray-500">
+                    <span>From[${log.gateway_id}] | Device: ${log.device_id}</span> ...</i>
+                </button>
+                <div id="tooltipIsch${index}" class="absolute bg-gray-900 text-white text-sm px-2 py-1 rounded shadow-lg opacity-0 transition-opacity duration-300 pointer-events-none whitespace-nowrap">
+                        Schedule Detail
+                </div>
+            </div>`
+        } else if (log.log_type=="log") {
+            actionRow=`
+            <div class="text-xs">Log</div>
+                <button id="logDetail${index}" class="font-semibold text-gray-500">
+                    From[${log.gateway_id}] | Device: ${log.device_id}
+                </button>`
+        }
+
+        row.innerHTML=`
+                    <td class="px-6 py-4">
+                        <div class="">
+                            <div class="text-xs text-gray-500">MM/DD/YY</div>
+                            <div class="">${formatDateWithTime(log.created_at)}</div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">${log.member_name||"Gateway"} #${log.member_id||log.gateway_id}</td>
+                    <td class="px-6 py-4">${actionRow}</td>
+        `;
+        return row;
+    }
+
+    function renderTable(page, filteredData) {
+        tableBody.innerHTML="";
+
+        if (filteredData.length===0) {
+            tableBody.innerHTML=`
+            <tr>
+                <td colspan="6" class="text-center text-gray-500 dark:text-gray-400 py-4">
+                    No results found
+                </td>
+            </tr>
+        `;
+            updatePaginationButtons(filteredData);
+            return;
+        }
+
+        const start=(page-1)*itemsPerpage;
+        const end=start+itemsPerpage;
+        const paginatedItems=filteredData.slice(start, end);
+
+        paginatedItems.forEach((log, index) => {
+            tableBody.appendChild(createTableRow(log, index));
+
+            if (log.log_type=="schedule") {
+                const schDetail=document.getElementById(`schDetail${index}`)
+                const tooltip=document.getElementById(`tooltipIsch${index}`);
+                schDetail.addEventListener("mouseenter", () => {
+                    tooltip.classList.remove("opacity-0");
+                    tooltip.classList.add("opacity-100");
+
+                    const rect=schDetail.getBoundingClientRect();
+                    const tooltipRect=tooltip.getBoundingClientRect();
+                    tooltip.style.top=`${window.scrollY+(rect.height/2)-(tooltipRect.height/2)}px`;
+                    tooltip.style.left=`${window.scrollX+(rect.width+10)}px`;
+                });
+                schDetail.addEventListener("mouseleave", () => {
+                    tooltip.classList.remove("opacity-100");
+                    tooltip.classList.add("opacity-0");
+                });
+                schDetail.addEventListener('click', () => {
+                    let rows=log.config_detail.map(sch => `
+                    <tr class="border-b border-gray-300 dark:border-gray-600">
+                        <td class="py-2 px-4 text-gray-800 dark:text-white">${sch.day_of_week}</td>
+                        <td class="py-2 px-4 text-gray-600 dark:text-gray-300">${sch.off_time||"Not set"}</td>
+                        <td class="py-2 px-4 text-gray-600 dark:text-gray-300">${sch.on_time||"Not set"}</td>
+                    </tr>
+                `).join("");
+                    let tableContent=`
+                    <table class="w-full border-collapse">
+                        <thead>
+                            <tr class="bg-light-primary dark:bg-dark-primary text-gray-800 dark:text-white">
+                                <th class="py-2 px-4 text-left">Day</th>
+                                <th class="py-2 px-4 text-left">OFF Time</th>
+                                <th class="py-2 px-4 text-left">ON Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>${rows}</tbody>
+                    </table>
+                `;
+                    showModal(`From[${log.gateway_id}] | Device: ${log.device_id}`, tableContent, true);
+                })
+            } else if (log.log_type=='log') {
+                const logDetail=document.getElementById(`logDetail${index}`);
+                // input outout batt env
+                logDetail.addEventListener('click', () => {
+    let cardContent = `
+      <div class="grid gap-4 sm:grid-cols-2 text-sm">
+        <div class="sm:col-span-2 text-sm text-black dark:text-white">${formatDateWithTime(log.created_at)}</div>
+        <div class="sm:grid-cols-2 bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex flex-col justify-between border border-gray-200 dark:border-gray-700">
+          <div>
+            <h3 class="font-semibold mb-1 text-gray-700 dark:text-gray-200">Input</h3>
+            <p class="dark:text-white">Voltage: <span class="font-semibold">${log.input.volt} V</span></p>
+            <p class="dark:text-white">Current: <span class="font-semibold">${log.input.current} mA</span></p>
+          </div>
+        </div>
+
+        <div class="sm:grid-cols-2 bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex flex-col justify-between border border-gray-200 dark:border-gray-700">
+          <div>
+            <h3 class="font-semibold mb-1 text-gray-700 dark:text-gray-200">Output</h3>
+            <p class="dark:text-white">Voltage: <span class="font-semibold">${log.output.volt} V</span></p>
+            <p class="dark:text-white">Current: <span class="font-semibold">${log.output.current} mA</span></p>
+          </div>
+        </div>
+
+        <div class="sm:grid-cols-2 bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex flex-col justify-between border border-gray-200 dark:border-gray-700">
+          <div>
+            <h3 class="font-semibold mb-1 text-gray-700 dark:text-gray-200">Battery</h3>
+            <p class="dark:text-white">Voltage: <span class="font-semibold">${log.battery.batt_volt} V</span></p>
+            <p class="dark:text-white">Capacity: <span class="font-semibold">${log.battery.capacity} Ah</span></p>
+            <p class="dark:text-white">Health: <span class="font-semibold">${log.battery.health} %</span></p>
+            <p class="dark:text-white">Cycle: <span class="font-semibold">${log.battery.cycle}</span></p>
+            <p class="dark:text-white">Level: <span class="font-semibold">${log.battery.level} %</span></p>
+            <p class="dark:text-white">Status: <span class="font-semibold">${log.battery.charge == 0 ? "Not charging" : "Charging"}</span></p>
+          </div>
+        </div>
+
+        <div class="sm:grid-cols-2 bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex flex-col justify-between border border-gray-200 dark:border-gray-700">
+          <div>
+            <h3 class="font-semibold mb-1 text-gray-700 dark:text-gray-200">Environment</h3>
+            <p class="dark:text-white">Humidity: <span class="font-semibold">${log.env.humid} %</span></p>
+            <p class="dark:text-white">Temperature: <span class="font-semibold">${log.env.temp} °C</span></p>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex flex-col justify-between border border-gray-200 dark:border-gray-700 sm:col-span-2 sm:grid-cols-2">
+          <h3 class="font-semibold mb-2 text-gray-700 dark:text-gray-200">Consumption</h3>
+          <p class="text-xl font-semibold text-black dark:text-white">
+            ${((log.battery.batt_volt * log.output.current * 1) / 1000).toFixed(4)} kWh
+          </p>
+        </div>
+      </div>
+    `;
+
+    showModal(`From[${log.gateway_id}] | Device: ${log.device_id}`, cardContent, true);
+  });
+
+            }
+
+        });
+
+        updatePaginationButtons(filteredData);
+    }
+
+    function updatePaginationButtons(filteredData) {
+        paginationContainer.innerHTML="";
+        const totalPages=Math.ceil(filteredData.length/itemsPerpage);
+        paginationContainer.innerHTML=`
+        <div class="block">${translations.showing} ${(currentPage-1)*itemsPerpage+1} ${translations.to}
+            ${Math.min(currentPage*itemsPerpage, filteredData.length)} ${translations.of} ${filteredData.length} ${translations.entries}</div>
+        <div class="flex items-center gap-2">
+            <button id="prevBtn"
+                class="inline-flex items-center hover:bg-light-primary hover:dark:bg-dark-primary rounded-full p-2">
+                <i class='bx bx-chevron-left'></i>
+            </button>
+            <span>${currentPage} / ${totalPages}</span>
+            <button id="nextBtn"
+                class="inline-flex items-center hover:bg-light-primary hover:dark:bg-dark-primary rounded-full p-2">
+                <i class='bx bx-chevron-right'></i>
+            </button>
+        </div>
+    `;
+        const prevBtn=document.getElementById('prevBtn');
+        prevBtn.disabled=currentPage==1;
+        prevBtn.addEventListener("click", () => changePage(currentPage-1, filteredData));
+        const nextBtn=document.getElementById('nextBtn');
+        nextBtn.disabled=currentPage==totalPages;
+        nextBtn.addEventListener("click", () => changePage(currentPage+1, filteredData));
+    }
+
+
+    function changePage(page, filteredData) {
+        if (page>=1&&page<=Math.ceil(lastSearch.allData[selectType.value].length/itemsPerpage)) {
+            currentPage=page;
+            renderTable(page, filteredData);
+        }
+    }
+
+    // let from;
+    // let to;
+    // function filterTable() {
+
+    //     const searchValue=searchData.value.trim().toLowerCase();
+    //     const memberValue=selectMember.value;
+    //     const gatewayValue=selectGateway.value;
+    //     const typeValue=selectType.value;
+    //     const deviceValue=selectDevice.value;
+    //     const dateStartValue=from? formatDate(from):"";
+    //     const dateEndValue=to? formatDate(to):"";
+
+
+    //     if (!searchValue&&!memberValue&&!gatewayValue&&!dateStartValue&&!dateEndValue&&!typeValue&&!deviceValue) {
+    //         renderTable(currentPage, logData);
+    //         return;
+    //     }
+
+    //     const filteredDevices=logData.filter(log => {
+    //         const matchesSearch=searchValue===""||
+    //             log.device_name?.toLowerCase().includes(searchValue)||
+    //             log.device_id?.toString().includes(searchValue)||
+    //             log.gateway_name?.toLowerCase().includes(searchValue)||
+    //             log.member_name?.toLowerCase().includes(searchValue);
+
+
+    //         const matchesMember=memberValue==""||
+    //             log.member_id==memberValue;
+
+    //         const matchesGateway=gatewayValue==""||
+    //             log.gateway_id==gatewayValue;
+
+    //         const matchesDevice=deviceValue==""||
+    //             log.device_id==deviceValue;
+
+    //         const matchesType=typeValue==""||
+    //             log.log_type==typeValue;
+
+    //         const deviceDate=formatDate(log.created_at);
+    //         const matchesDateRange=
+    //             (dateStartValue===""||deviceDate>=dateStartValue)&&
+    //             (dateEndValue===""||deviceDate<=dateEndValue);
+
+    //         return matchesSearch&&matchesMember&&matchesGateway&&matchesDateRange&&matchesType&&matchesDevice;
+    //     })
+
+    //     currentPage=1;
+    //     renderTable(currentPage, filteredDevices);
+    // }
+
+    let lastSearch={
+        type: null,
+        date_start: null,
+        date_end: null,
+        member_id: null,
+        gateway_id: null,
+        device_id: null,
+        search_data: null,
+        allData: {}
+    };
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData=new FormData(form);
+        const memberName=formData.get('member_name');
+        const gatewayName=formData.get('gateway_name');
+        const deviceName=formData.get('device_name');
+        const type=formData.get('type');
+        const searchData=formData.get('search_data');
+
+        let dateStart=formData.get("date_start");
+        let dateEnd=formData.get("date_end");
+
+        if (!dateStart||!dateEnd) {
+            showModalPopup('Please input both start and end dates.', false);
+            return;
+        }
+
+        try {
+            dateStart=toUTCDate(dateStart);
+            dateEnd=toUTCDate(dateEnd);
+
+            if (isNaN(dateStart)||isNaN(dateEnd)) {
+                showModalPopup('Invalid date format. Please enter valid dates.', false);
+                return;
+            }
+
+            dateStart=dateStart.toISOString();
+            dateEnd=dateEnd.toISOString();
+
+            if (dateStart>dateEnd) {
+                showModalPopup('Start date cannot be later than the end date.', false);
+                return;
+            }
+        } catch (error) {
+            showModalPopup('Error processing dates. Please enter valid dates.', false);
+            return;
+        }
+
+        if (!type) {
+            showModalPopup('Please select type.', false);
+            return;
+        }
+
+        if (lastSearch.type===type&&lastSearch.date_start===dateStart&&lastSearch.date_end===dateEnd&&lastSearch.allData[type]) {
+            const filteredData=lastSearch.allData[type].filter(item =>
+                (memberName=="all"||item.member_id==memberName)&&
+                (gatewayName=="all"||item.gateway_id==gatewayName)&&
+                (deviceName=="all"||item.device_id==deviceName)&&
+                (!searchData||
+                    String(item.member_id).toLowerCase().includes(searchData)||
+                    String(item.gateway_id).toLowerCase().includes(searchData)||
+                    String(item.device_id).toLowerCase().includes(searchData)
+                )
+            );
+
+            renderTable(currentPage, filteredData);
+            return;
+        }
+
+        // currentPage=1;
+        // allData=data
+        // renderTable(currentPage, data);
+
+        document.getElementById('searchDataBtn').disabled=true;
+        document.getElementById('loadingIndicator').classList.remove('hidden');
+
+        try {
+            const response=await fetch(`/api/get-log/${siteID}?${new URLSearchParams({
+                member_id: memberName,
+                gateway_id: gatewayName,
+                device_id: deviceName,
+                type,
+                search_data: searchData,
+                date_start: dateStart,
+                date_end: dateEnd,
+            })}`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" }
+            });
+
+            if (!response.ok) throw new Error("Failed to fetch data");
+
+            const { data }=await response.json();
+
+            lastSearch={
+                type, date_start: dateStart, date_end: dateEnd,
+                member_id: memberName, gateway_id: gatewayName,
+                device_id: deviceName, search_data: searchData,
+                allData: { ...lastSearch.allData, [type]: data }
+            };
+
+            currentPage=1;
+            renderTable(currentPage, data);
+        } catch (error) {
+            console.error("Error:", error.message);
+            showModalPopup(error.message, false);
+        } finally {
+            document.getElementById('searchDataBtn').disabled=false;
+            document.getElementById('loadingIndicator').classList.add('hidden');
+        }
+    });
+
+
+    function formatDate(date) {
+        if (!date) return "";
+        const d=new Date(date);
+        const year=d.getFullYear();
+        const month=String(d.getMonth()+1).padStart(2, "0");
+        const day=String(d.getDate()).padStart(2, "0");
+        return `${month}-${day}-${year}`;
+    }
+
+    function formatDateWithTime(date) {
+        if (!date) return "";
+        const d=new Date(date);
+        const year=d.getFullYear();
+        const month=String(d.getMonth()+1).padStart(2, "0");
+        const day=String(d.getDate()).padStart(2, "0");
+        const hours=String(d.getHours()).padStart(2, "0");
+        const minutes=String(d.getMinutes()).padStart(2, "0");
+        const seconds=String(d.getSeconds()).padStart(2, "0");
+        return `${month}/${day}/${year} ${hours}:${minutes}:${seconds}`;
+    }
+
+    function calculateDayDifference(dateStart, dateEnd) {
+        const startDate=new Date(dateStart);
+        const endDate=new Date(dateEnd);
+        startDate.setUTCHours(0, 0, 0, 0);
+        endDate.setUTCHours(0, 0, 0, 0);
+        const differenceInMillis=endDate-startDate;
+        const differenceInDays=differenceInMillis/(1000*3600*24);
+        return differenceInDays;
+    }
+
+    function toUTCDate(dateString) {
+        const [month, day, year]=dateString.split('/');
+        return new Date(Date.UTC(year, month-1, day));
+    }
+
+
+    // const date=new Date(); + GMT with Time zone
+    // console.log(date.toUTCString())  + 0 GMT
+</script>

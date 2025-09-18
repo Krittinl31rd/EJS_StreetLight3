@@ -1,0 +1,233 @@
+<aside id="sidebar-multi-level-sidebar"
+    class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full lg:translate-x-0"
+    aria-label="Sidebar">
+    <div
+        class="h-full px-3 py-4 overflow-y-auto bg-gradient-to-br from-[#F4F6F8] via-[#ECE9F9] via-70% to-[#F7E6F2] dark:from-[#171717] dark:via-[#23212B] dark:via-70% dark:to-[#2B2527] sm:border-gray-200 sm:dark:border-gray-800 sm:border-r-[1px]">
+        <!-- Logo -->
+        <a href="/customer/sites">
+            <div class="relative w-full h-[60px] flex flex-row gap-x-[8px]">
+                <div class="relative h-full w-[48px] flex-0">
+                    <div
+                        class="absolute w-[48px] h-[48px] bg-gradient-to-br from-[#6E40FF] to-[#3005AC] border-2 rounded-[16px] border-[#764DF6] vcenter flex items-center justify-center">
+                        <img src="/light_bulb.png" class="h-[24px] w-[24px]">
+                    </div>
+                </div>
+
+                <div class="relative h-[60px] w-auto flex-grow">
+                    <p class="absolute font-semibold text-[36px] text-black dark:text-white top-0">Solar</p>
+                    <p class="absolute font-normal text-[12px] text-black dark:text-white bottom-0">
+                        Streetlight
+                        control</p>
+                </div>
+            </div>
+        </a>
+
+        <ul class="space-y-2 font-medium mt-[48px]">
+            <li>
+                <a href="/customer/sites"
+                    class="w-full flex items-center p-2 rounded-lg group <%= isActiveRoute('/customer/sites', currentRoute) %>">
+                    <i
+                        class='bx bx-sitemap transition duration-75 text-gray-900  dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white'></i>
+                    <span class="ms-3 font-semibold ">
+                        My Sites
+                    </span>
+                </a>
+            </li>
+            <!-- Admin -->
+            <% if (site_role=="Admin" ) { %>
+                <li>
+                    <a href="/customer/<%= site_label %>"
+                        class="w-full flex items-center p-2 rounded-lg group <%= isActiveRoute('/dashboard', currentRoute) %>">
+                        <i
+                            class='bx bxs-home transition duration-75 text-gray-900  dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white'></i>
+                        <span class="ms-3 font-semibold ">
+                            Home
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <button type="button" class="w-full flex items-center p-2 rounded-lg group"
+                        aria-controls="dropdown-admin" data-collapse-toggle="dropdown-admin">
+                        <i
+                            class='bx bxs-wrench transition duration-75 text-gray-900  dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white'></i>
+                        <span class="ms-3 font-semibold text text-gray-900  dark:text-white">
+                            Admin Tools
+                        </span>
+                        <div class="w-full flex-1 flex items-center justify-end">
+                            <i
+                                class='bx bxs-down-arrow transition duration-75 text-gray-900  dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white'></i>
+                        </div>
+                    </button>
+                    <ul id="dropdown-admin" class="space-y-2">
+                        <li>
+                            <a href="/customer/<%= site_label %>/manage"
+                                class="pl-11 w-full flex items-center p-0 gap-4  text-gray-900 dark:text-white <%= isActiveRoute('/manage_site', currentRoute, true)%>">Site
+                                manager </a>
+                        </li>
+                        <li>
+                            <a href="/customer/<%= site_label %>/manage/member"
+                                class="pl-11 w-full flex items-center p-0 gap-4   text-gray-900 dark:text-white <%= isActiveRoute('/manage_member_role', currentRoute, true)%>">Member
+                                &
+                                Role <span class="w-2 h-2 rounded-full bg-yellow-400"></span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/customer/<%= site_label %>/devices"
+                        class="w-full flex items-center p-2 rounded-lg group <%= isActiveRoute('/devices', currentRoute) %>">
+                        <i
+                            class='bx bx-list-ul transition duration-75 text-gray-900  dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white'></i>
+                        <span class="ms-3 font-semibold ">
+                            Devices
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <button type="button" class="w-full flex items-center p-2 rounded-lg group"
+                        aria-controls="dropdown-reports" data-collapse-toggle="dropdown-reports">
+                        <i
+                            class='bx bxs-chart transition duration-75 text-gray-900  dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white'></i>
+                        <span class="ms-3 font-semibold text text-gray-900  dark:text-white">
+                            Reports
+                        </span>
+                        <div class="w-full flex-1 flex items-center justify-end">
+                            <i
+                                class='bx bxs-down-arrow transition duration-75 text-gray-900  dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white'></i>
+                        </div>
+                    </button>
+                    <ul id="dropdown-reports" class="space-y-2">
+                        <li>
+                            <a href="/customer/<%= site_label %>/report_devices"
+                                class="pl-11 w-full flex items-center p-0 gap-4  text-gray-900 dark:text-white <%= isActiveRoute('/report_devices', currentRoute, true)%>">
+                                Devices
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/customer/<%= site_label %>/report_maintenance"
+                                class="pl-11 w-full flex items-center p-0 gap-4   text-gray-900 dark:text-white <%= isActiveRoute('/report_maintenance', currentRoute, true)%>">
+                                Maintenance
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/customer/<%= site_label %>/logs"
+                        class="w-full flex items-center p-2 rounded-lg group <%= isActiveRoute('/logs', currentRoute) %>">
+                        <i
+                            class='bx bxs-notepad transition duration-75 text-gray-900  dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white'></i>
+                        <span class="ms-3 font-semibold ">
+                            Logs
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/customer/<%= site_label %>/map"
+                        class="w-full flex items-center p-2 rounded-lg group <%= isActiveRoute('/map', currentRoute) %>">
+                        <i
+                            class='bx bx-map-alt transition duration-75 text-gray-900  dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white'></i>
+                        <span class="ms-3 font-semibold ">
+                            Map
+                        </span>
+                    </a>
+                </li>
+                <% }else if(site_role=="Member" ){%>
+                    <li>
+                        <a href="/customer/<%= site_label %>"
+                            class="w-full flex items-center p-2 rounded-lg group <%= isActiveRoute('/dashboard', currentRoute) %>">
+                            <i
+                                class='bx bxs-home transition duration-75 text-gray-900  dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white'></i>
+                            <span class="ms-3 font-semibold ">
+                                Home
+                            </span>
+                        </a>
+                    </li>
+                    <% } %>
+        </ul>
+    </div>
+</aside>
+
+<div
+    class="w-full h-[64px] flex items-center justify-between bg-gradient-to-tr from-[#FFFFFF] via-[#ECE9F9] via-70% to-[#F7E6F2] dark:from-[#171717] dark:via-[#23212B] dark:via-70% dark:to-[#2B2527]">
+    <button data-drawer-target="sidebar-multi-level-sidebar" data-drawer-toggle="sidebar-multi-level-sidebar"
+        aria-controls="sidebar-multi-level-sidebar" type="button"
+        class="flex-0 items-center h-[42px] w-[42px] p-2 mt-2 ms-3 text-sm text-gray-500 bg-white dark:bg-black rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+        <span class="sr-only">Open sidebar</span>
+        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg">
+            <path clip-rule="evenodd" fill-rule="evenodd"
+                d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z">
+            </path>
+        </svg>
+    </button>
+
+
+    <div class="flex-1 flex items-center justify-end px-6 space-x-4">
+
+        <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatarName"
+            class="flex items-center text-sm pe-1 font-medium text-gray-900 rounded-full hover:text-blue-600 dark:hover:text-purple-500 md:me-0 dark:text-white"
+            type="button">
+            <span class="sr-only">Open user menu</span>
+            <% if (member.img==null) { %>
+                <div
+                    class="w-8 h-8 rounded-full bg-light-primary dark:bg-dark-primary flex items-center justify-center me-2 ">
+                    <%= member.member_name.charAt(0) %>
+                </div>
+                <% }else{%>
+                    <img class="w-8 h-8 me-2 rounded-full" src="/images/profile/profile.jpg" alt="user photo">
+                    <% } %>
+                        <%= member.username %>
+                            <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="m1 1 4 4 4-4" />
+                            </svg>
+        </button>
+
+        <!-- Dropdown menu -->
+        <div id="dropdownAvatarName"
+            class="z-30 hidden divide-y divide-gray-100 rounded-lg shadow w-44 dark:divide-gray-600 bg-[#ECE9F9] dark:bg-[#171717]">
+            <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
+                <div class="font-medium ">
+                    <%= member.role %>
+                </div>
+                <div class="truncate">
+                    <%= member.email %>
+                </div>
+            </div>
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">
+                <li>
+                    <button id="theme-toggle" type="button"
+                        class="w-full flex items-center justify-between  px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-zinc-950 dark:text-white">
+                        <span>
+                            <%= i18n.__('theme') %>
+                        </span>
+                        <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                        <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                                fill-rule="evenodd" clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </li>
+                <li>
+                    <select onchange="changeLanguage(event)"
+                        class="cursor-pointer block w-full px-4 py-2 text-sm text-gray-700 border-0 focus:border-0 focus:ring-0 bg-[#ECE9F9] hover:bg-gray-100 dark:hover:bg-zinc-950 dark:bg-[#171717] dark:border-0 dark:focus:border-0 dark:text-white">
+                        <option value="th" <%=i18n.getLocale()==='th' ? 'selected' : '' %>>ไทย</option>
+                        <option value="en" <%=i18n.getLocale()==='en' ? 'selected' : '' %>>English</option>
+                    </select>
+                </li>
+            </ul>
+            <div class="py-2">
+                <a href="/api/logout"
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-zinc-950 dark:text-white">
+                    <%= i18n.__('logout') %>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/sweetalert2/dist/sweetalert2.min.css">
+    <script src="/sweetalert2/dist/sweetalert2.min.js"></script>
+    <title>
+        <%= title %>
+    </title>
+</head>
+
+<body class="font-poppins">
+    <div class="flex flex-col items-center justify-center min-h-screen bg-[#F5F5FC] sm:bg-[#E5E6F2] dark:bg-[#161616] sm:dark:bg-[#08090C]">
+
+        <form action="/api/login" method="POST"
+            class="flex flex-col justify-center items-center w-full sm:w-[512px] bg-[#F5F5FC] rounded-3xl sm:m-6 p-6 gap-4 text-gray-900 dark:bg-[#161616] dark:text-gray-200">
+
+            <div class="w-full flex items-center justify-end">
+                <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class=" font-medium"
+                    type="button">Language
+                </button>
+                <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+                    <ul class="py-2 text-sm text-gray-900 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                        <li>
+                            <a href="#"
+                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-gray-200">ไทย</a>
+                        </li>
+                        <li>
+                            <a href="#"
+                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-gray-200">English</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="w-full flex flex-col items-center gap-2">
+                <label class=" text-[24px] font-semibold">Solar Centralize</label>
+                <p class="text-gray-500 text-[14px]">Log in with your email to manage your lights.</p>
+            </div>
+
+            <div class="w-full flex flex-col justify-center gap-2">
+                <label class=" font-medium">ACCOUNT INFORMATION</label>
+                <input type="email" name="email"
+                    class="bg-gray-200 border border-gray-200 dark:bg-[#302F43] dark:border-[#302F43] text-sm rounded-lg focus:ring-0 focus:border-gray-200 block w-full p-3"
+                    placeholder="Email" required />
+                <input type="password" name="password"
+                    class="bg-gray-200 border border-gray-200 dark:bg-[#302F43] dark:border-[#302F43] text-sm rounded-lg focus:ring-0 focus:border-gray-200 block w-full p-3"
+                    placeholder="Password" required />
+                <a href="#" class="text-cyan-600 w-fit font-medium">Forget your password?</a>
+            </div>
+
+            <div class="w-full flex flex-col justify-center items-center gap-6">
+                <button type="submit"
+                    class="inline-flex p-3 items-center justify-center w-full h-[56px] rounded-lg bg-blue-600 text-gray-200 font-semibold dark:bg-blue-500">Login</button>
+                <label class="font-medium">Don't have an account? <a href="#" class="font-semibold text-cyan-600">Sign
+                        up</a></label>
+                <label class="font-medium">Or</label>
+                <button type="button"
+                    class="inline-flex gap-1 p-3 items-center justify-center w-full h-[56px] rounded-lg border border-gray-400 font-semibold">
+                    <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M44.5 20H24V28H35.8C34.3 32.5 29.9 36 24 36C16.8 36 11 30.2 11 23C11 15.8 16.8 10 24 10C27 10 29.7 11 32 12.8L38.3 6.5C34.3 3.1 29.4 1 24 1C11.8 1 2 10.8 2 23C2 35.2 11.8 45 24 45C36.2 45 46 35.2 46 23C46 21.3 45.8 20.6 45.5 20Z"
+                            fill="#FFC107" />
+                        <path
+                            d="M6.3 14.1L12.7 18.9C14.4 15.1 18.3 12.5 24 12.5C27 12.5 29.7 13.5 32 15.3L38.3 9C34.3 5.6 29.4 3.5 24 3.5C15.8 3.5 8.6 8.4 6.3 14.1Z"
+                            fill="#FF3D00" />
+                        <path
+                            d="M24 46C29.4 46 34.3 43.9 38.3 40.5L32 34.2C29.7 36 27 37 24 37C18.3 37 14.4 34.4 12.7 30.6L6.3 35.4C8.6 41.1 15.8 46 24 46Z"
+                            fill="#4CAF50" />
+                        <path
+                            d="M46 23C46 21.3 45.8 20.6 45.5 20H24V28H35.8C35 30.3 33.6 32.3 31.9 34L38.3 40.5C42.6 36.6 46 30.6 46 23Z"
+                            fill="#1976D2" />
+                    </svg>
+                    Continue with Google Account</button>
+                <div class="w-full flex justify-center items-center gap-2">
+                    <i class='bx bx-support'></i> <a href="#" class="underline">Need some help?</a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <script src="/flowbite/dist/flowbite.min.js"></script>
+</body>
+
+</html>

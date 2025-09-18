@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="<%= i18n.getLocale() %>">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/boxicons/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/sweetalert2/dist/sweetalert2.min.css" />
+    <script src="/sweetalert2/dist/sweetalert2.min.js"></script>
+    <script>
+      if (
+        localStorage.getItem("color-theme") === "dark" ||
+        (!("color-theme" in localStorage) &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    </script>
+  </head>
+
+  <body>
+    <div
+      id="preloader"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-white dark:bg-black"
+    >
+      <div
+        class="animate-spin rounded-full h-14 w-14 border-t-4 border-blue-500 dark:border-purple-500"
+      ></div>
+    </div>
+
+    <%- include('../partials/customer_sidebar.ejs') %>
+
+    <div
+      class="h-[calc(100vh-64px)] p-4 space-y-4 lg:ml-64 flex flex-col dark:bg-black dark:text-white relative"
+    >
+      <% if (messages.success) { %>
+      <div
+        id="alertLogin"
+        class="fixed flex items-center w-full max-w-xs p-4 space-x-4 text-white bg-gradient-to-b from-green-400 via-green-500 to-green-600 rounded-lg shadow top-5 right-5 dark:text-white animate-fade-in-down transition-opacity duration-500 ease-out"
+        role="alert"
+      >
+        <span class="block sm:inline"> <%= messages.success %> </span>
+        <button
+          type="button"
+          class="absolute top-0 bottom-0 right-0 px-4 py-3"
+          onclick="this.parentElement.style.display='none';"
+        >
+          <svg
+            class="fill-current h-6 w-6 text-white dark:text-white"
+            role="button"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+          >
+            <title>Close</title>
+            <path
+              d="M14.348 5.652a.5.5 0 00-.707 0L10 9.293 6.36 5.652a.5.5 0 10-.707.707L9.293 10l-3.64 3.64a.5.5 0 00.707.707L10 10.707l3.641 3.64a.5.5 0 00.707-.707L10.707 10l3.64-3.641a.5.5 0 000-.707z"
+            />
+          </svg>
+        </button>
+      </div>
+      <% } %> <%- body %>
+    </div>
+
+    <script src="/flowbite/dist/flowbite.min.js"></script>
+    <script src="/js/preLoading.js"></script>
+    <script>
+      var themeToggleDarkIcon = document.getElementById(
+        "theme-toggle-dark-icon"
+      );
+      var themeToggleLightIcon = document.getElementById(
+        "theme-toggle-light-icon"
+      );
+
+      if (
+        localStorage.getItem("color-theme") === "dark" ||
+        (!("color-theme" in localStorage) &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        themeToggleLightIcon.classList.remove("hidden");
+      } else {
+        themeToggleDarkIcon.classList.remove("hidden");
+      }
+
+      var themeToggleBtn = document.getElementById("theme-toggle");
+
+      themeToggleBtn.addEventListener("click", function () {
+        themeToggleDarkIcon.classList.toggle("hidden");
+        themeToggleLightIcon.classList.toggle("hidden");
+
+        if (localStorage.getItem("color-theme")) {
+          if (localStorage.getItem("color-theme") === "light") {
+            document.documentElement.classList.add("dark");
+            localStorage.setItem("color-theme", "dark");
+          } else {
+            document.documentElement.classList.remove("dark");
+            localStorage.setItem("color-theme", "light");
+          }
+        } else {
+          if (document.documentElement.classList.contains("dark")) {
+            document.documentElement.classList.remove("dark");
+            localStorage.setItem("color-theme", "light");
+          } else {
+            document.documentElement.classList.add("dark");
+            localStorage.setItem("color-theme", "dark");
+          }
+        }
+      });
+
+      function changeLanguage(event) {
+        const selectedLang = event.target.value;
+        const currentUrl = window.location.origin + window.location.pathname;
+        const searchParams = new URLSearchParams(window.location.search);
+        searchParams.set("lang", selectedLang);
+        window.location.href = currentUrl + "?" + searchParams.toString();
+      }
+
+      function showModal(title, content, footer = false) {
+        const existingModal = document.getElementById("dynamic-modal");
+        if (existingModal) {
+          existingModal.remove();
+        }
+
+        const modal = document.createElement("div");
+        modal.id = "dynamic-modal";
+        modal.className =
+          "fixed inset-0 flex items-center justify-center bg-black/80 z-50";
+        modal.addEventListener("click", closeModal);
+
+        const modalContent = document.createElement("div");
+        modalContent.className =
+          "relative w-full max-w-2xl max-h-full bg-light-secondary rounded-lg shadow-sm dark:bg-dark-secondary";
+        modalContent.addEventListener("click", (event) =>
+          event.stopPropagation()
+        );
+
+        const footerContent = footer
+          ? `
+                <div class="flex items-center justify-end p-4 space-x-3 border-t border-gray-200 rounded-b dark:border-gray-600">
+                    <button onclick="closeModal()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg">Cancle</button>
+                    <button class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700">Confirm</button>
+                </div>`
+          : "";
+
+        modalContent.innerHTML = `
+          <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600 border-gray-200">
+              <h3 class="text-xl font-semibold text-gray-900 dark:text-white">${title}</h3>
+          </div>
+          <div class="p-4 space-y-4 overflow-y-auto" style="max-height: calc(80vh - 120px);">
+              ${content}
+          </div>
+          ${footerContent}`;
+
+        modal.appendChild(modalContent);
+        document.body.appendChild(modal);
+      }
+
+      function closeModal() {
+        const modal = document.getElementById("dynamic-modal");
+        if (modal) {
+          modal.remove();
+        }
+      }
+
+      function showModalPopup(message, isSuccess = true) {
+        const modal = document.createElement("div");
+        modal.className =
+          "fixed inset-0 flex items-center justify-center bg-black/80 z-50";
+
+        modal.innerHTML = `
+          <div class="bg-white dark:bg-dark-secondary rounded-lg shadow-lg p-6 w-96 max-h-96 overflow-y-auto">
+            <h3 class="text-lg font-semibold ${
+              isSuccess ? "text-green-600" : "text-red-600"
+            }">
+              ${isSuccess ? translations.success : translations.error}
+            </h3>
+            <p class="mt-2 text-gray-700 dark:text-gray-300">${message}</p>
+            <div class="mt-4 flex justify-end">
+              <button class="close-modal w-24 flex items-center justify-center font-medium text-sm px-2 py-2 gap-1 rounded-lg text-dark-text bg-dark-background dark:text-light-text dark:bg-light-background">
+                ${translations.ok}
+              </button>
+            </div>
+          </div>`;
+
+        document.body.appendChild(modal);
+
+        modal.querySelector(".close-modal").addEventListener("click", () => {
+          modal.remove();
+          if (isSuccess) {
+            location.reload();
+          }
+        });
+
+        if (isSuccess) {
+          setTimeout(() => {
+            modal.remove();
+            location.reload();
+          }, 3000);
+        }
+      }
+    </script>
+  </body>
+</html>

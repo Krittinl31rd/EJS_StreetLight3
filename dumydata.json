@@ -1,0 +1,2180 @@
+[
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2004",
+        "input": {
+            "volt": 12.85,
+            "current": 1.88
+        },
+        "output": {
+            "volt": 11.71,
+            "current": 1.66
+        },
+        "battery": {
+            "level": 86,
+            "charge": 1
+        },
+        "env": {
+            "temp": 26.8,
+            "humid": 67.9
+        },
+        "created_at": "2025-03-08T01:53:17.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2002",
+        "input": {
+            "volt": 12.82,
+            "current": 1.58
+        },
+        "output": {
+            "volt": 11.98,
+            "current": 1.43
+        },
+        "battery": {
+            "level": 63,
+            "charge": 0
+        },
+        "env": {
+            "temp": 22.8,
+            "humid": 52.8
+        },
+        "created_at": "2025-03-07T21:40:18.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2002",
+        "input": {
+            "volt": 12.08,
+            "current": 1.47
+        },
+        "output": {
+            "volt": 12.34,
+            "current": 1.43
+        },
+        "battery": {
+            "level": 72,
+            "charge": 0
+        },
+        "env": {
+            "temp": 25.6,
+            "humid": 50.7
+        },
+        "created_at": "2025-03-07T16:18:22.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.38,
+            "current": 1.44
+        },
+        "output": {
+            "volt": 11.82,
+            "current": 1.99
+        },
+        "battery": {
+            "level": 68,
+            "charge": 1
+        },
+        "env": {
+            "temp": 20.5,
+            "humid": 69.9
+        },
+        "created_at": "2025-03-07T10:11:43.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2003",
+        "input": {
+            "volt": 12.8,
+            "current": 1.69
+        },
+        "output": {
+            "volt": 11.86,
+            "current": 1.45
+        },
+        "battery": {
+            "level": 67,
+            "charge": 1
+        },
+        "env": {
+            "temp": 23,
+            "humid": 66
+        },
+        "created_at": "2025-03-07T08:49:10.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2004",
+        "input": {
+            "volt": 12.72,
+            "current": 1.35
+        },
+        "output": {
+            "volt": 11.51,
+            "current": 1.59
+        },
+        "battery": {
+            "level": 53,
+            "charge": 0
+        },
+        "env": {
+            "temp": 23.5,
+            "humid": 69.2
+        },
+        "created_at": "2025-03-06T23:24:35.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2004",
+        "input": {
+            "volt": 12.01,
+            "current": 1.22
+        },
+        "output": {
+            "volt": 11.89,
+            "current": 1.6
+        },
+        "battery": {
+            "level": 59,
+            "charge": 0
+        },
+        "env": {
+            "temp": 23.5,
+            "humid": 56.2
+        },
+        "created_at": "2025-03-06T21:26:13.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.53,
+            "current": 1.45
+        },
+        "output": {
+            "volt": 11.54,
+            "current": 1.43
+        },
+        "battery": {
+            "level": 87,
+            "charge": 1
+        },
+        "env": {
+            "temp": 24.6,
+            "humid": 65.1
+        },
+        "created_at": "2025-03-06T16:40:18.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.23,
+            "current": 1.59
+        },
+        "output": {
+            "volt": 12,
+            "current": 1.24
+        },
+        "battery": {
+            "level": 63,
+            "charge": 0
+        },
+        "env": {
+            "temp": 24.4,
+            "humid": 66.1
+        },
+        "created_at": "2025-03-06T15:55:35.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2003",
+        "input": {
+            "volt": 12.11,
+            "current": 1.94
+        },
+        "output": {
+            "volt": 11.99,
+            "current": 1.55
+        },
+        "battery": {
+            "level": 64,
+            "charge": 1
+        },
+        "env": {
+            "temp": 24.7,
+            "humid": 50.4
+        },
+        "created_at": "2025-03-06T14:04:17.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.26,
+            "current": 1.59
+        },
+        "output": {
+            "volt": 12.29,
+            "current": 1.38
+        },
+        "battery": {
+            "level": 56,
+            "charge": 1
+        },
+        "env": {
+            "temp": 27.9,
+            "humid": 51.8
+        },
+        "created_at": "2025-03-06T07:14:32.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.56,
+            "current": 1.03
+        },
+        "output": {
+            "volt": 11.93,
+            "current": 1.17
+        },
+        "battery": {
+            "level": 89,
+            "charge": 1
+        },
+        "env": {
+            "temp": 26.8,
+            "humid": 58.5
+        },
+        "created_at": "2025-03-06T06:23:17.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2004",
+        "input": {
+            "volt": 12.59,
+            "current": 1.55
+        },
+        "output": {
+            "volt": 12.14,
+            "current": 1.37
+        },
+        "battery": {
+            "level": 87,
+            "charge": 0
+        },
+        "env": {
+            "temp": 26.8,
+            "humid": 60.5
+        },
+        "created_at": "2025-03-05T10:10:52.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2002",
+        "input": {
+            "volt": 12.41,
+            "current": 1.73
+        },
+        "output": {
+            "volt": 12.14,
+            "current": 1.4
+        },
+        "battery": {
+            "level": 72,
+            "charge": 1
+        },
+        "env": {
+            "temp": 27.9,
+            "humid": 62.2
+        },
+        "created_at": "2025-03-05T09:32:26.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.53,
+            "current": 1.48
+        },
+        "output": {
+            "volt": 11.97,
+            "current": 1.66
+        },
+        "battery": {
+            "level": 87,
+            "charge": 0
+        },
+        "env": {
+            "temp": 22.9,
+            "humid": 66.3
+        },
+        "created_at": "2025-03-05T02:55:54.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.87,
+            "current": 1.64
+        },
+        "output": {
+            "volt": 11.62,
+            "current": 1.49
+        },
+        "battery": {
+            "level": 72,
+            "charge": 0
+        },
+        "env": {
+            "temp": 21.3,
+            "humid": 51.5
+        },
+        "created_at": "2025-03-05T01:10:59.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2002",
+        "input": {
+            "volt": 12.4,
+            "current": 1.91
+        },
+        "output": {
+            "volt": 12.21,
+            "current": 1.49
+        },
+        "battery": {
+            "level": 72,
+            "charge": 0
+        },
+        "env": {
+            "temp": 21.5,
+            "humid": 68.3
+        },
+        "created_at": "2025-03-04T20:42:09.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.81,
+            "current": 1.6
+        },
+        "output": {
+            "volt": 11.94,
+            "current": 1.33
+        },
+        "battery": {
+            "level": 59,
+            "charge": 0
+        },
+        "env": {
+            "temp": 23.7,
+            "humid": 68.3
+        },
+        "created_at": "2025-03-04T11:14:08.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2002",
+        "input": {
+            "volt": 12.39,
+            "current": 1.92
+        },
+        "output": {
+            "volt": 12.15,
+            "current": 1.54
+        },
+        "battery": {
+            "level": 52,
+            "charge": 0
+        },
+        "env": {
+            "temp": 20.1,
+            "humid": 56.3
+        },
+        "created_at": "2025-03-04T06:46:18.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2004",
+        "input": {
+            "volt": 12.45,
+            "current": 1.87
+        },
+        "output": {
+            "volt": 12.12,
+            "current": 1.21
+        },
+        "battery": {
+            "level": 73,
+            "charge": 1
+        },
+        "env": {
+            "temp": 29.7,
+            "humid": 63.4
+        },
+        "created_at": "2025-03-04T02:26:10.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.84,
+            "current": 1.39
+        },
+        "output": {
+            "volt": 12.25,
+            "current": 1.33
+        },
+        "battery": {
+            "level": 55,
+            "charge": 0
+        },
+        "env": {
+            "temp": 28.1,
+            "humid": 53.8
+        },
+        "created_at": "2025-03-03T23:39:52.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2004",
+        "input": {
+            "volt": 12.05,
+            "current": 1.68
+        },
+        "output": {
+            "volt": 12.39,
+            "current": 1.38
+        },
+        "battery": {
+            "level": 78,
+            "charge": 1
+        },
+        "env": {
+            "temp": 20.9,
+            "humid": 59.1
+        },
+        "created_at": "2025-03-03T22:41:25.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2003",
+        "input": {
+            "volt": 12.42,
+            "current": 1.32
+        },
+        "output": {
+            "volt": 11.68,
+            "current": 1.77
+        },
+        "battery": {
+            "level": 89,
+            "charge": 1
+        },
+        "env": {
+            "temp": 22.1,
+            "humid": 57.5
+        },
+        "created_at": "2025-03-03T13:29:45.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2004",
+        "input": {
+            "volt": 12.97,
+            "current": 1.58
+        },
+        "output": {
+            "volt": 11.77,
+            "current": 1.6
+        },
+        "battery": {
+            "level": 97,
+            "charge": 0
+        },
+        "env": {
+            "temp": 26.7,
+            "humid": 50.4
+        },
+        "created_at": "2025-03-03T11:45:30.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2004",
+        "input": {
+            "volt": 12.11,
+            "current": 1.37
+        },
+        "output": {
+            "volt": 11.98,
+            "current": 1.49
+        },
+        "battery": {
+            "level": 76,
+            "charge": 1
+        },
+        "env": {
+            "temp": 23,
+            "humid": 69
+        },
+        "created_at": "2025-03-03T03:35:29.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.04,
+            "current": 1.42
+        },
+        "output": {
+            "volt": 12.38,
+            "current": 1.16
+        },
+        "battery": {
+            "level": 87,
+            "charge": 1
+        },
+        "env": {
+            "temp": 27.1,
+            "humid": 57.5
+        },
+        "created_at": "2025-03-02T22:12:21.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2003",
+        "input": {
+            "volt": 12.78,
+            "current": 1.82
+        },
+        "output": {
+            "volt": 11.85,
+            "current": 1.56
+        },
+        "battery": {
+            "level": 93,
+            "charge": 0
+        },
+        "env": {
+            "temp": 23.3,
+            "humid": 56.5
+        },
+        "created_at": "2025-03-02T21:29:45.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2002",
+        "input": {
+            "volt": 12.95,
+            "current": 1.99
+        },
+        "output": {
+            "volt": 12.31,
+            "current": 1.61
+        },
+        "battery": {
+            "level": 60,
+            "charge": 0
+        },
+        "env": {
+            "temp": 28,
+            "humid": 57.8
+        },
+        "created_at": "2025-03-02T16:33:04.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2003",
+        "input": {
+            "volt": 12.34,
+            "current": 1.11
+        },
+        "output": {
+            "volt": 11.74,
+            "current": 1.5
+        },
+        "battery": {
+            "level": 62,
+            "charge": 1
+        },
+        "env": {
+            "temp": 27,
+            "humid": 51.5
+        },
+        "created_at": "2025-03-02T06:26:44.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2002",
+        "input": {
+            "volt": 12.65,
+            "current": 1.84
+        },
+        "output": {
+            "volt": 11.89,
+            "current": 1.11
+        },
+        "battery": {
+            "level": 66,
+            "charge": 1
+        },
+        "env": {
+            "temp": 26.8,
+            "humid": 53.4
+        },
+        "created_at": "2025-03-02T02:38:17.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.86,
+            "current": 1.69
+        },
+        "output": {
+            "volt": 12.21,
+            "current": 1.76
+        },
+        "battery": {
+            "level": 54,
+            "charge": 0
+        },
+        "env": {
+            "temp": 25.5,
+            "humid": 64.9
+        },
+        "created_at": "2025-03-01T21:46:12.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.28,
+            "current": 1.05
+        },
+        "output": {
+            "volt": 11.58,
+            "current": 1.67
+        },
+        "battery": {
+            "level": 83,
+            "charge": 1
+        },
+        "env": {
+            "temp": 21.3,
+            "humid": 65.1
+        },
+        "created_at": "2025-03-01T21:42:42.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2003",
+        "input": {
+            "volt": 12.3,
+            "current": 1.84
+        },
+        "output": {
+            "volt": 11.52,
+            "current": 1.82
+        },
+        "battery": {
+            "level": 66,
+            "charge": 0
+        },
+        "env": {
+            "temp": 28.8,
+            "humid": 66.9
+        },
+        "created_at": "2025-03-01T10:29:16.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.21,
+            "current": 1.75
+        },
+        "output": {
+            "volt": 12.23,
+            "current": 1.33
+        },
+        "battery": {
+            "level": 76,
+            "charge": 1
+        },
+        "env": {
+            "temp": 20.5,
+            "humid": 65.1
+        },
+        "created_at": "2025-03-01T06:06:19.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2003",
+        "input": {
+            "volt": 12.17,
+            "current": 1.35
+        },
+        "output": {
+            "volt": 12.2,
+            "current": 1.71
+        },
+        "battery": {
+            "level": 96,
+            "charge": 0
+        },
+        "env": {
+            "temp": 23.1,
+            "humid": 52.7
+        },
+        "created_at": "2025-03-01T04:53:33.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2003",
+        "input": {
+            "volt": 12.98,
+            "current": 1.31
+        },
+        "output": {
+            "volt": 11.91,
+            "current": 1.06
+        },
+        "battery": {
+            "level": 94,
+            "charge": 1
+        },
+        "env": {
+            "temp": 28.3,
+            "humid": 69.4
+        },
+        "created_at": "2025-03-01T04:37:13.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2002",
+        "input": {
+            "volt": 12.87,
+            "current": 1.03
+        },
+        "output": {
+            "volt": 12.3,
+            "current": 1.1
+        },
+        "battery": {
+            "level": 68,
+            "charge": 0
+        },
+        "env": {
+            "temp": 29.2,
+            "humid": 50.9
+        },
+        "created_at": "2025-02-28T17:22:27.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.63,
+            "current": 1.85
+        },
+        "output": {
+            "volt": 12.38,
+            "current": 1.46
+        },
+        "battery": {
+            "level": 52,
+            "charge": 0
+        },
+        "env": {
+            "temp": 25.2,
+            "humid": 56.4
+        },
+        "created_at": "2025-02-28T09:42:08.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2003",
+        "input": {
+            "volt": 12.64,
+            "current": 1.03
+        },
+        "output": {
+            "volt": 11.86,
+            "current": 1.3
+        },
+        "battery": {
+            "level": 58,
+            "charge": 0
+        },
+        "env": {
+            "temp": 23.7,
+            "humid": 67.2
+        },
+        "created_at": "2025-02-28T07:32:22.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2004",
+        "input": {
+            "volt": 12.6,
+            "current": 1
+        },
+        "output": {
+            "volt": 12.05,
+            "current": 1.73
+        },
+        "battery": {
+            "level": 63,
+            "charge": 0
+        },
+        "env": {
+            "temp": 25.3,
+            "humid": 63.1
+        },
+        "created_at": "2025-02-28T01:43:36.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2003",
+        "input": {
+            "volt": 12.66,
+            "current": 1.87
+        },
+        "output": {
+            "volt": 12.36,
+            "current": 1.7
+        },
+        "battery": {
+            "level": 64,
+            "charge": 1
+        },
+        "env": {
+            "temp": 20.7,
+            "humid": 50.9
+        },
+        "created_at": "2025-02-28T01:31:02.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.25,
+            "current": 1.63
+        },
+        "output": {
+            "volt": 12.47,
+            "current": 1.92
+        },
+        "battery": {
+            "level": 97,
+            "charge": 0
+        },
+        "env": {
+            "temp": 28,
+            "humid": 68.7
+        },
+        "created_at": "2025-02-27T23:29:04.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2004",
+        "input": {
+            "volt": 12.01,
+            "current": 1.19
+        },
+        "output": {
+            "volt": 11.58,
+            "current": 1.79
+        },
+        "battery": {
+            "level": 61,
+            "charge": 1
+        },
+        "env": {
+            "temp": 20,
+            "humid": 69.6
+        },
+        "created_at": "2025-02-27T14:12:09.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.86,
+            "current": 1.25
+        },
+        "output": {
+            "volt": 11.68,
+            "current": 1.17
+        },
+        "battery": {
+            "level": 83,
+            "charge": 1
+        },
+        "env": {
+            "temp": 20,
+            "humid": 69.5
+        },
+        "created_at": "2025-02-27T04:17:48.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.45,
+            "current": 1.37
+        },
+        "output": {
+            "volt": 11.91,
+            "current": 1.64
+        },
+        "battery": {
+            "level": 88,
+            "charge": 1
+        },
+        "env": {
+            "temp": 23.8,
+            "humid": 57.2
+        },
+        "created_at": "2025-02-26T23:42:04.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2002",
+        "input": {
+            "volt": 12.74,
+            "current": 1.17
+        },
+        "output": {
+            "volt": 11.87,
+            "current": 1.84
+        },
+        "battery": {
+            "level": 61,
+            "charge": 1
+        },
+        "env": {
+            "temp": 28.1,
+            "humid": 63.6
+        },
+        "created_at": "2025-02-26T21:03:52.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2002",
+        "input": {
+            "volt": 12.07,
+            "current": 1.37
+        },
+        "output": {
+            "volt": 11.56,
+            "current": 1.87
+        },
+        "battery": {
+            "level": 53,
+            "charge": 0
+        },
+        "env": {
+            "temp": 24.8,
+            "humid": 61.6
+        },
+        "created_at": "2025-02-26T18:39:45.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2004",
+        "input": {
+            "volt": 12,
+            "current": 1.75
+        },
+        "output": {
+            "volt": 12.06,
+            "current": 1.78
+        },
+        "battery": {
+            "level": 67,
+            "charge": 0
+        },
+        "env": {
+            "temp": 28.8,
+            "humid": 69.9
+        },
+        "created_at": "2025-02-26T14:23:31.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.39,
+            "current": 1.23
+        },
+        "output": {
+            "volt": 11.79,
+            "current": 1.18
+        },
+        "battery": {
+            "level": 58,
+            "charge": 1
+        },
+        "env": {
+            "temp": 25.4,
+            "humid": 65.6
+        },
+        "created_at": "2025-02-26T09:36:38.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2002",
+        "input": {
+            "volt": 12.7,
+            "current": 1.57
+        },
+        "output": {
+            "volt": 11.63,
+            "current": 1.32
+        },
+        "battery": {
+            "level": 52,
+            "charge": 0
+        },
+        "env": {
+            "temp": 28,
+            "humid": 54.1
+        },
+        "created_at": "2025-02-26T03:53:17.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.55,
+            "current": 1.93
+        },
+        "output": {
+            "volt": 12.25,
+            "current": 1.36
+        },
+        "battery": {
+            "level": 71,
+            "charge": 1
+        },
+        "env": {
+            "temp": 29.2,
+            "humid": 66.5
+        },
+        "created_at": "2025-02-25T23:40:31.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2003",
+        "input": {
+            "volt": 13,
+            "current": 1.33
+        },
+        "output": {
+            "volt": 11.88,
+            "current": 1.69
+        },
+        "battery": {
+            "level": 58,
+            "charge": 0
+        },
+        "env": {
+            "temp": 25.2,
+            "humid": 60
+        },
+        "created_at": "2025-02-25T21:25:15.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2003",
+        "input": {
+            "volt": 12.28,
+            "current": 1.96
+        },
+        "output": {
+            "volt": 11.63,
+            "current": 1.83
+        },
+        "battery": {
+            "level": 88,
+            "charge": 1
+        },
+        "env": {
+            "temp": 23.2,
+            "humid": 57
+        },
+        "created_at": "2025-02-25T16:39:01.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2004",
+        "input": {
+            "volt": 12.39,
+            "current": 1.64
+        },
+        "output": {
+            "volt": 11.88,
+            "current": 1.22
+        },
+        "battery": {
+            "level": 59,
+            "charge": 0
+        },
+        "env": {
+            "temp": 20.9,
+            "humid": 58.7
+        },
+        "created_at": "2025-02-25T12:21:36.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2003",
+        "input": {
+            "volt": 12.49,
+            "current": 1.29
+        },
+        "output": {
+            "volt": 11.62,
+            "current": 1.52
+        },
+        "battery": {
+            "level": 67,
+            "charge": 1
+        },
+        "env": {
+            "temp": 28.3,
+            "humid": 57.2
+        },
+        "created_at": "2025-02-24T23:23:21.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2004",
+        "input": {
+            "volt": 12.34,
+            "current": 1.37
+        },
+        "output": {
+            "volt": 12.02,
+            "current": 1.92
+        },
+        "battery": {
+            "level": 50,
+            "charge": 0
+        },
+        "env": {
+            "temp": 21.7,
+            "humid": 63.8
+        },
+        "created_at": "2025-02-24T21:54:36.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.36,
+            "current": 1.55
+        },
+        "output": {
+            "volt": 12.15,
+            "current": 1.54
+        },
+        "battery": {
+            "level": 69,
+            "charge": 0
+        },
+        "env": {
+            "temp": 29,
+            "humid": 64.7
+        },
+        "created_at": "2025-02-24T20:43:14.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2004",
+        "input": {
+            "volt": 12.81,
+            "current": 1.24
+        },
+        "output": {
+            "volt": 11.93,
+            "current": 1.35
+        },
+        "battery": {
+            "level": 92,
+            "charge": 0
+        },
+        "env": {
+            "temp": 24.9,
+            "humid": 50
+        },
+        "created_at": "2025-02-24T08:43:22.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2002",
+        "input": {
+            "volt": 12.26,
+            "current": 1.03
+        },
+        "output": {
+            "volt": 11.7,
+            "current": 1.04
+        },
+        "battery": {
+            "level": 60,
+            "charge": 1
+        },
+        "env": {
+            "temp": 25.6,
+            "humid": 65.2
+        },
+        "created_at": "2025-02-24T06:12:52.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2004",
+        "input": {
+            "volt": 12.75,
+            "current": 1.7
+        },
+        "output": {
+            "volt": 12.39,
+            "current": 1.1
+        },
+        "battery": {
+            "level": 93,
+            "charge": 1
+        },
+        "env": {
+            "temp": 23.7,
+            "humid": 52.8
+        },
+        "created_at": "2025-02-24T03:50:35.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2003",
+        "input": {
+            "volt": 12.48,
+            "current": 1.23
+        },
+        "output": {
+            "volt": 11.73,
+            "current": 1.06
+        },
+        "battery": {
+            "level": 78,
+            "charge": 1
+        },
+        "env": {
+            "temp": 23.7,
+            "humid": 59.5
+        },
+        "created_at": "2025-02-24T02:09:35.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2004",
+        "input": {
+            "volt": 12.65,
+            "current": 1.08
+        },
+        "output": {
+            "volt": 12.4,
+            "current": 1.51
+        },
+        "battery": {
+            "level": 83,
+            "charge": 1
+        },
+        "env": {
+            "temp": 21.2,
+            "humid": 55.9
+        },
+        "created_at": "2025-02-23T19:20:05.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2002",
+        "input": {
+            "volt": 12.25,
+            "current": 1.51
+        },
+        "output": {
+            "volt": 12.17,
+            "current": 1.42
+        },
+        "battery": {
+            "level": 83,
+            "charge": 1
+        },
+        "env": {
+            "temp": 22.5,
+            "humid": 61
+        },
+        "created_at": "2025-02-23T12:46:19.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2003",
+        "input": {
+            "volt": 12.34,
+            "current": 1.14
+        },
+        "output": {
+            "volt": 12.34,
+            "current": 1.95
+        },
+        "battery": {
+            "level": 75,
+            "charge": 0
+        },
+        "env": {
+            "temp": 21.4,
+            "humid": 67
+        },
+        "created_at": "2025-02-23T11:26:38.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.87,
+            "current": 1.39
+        },
+        "output": {
+            "volt": 12.21,
+            "current": 1.42
+        },
+        "battery": {
+            "level": 61,
+            "charge": 1
+        },
+        "env": {
+            "temp": 21.7,
+            "humid": 61.5
+        },
+        "created_at": "2025-02-23T03:07:38.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2002",
+        "input": {
+            "volt": 12.63,
+            "current": 1.63
+        },
+        "output": {
+            "volt": 12.09,
+            "current": 1.2
+        },
+        "battery": {
+            "level": 81,
+            "charge": 0
+        },
+        "env": {
+            "temp": 23.4,
+            "humid": 62.7
+        },
+        "created_at": "2025-02-23T01:25:16.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2003",
+        "input": {
+            "volt": 12.04,
+            "current": 1.18
+        },
+        "output": {
+            "volt": 11.64,
+            "current": 1.07
+        },
+        "battery": {
+            "level": 78,
+            "charge": 1
+        },
+        "env": {
+            "temp": 24,
+            "humid": 64.1
+        },
+        "created_at": "2025-02-22T20:19:15.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2004",
+        "input": {
+            "volt": 12.49,
+            "current": 1.71
+        },
+        "output": {
+            "volt": 12.16,
+            "current": 1.88
+        },
+        "battery": {
+            "level": 90,
+            "charge": 1
+        },
+        "env": {
+            "temp": 23.6,
+            "humid": 56.8
+        },
+        "created_at": "2025-02-22T09:02:20.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2003",
+        "input": {
+            "volt": 12.49,
+            "current": 1.44
+        },
+        "output": {
+            "volt": 11.91,
+            "current": 1.35
+        },
+        "battery": {
+            "level": 60,
+            "charge": 1
+        },
+        "env": {
+            "temp": 21.2,
+            "humid": 51.4
+        },
+        "created_at": "2025-02-22T07:35:47.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2004",
+        "input": {
+            "volt": 12.46,
+            "current": 1.83
+        },
+        "output": {
+            "volt": 11.91,
+            "current": 1.11
+        },
+        "battery": {
+            "level": 86,
+            "charge": 0
+        },
+        "env": {
+            "temp": 28.4,
+            "humid": 58.3
+        },
+        "created_at": "2025-02-22T05:08:55.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2003",
+        "input": {
+            "volt": 12,
+            "current": 1.84
+        },
+        "output": {
+            "volt": 11.81,
+            "current": 1.94
+        },
+        "battery": {
+            "level": 56,
+            "charge": 1
+        },
+        "env": {
+            "temp": 20.2,
+            "humid": 69.4
+        },
+        "created_at": "2025-02-21T22:04:09.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2002",
+        "input": {
+            "volt": 12.1,
+            "current": 1.64
+        },
+        "output": {
+            "volt": 11.88,
+            "current": 1.7
+        },
+        "battery": {
+            "level": 91,
+            "charge": 1
+        },
+        "env": {
+            "temp": 29.2,
+            "humid": 50.2
+        },
+        "created_at": "2025-02-21T20:13:55.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.36,
+            "current": 1.35
+        },
+        "output": {
+            "volt": 12.08,
+            "current": 1.52
+        },
+        "battery": {
+            "level": 75,
+            "charge": 1
+        },
+        "env": {
+            "temp": 26.8,
+            "humid": 65.6
+        },
+        "created_at": "2025-02-21T16:21:30.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2003",
+        "input": {
+            "volt": 12.56,
+            "current": 1.14
+        },
+        "output": {
+            "volt": 11.92,
+            "current": 1.64
+        },
+        "battery": {
+            "level": 98,
+            "charge": 1
+        },
+        "env": {
+            "temp": 29.4,
+            "humid": 70
+        },
+        "created_at": "2025-02-21T14:03:19.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2004",
+        "input": {
+            "volt": 12.71,
+            "current": 1.25
+        },
+        "output": {
+            "volt": 11.53,
+            "current": 1.16
+        },
+        "battery": {
+            "level": 78,
+            "charge": 1
+        },
+        "env": {
+            "temp": 27.9,
+            "humid": 57.6
+        },
+        "created_at": "2025-02-21T03:10:22.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2004",
+        "input": {
+            "volt": 12.61,
+            "current": 1.88
+        },
+        "output": {
+            "volt": 12.05,
+            "current": 1.09
+        },
+        "battery": {
+            "level": 70,
+            "charge": 1
+        },
+        "env": {
+            "temp": 29.6,
+            "humid": 65.6
+        },
+        "created_at": "2025-02-21T01:43:27.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.68,
+            "current": 1.06
+        },
+        "output": {
+            "volt": 11.88,
+            "current": 1.22
+        },
+        "battery": {
+            "level": 50,
+            "charge": 1
+        },
+        "env": {
+            "temp": 22.9,
+            "humid": 64.2
+        },
+        "created_at": "2025-02-20T22:51:37.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2002",
+        "input": {
+            "volt": 12.29,
+            "current": 1.81
+        },
+        "output": {
+            "volt": 11.61,
+            "current": 1.85
+        },
+        "battery": {
+            "level": 68,
+            "charge": 0
+        },
+        "env": {
+            "temp": 27.9,
+            "humid": 60
+        },
+        "created_at": "2025-02-20T16:41:13.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2003",
+        "input": {
+            "volt": 12.44,
+            "current": 1.28
+        },
+        "output": {
+            "volt": 11.99,
+            "current": 1.31
+        },
+        "battery": {
+            "level": 61,
+            "charge": 0
+        },
+        "env": {
+            "temp": 21.2,
+            "humid": 59.9
+        },
+        "created_at": "2025-02-20T12:30:43.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2004",
+        "input": {
+            "volt": 12.5,
+            "current": 1.76
+        },
+        "output": {
+            "volt": 12.03,
+            "current": 2
+        },
+        "battery": {
+            "level": 91,
+            "charge": 1
+        },
+        "env": {
+            "temp": 29.8,
+            "humid": 50.6
+        },
+        "created_at": "2025-02-20T03:22:51.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2002",
+        "input": {
+            "volt": 12.42,
+            "current": 1.68
+        },
+        "output": {
+            "volt": 12.45,
+            "current": 1.58
+        },
+        "battery": {
+            "level": 55,
+            "charge": 0
+        },
+        "env": {
+            "temp": 27.2,
+            "humid": 58.1
+        },
+        "created_at": "2025-02-20T00:46:04.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.74,
+            "current": 1.02
+        },
+        "output": {
+            "volt": 12.28,
+            "current": 1.62
+        },
+        "battery": {
+            "level": 85,
+            "charge": 0
+        },
+        "env": {
+            "temp": 26.3,
+            "humid": 55.3
+        },
+        "created_at": "2025-02-19T22:31:19.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2003",
+        "input": {
+            "volt": 12.52,
+            "current": 1.97
+        },
+        "output": {
+            "volt": 11.92,
+            "current": 1.79
+        },
+        "battery": {
+            "level": 66,
+            "charge": 0
+        },
+        "env": {
+            "temp": 25.7,
+            "humid": 64.1
+        },
+        "created_at": "2025-02-19T14:03:43.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 13,
+            "current": 1.51
+        },
+        "output": {
+            "volt": 12.33,
+            "current": 1.06
+        },
+        "battery": {
+            "level": 86,
+            "charge": 0
+        },
+        "env": {
+            "temp": 26.8,
+            "humid": 62
+        },
+        "created_at": "2025-02-19T11:26:47.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2003",
+        "input": {
+            "volt": 12.92,
+            "current": 1.78
+        },
+        "output": {
+            "volt": 12.29,
+            "current": 1.37
+        },
+        "battery": {
+            "level": 77,
+            "charge": 0
+        },
+        "env": {
+            "temp": 23.8,
+            "humid": 67.8
+        },
+        "created_at": "2025-02-19T09:35:18.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2004",
+        "input": {
+            "volt": 12.88,
+            "current": 1.29
+        },
+        "output": {
+            "volt": 11.94,
+            "current": 1.83
+        },
+        "battery": {
+            "level": 53,
+            "charge": 1
+        },
+        "env": {
+            "temp": 28.5,
+            "humid": 68.9
+        },
+        "created_at": "2025-02-18T19:03:59.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.93,
+            "current": 1.85
+        },
+        "output": {
+            "volt": 11.93,
+            "current": 1.54
+        },
+        "battery": {
+            "level": 64,
+            "charge": 1
+        },
+        "env": {
+            "temp": 21.8,
+            "humid": 52.7
+        },
+        "created_at": "2025-02-18T18:41:03.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2002",
+        "input": {
+            "volt": 12.35,
+            "current": 1.29
+        },
+        "output": {
+            "volt": 12.3,
+            "current": 1.42
+        },
+        "battery": {
+            "level": 95,
+            "charge": 0
+        },
+        "env": {
+            "temp": 20.7,
+            "humid": 59.5
+        },
+        "created_at": "2025-02-18T10:46:13.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2004",
+        "input": {
+            "volt": 12.33,
+            "current": 1.64
+        },
+        "output": {
+            "volt": 11.93,
+            "current": 1.04
+        },
+        "battery": {
+            "level": 80,
+            "charge": 1
+        },
+        "env": {
+            "temp": 23.8,
+            "humid": 68.2
+        },
+        "created_at": "2025-02-18T09:58:21.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2003",
+        "input": {
+            "volt": 12.18,
+            "current": 1.72
+        },
+        "output": {
+            "volt": 12.39,
+            "current": 1.35
+        },
+        "battery": {
+            "level": 57,
+            "charge": 0
+        },
+        "env": {
+            "temp": 20.4,
+            "humid": 60.3
+        },
+        "created_at": "2025-02-18T07:15:20.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2004",
+        "input": {
+            "volt": 12.06,
+            "current": 1.32
+        },
+        "output": {
+            "volt": 12.39,
+            "current": 1.22
+        },
+        "battery": {
+            "level": 65,
+            "charge": 0
+        },
+        "env": {
+            "temp": 21.2,
+            "humid": 64.4
+        },
+        "created_at": "2025-02-18T01:20:50.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.64,
+            "current": 1.21
+        },
+        "output": {
+            "volt": 12.31,
+            "current": 1.51
+        },
+        "battery": {
+            "level": 53,
+            "charge": 0
+        },
+        "env": {
+            "temp": 21.3,
+            "humid": 50.3
+        },
+        "created_at": "2025-02-17T18:07:48.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.55,
+            "current": 1.91
+        },
+        "output": {
+            "volt": 12.34,
+            "current": 1.16
+        },
+        "battery": {
+            "level": 75,
+            "charge": 0
+        },
+        "env": {
+            "temp": 24.8,
+            "humid": 58.5
+        },
+        "created_at": "2025-02-17T07:45:47.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2002",
+        "input": {
+            "volt": 12.78,
+            "current": 1.14
+        },
+        "output": {
+            "volt": 12.49,
+            "current": 1.07
+        },
+        "battery": {
+            "level": 78,
+            "charge": 0
+        },
+        "env": {
+            "temp": 29.7,
+            "humid": 57.9
+        },
+        "created_at": "2025-02-17T03:12:07.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.81,
+            "current": 1.81
+        },
+        "output": {
+            "volt": 12.21,
+            "current": 1.62
+        },
+        "battery": {
+            "level": 56,
+            "charge": 0
+        },
+        "env": {
+            "temp": 25.2,
+            "humid": 62.3
+        },
+        "created_at": "2025-02-16T23:13:20.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2002",
+        "input": {
+            "volt": 12.07,
+            "current": 1.73
+        },
+        "output": {
+            "volt": 11.67,
+            "current": 1.77
+        },
+        "battery": {
+            "level": 71,
+            "charge": 0
+        },
+        "env": {
+            "temp": 27,
+            "humid": 55.9
+        },
+        "created_at": "2025-02-16T18:17:40.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2001",
+        "input": {
+            "volt": 12.2,
+            "current": 1.16
+        },
+        "output": {
+            "volt": 11.98,
+            "current": 1.75
+        },
+        "battery": {
+            "level": 71,
+            "charge": 0
+        },
+        "env": {
+            "temp": 25.5,
+            "humid": 52.3
+        },
+        "created_at": "2025-02-16T17:36:26.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2003",
+        "input": {
+            "volt": 12.33,
+            "current": 1.36
+        },
+        "output": {
+            "volt": 12.06,
+            "current": 1.38
+        },
+        "battery": {
+            "level": 69,
+            "charge": 0
+        },
+        "env": {
+            "temp": 26.7,
+            "humid": 64.7
+        },
+        "created_at": "2025-02-16T15:27:38.253Z"
+    },
+    {
+        "log_type": "log",
+        "gateway_id": 5,
+        "device_id": "2002",
+        "input": {
+            "volt": 12.63,
+            "current": 1.68
+        },
+        "output": {
+            "volt": 12.32,
+            "current": 1.73
+        },
+        "battery": {
+            "level": 71,
+            "charge": 1
+        },
+        "env": {
+            "temp": 23.6,
+            "humid": 50.4
+        },
+        "created_at": "2025-02-16T10:00:23.253Z"
+    }
+]

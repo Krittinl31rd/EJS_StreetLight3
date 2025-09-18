@@ -1,0 +1,332 @@
+<div
+    class="flex-1 overflow-y-hidden overflow-x-hidden flex flex-col items-start justify-start gap-4 animate-fade-in-down transition-opacity duration-500 ease-out">
+
+    <div class="w-full flex flex-row items-center justify-end flex-wrap gap-2">
+        <button id="btnCreateSite"
+            class="w-40 flex items-center justify-center font-medium text-sm px-2 py-2 gap-1 rounded-lg text-dark-text bg-dark-background dark:text-light-text dark:bg-light-background"><i
+                class='bx bxs-add-to-queue'></i>
+            Create Site
+        </button>
+    </div>
+
+    <div class="w-full flex items-center justify-between flex-col md:flex-row gap-4">
+        <label for="table-search" class="sr-only">Search</label>
+        <div class="w-full relative">
+            <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                </svg>
+            </div>
+            <input type="text" id="table-search-sites"
+                class="block pt-2 ps-10 text-sm text-light-text rounded-lg w-full sm:w-80 bg-light-background  dark:bg-dark-background dark:text-dark-text"
+                placeholder="search">
+        </div>
+    </div>
+
+    <div class="w-full flex-1 relative overflow-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left rtl:text-right text-light-text dark:text-dark-text">
+            <thead
+                class="text-xs uppercase text-light-text bg-light-background dark:bg-dark-primary dark:text-dark-text">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        #
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Site Name
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        <%= i18n.__('action') %>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+    <div id="paginationContainer" class="w-full flex items-center justify-between">
+
+    </div>
+
+</div>
+
+<script>
+    var translations={
+        createMember: "<%= i18n.__('createMember') %>",
+        enabled: "<%= i18n.__('enabled') %>",
+        disabled: "<%= i18n.__('disabled') %>",
+        status: "<%= i18n.__('status') %>",
+        username: "<%= i18n.__('username') %>",
+        memberName: "<%= i18n.__('memberName') %>",
+        email: "<%= i18n.__('email') %>",
+        role: "<%= i18n.__('role') %>",
+        cancle: "<%= i18n.__('cancle') %>",
+        create: "<%= i18n.__('create') %>",
+        change: "<%= i18n.__('change') %>",
+        showing: "<%= i18n.__('showing') %>",
+        to: "<%= i18n.__('to') %>",
+        of: "<%= i18n.__('of') %>",
+        entries: "<%= i18n.__('entries') %>",
+        delete: "<%= i18n.__('delete') %>",
+        deleteConfirm: "<%= i18n.__('deleteConfirm') %>",
+        textDelete: "<%= i18n.__('textDelete') %>",
+        ok: "<%= i18n.__('ok') %>",
+        error: "<%= i18n.__('error') %>",
+        success: "<%= i18n.__('success') %>",
+    };
+    const sites=<%- JSON.stringify(sites_list)%>;
+    const tableBody=document.querySelector("tbody");
+    const searchInput=document.getElementById("table-search-sites");
+    const paginationContainer=document.getElementById('paginationContainer');
+
+    let currentPage=1;
+    const itemsPerpage=10;
+
+
+    document.getElementById('btnCreateSite').addEventListener('click', () => {
+        let content=`
+            <form id="createSiteForm" class="space-y-4">
+                <div class="grid grid-cols-6 gap-4">
+                    <div class="col-span-6 sm:col-span-3">
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Site Name</label>
+                        <input name="name" type="text" class="w-full text-light-text rounded-lg bg-light-background  dark:bg-dark-primary dark:text-dark-text" required>
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Site Description</label>
+                        <input name="description" type="text" class="w-full text-light-text rounded-lg bg-light-background  dark:bg-dark-primary dark:text-dark-text" required>
+                    </div>
+                </div>
+                <div class="flex items-center justify-end space-x-3 dark:border-gray-600">
+                    <button type="button" onclick="closeModal()" class="w-24 flex items-center justify-center font-medium text-sm px-2 py-2 gap-1 rounded-lg  text-light-text border border-light-text dark:text-dark-text dark:border-dark-text">${translations.cancle}</button>
+                    <button type="submit" class="w-24 flex items-center justify-center font-medium text-sm px-2 py-2 gap-1 rounded-lg text-dark-text bg-dark-background dark:text-light-text dark:bg-light-background"><i class='bx bxs-add-to-queue' ></i>${translations.create}</button>
+                </div>
+            </form>`
+
+        showModal("Create Site", content)
+        handlecreateSiteForm();
+    })
+
+
+    function createTableRow(site, index) {
+        const row=document.createElement("tr");
+        row.className="bg-light-secondary border-b dark:bg-dark-secondary dark:border-gray-700 border-gray-200";
+        row.innerHTML=`
+            <td class="px-6 py-4">${index}</td>
+            <th scope="row" class="flex items-center px-6 py-4 text-light-text whitespace-nowrap dark:text-dark-text">
+                <div class="ps-3">
+                    <div class="text-base font-semibold">${site.name}</div>
+                    <div class="font-normal text-gray-500">${site.description}</div>
+                </div>
+            </th>
+            <td class="px-6 py-4">
+                <button id="btnUpdateSite-${site.id}" class="font-medium text-lg text-yellow-400 dark:text-yellow-400"><i class='bx bxs-edit-alt'></i></button>
+                <button id="btnDeleteConfirm-${site.id}" class="font-medium text-lg text-red-500 dark:text-red-500"><i class='bx bxs-trash'></i></button>
+            </td>
+        `;
+        return row;
+    }
+
+    function renderTable(page, filteredSites) {
+        tableBody.innerHTML="";
+
+        if (filteredSites.length===0) {
+            tableBody.innerHTML=`
+            <tr>
+                <td colspan="6" class="text-center text-gray-500 dark:text-gray-400 py-4">
+                    No results found
+                </td>
+            </tr>
+        `;
+            updatePaginationButtons(filteredSites);
+            return;
+        }
+
+        const start=(page-1)*itemsPerpage;
+        const end=start+itemsPerpage;
+        const paginatedItems=filteredSites.slice(start, end);
+
+        paginatedItems.forEach((site, index) => {
+
+            tableBody.appendChild(createTableRow(site, (start+index+1)));
+
+            document.getElementById('btnUpdateSite-'+site.id).addEventListener(('click'), (e) => {
+                let content=`
+            <form id="updateSiteForm" class="space-y-4">
+                <div class="grid grid-cols-6 gap-4">
+                    <div class="col-span-6 sm:col-span-3">
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Site Name</label>
+                        <input name="name" type="text" class="w-full text-light-text rounded-lg bg-light-background  dark:bg-dark-primary dark:text-dark-text" value="${site.name}" required>
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Site Description</label>
+                        <input name="description" type="text" class="w-full text-light-text rounded-lg bg-light-background  dark:bg-dark-primary dark:text-dark-text" value="${site.description}" required>
+                    </div>
+                </div>
+                <div class="flex items-center justify-end space-x-3 dark:border-gray-600">
+                    <button type="button" onclick="closeModal()" class="w-24 flex items-center justify-center font-medium text-sm px-2 py-2 gap-1 rounded-lg  text-light-text border border-light-text dark:text-dark-text dark:border-dark-text">${translations.cancle}</button>
+                    <button type="submit" class="w-24 flex items-center justify-center font-medium text-sm px-2 py-2 gap-1 rounded-lg text-dark-text bg-dark-background dark:text-light-text dark:bg-light-background"><i class='bx bxs-edit-alt' ></i>${translations.change}</button>
+                </div>
+            </form>
+            `
+                showModal(`${site.name}`, content);
+                handleUpdateSiteForm(site.id);
+            })
+
+            document.getElementById('btnDeleteConfirm-'+site.id).addEventListener(('click'), (e) => {
+                let content=`
+            <p class="text-light-text dark:text-dark-text">${translations.textDelete} <span class="text-red-500 underline">${site.name}</span> ?</p>
+            <div class="flex items-center justify-end space-x-3 dark:border-gray-600">
+                <button onclick="closeModal()" class="w-24 flex items-center justify-center font-medium text-sm px-2 py-2 gap-1 rounded-lg  text-light-text border border-light-text dark:text-dark-text dark:border-dark-text">${translations.cancle}</button>
+                <button id="btnDeleteSite-${site.id}" class="w-24 flex items-center justify-center font-medium text-sm px-2 py-2 gap-1 rounded-lg text-dark-text bg-dark-background dark:text-light-text dark:bg-light-background"><i class='bx bxs-trash'></i>${translations.delete}</button>
+            </div>
+                `
+                showModal(translations.deleteConfirm, content,);
+                handleDeleteSite(site);
+            })
+        });
+
+        updatePaginationButtons(filteredSites);
+    }
+
+    function updatePaginationButtons(filteredSites) {
+        paginationContainer.innerHTML="";
+        const totalPages=Math.ceil(filteredSites.length/itemsPerpage);
+        paginationContainer.innerHTML=`
+        <div class="block">${translations.showing} ${(currentPage-1)*itemsPerpage+1} ${translations.to} 
+            ${Math.min(currentPage*itemsPerpage, filteredSites.length)} ${translations.of} ${filteredSites.length} ${translations.entries}</div>
+        <div class="flex items-center gap-2">
+            <button id="prevBtn"
+                class="inline-flex items-center hover:bg-light-primary hover:dark:bg-dark-primary rounded-full p-2">
+                <i class='bx bx-chevron-left'></i>
+            </button>
+            <span>${currentPage} / ${totalPages}</span>
+            <button id="nextBtn"
+                class="inline-flex items-center hover:bg-light-primary hover:dark:bg-dark-primary rounded-full p-2">
+                <i class='bx bx-chevron-right'></i>
+            </button>
+        </div>
+    `;
+        const prevBtn=document.getElementById('prevBtn');
+        prevBtn.disabled=currentPage==1;
+        prevBtn.addEventListener("click", () => changePage(currentPage-1, filteredSites));
+        const nextBtn=document.getElementById('nextBtn');
+        nextBtn.disabled=currentPage==totalPages;
+        nextBtn.addEventListener("click", () => changePage(currentPage+1, filteredSites));
+    }
+
+
+    function changePage(page, filteredSites) {
+        if (page>=1&&page<=Math.ceil(sites.length/itemsPerpage)) {
+            currentPage=page;
+            renderTable(page, filteredSites);
+        }
+    }
+
+    function filterTable() {
+        const searchValue=searchInput.value.trim().toLowerCase();
+
+        const filteredSites=sites.filter(site => {
+            const matchesSearch=site.name.toLowerCase().includes(searchValue)
+            return matchesSearch
+        });
+
+        currentPage=1
+        renderTable(currentPage, filteredSites);
+    }
+
+    renderTable(currentPage, sites);
+    searchInput.addEventListener("input", filterTable);
+
+
+    function handlecreateSiteForm() {
+        const form=document.getElementById('createSiteForm')
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const formData=new FormData(form);
+            const siteData={
+                name: formData.get("name"),
+                description: formData.get("description"),
+            };
+            try {
+                const response=await fetch("/api/create-site", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(siteData),
+                });
+
+                const result=await response.json();
+                if (!response.ok) {
+                    throw new Error(result.message);
+                }
+
+                showModalPopup(result.message, true);
+                form.reset();
+            } catch (error) {
+                console.error("Error:", error.message);
+                showModalPopup(error.message, false);
+            }
+        })
+    }
+
+    function handleUpdateSiteForm(id) {
+        const form=document.getElementById('updateSiteForm');
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const formData=new FormData(form);
+            const siteData={
+                name: formData.get("name"),
+                description: formData.get("description"),
+            };
+            try {
+                const response=await fetch("/api/update-site/"+id, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(siteData),
+                });
+
+                const result=await response.json();
+                if (!response.ok) {
+                    throw new Error(result.message);
+                }
+
+                showModalPopup(result.message, true);
+            } catch (error) {
+                console.error("Error:", error.message);
+                showModalPopup(error.message, false);
+            }
+        })
+    }
+
+    function handleDeleteSite(site) {
+        const btn=document.getElementById('btnDeleteSite-'+site.id);
+        btn.addEventListener('click', async (e) => {
+            try {
+                const response=await fetch("/api/delete-site/"+site.id, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+
+                const result=await response.json();
+                if (!response.ok) {
+                    throw new Error(result.message);
+                }
+
+                showModalPopup(result.message, true);
+
+            } catch (error) {
+                console.error("Error:", error.message);
+                showModalPopup(error.message, false);
+            }
+        })
+    }
+
+</script>

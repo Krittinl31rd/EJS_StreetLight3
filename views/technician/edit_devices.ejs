@@ -1,0 +1,296 @@
+<div
+    class="flex-1 overflow-y-hidden overflow-x-hidden flex flex-col lg:flex-row items-start justify-start gap-4 animate-fade-in-down transition-opacity duration-500 ease-out">
+
+    <div class="relative w-full h-full rounded-lg">
+        <!-- <div class="absolute top-4 left-1/2 -translate-x-1/2 z-10 w-full max-w-md">
+            <input type="text" id="searchBox" placeholder="Search nearby"
+                class="z-20 block w-full ps-4 p-2 text-sm rounded-lg border text-light-text  bg-light-background border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300" />
+        </div> -->
+        <div id="googleMap" class="w-full h-full rounded-lg"></div>
+    </div>
+
+    <div class="h-[400px] w-full lg:w-[400px] lg:h-full flex flex-col rounded-lg bg-gradient-to-br 
+                from-[#F4F6F8] via-[#ECE9F9] via-70% to-[#F7E6F2] 
+                dark:from-[#171717] dark:via-[#23212B] dark:via-70% dark:to-[#2B2527]">
+
+        <div id="tabMap" class="flex flex-col w-full h-full px-2 py-4 space-y-4">
+            <div class="flex items-center relative">
+                <input type="text" id="searchData"
+                    class="z-20 block w-full ps-4 p-2.5 text-sm rounded-lg rounded-r-none  border border-r-0  text-light-text  bg-light-background border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300"
+                    placeholder="Search" required />
+                <button id="searchDataBtn"
+                    class="z-20 flex items-center h-full px-4 py-1 rounded-r-lg text-xl bg-purple-500 dark:bg-[#77DDFF] text-white dark:text-black"><i
+                        class='bx bx-search'></i></button>
+                <!-- search recommend -->
+                <div id="inputSearchShow"
+                    class="hidden overflow-y-auto z-10 absolute w-full max-h-64 top-10 left-0 rounded-bl-lg rounded-br-lg border shadow-xl dark:border-gray-600  bg-white dark:bg-[#1C1E1F] ">
+                </div>
+            </div>
+
+            <div id="tableDevices" class="flex-1 w-full overflow-auto space-y-2">
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYZDA2s7REmeois7IiulX5lW7F1JnaP4o&libraries=places&callback=initMap"
+    async defer></script>
+
+<script>
+    var translations={
+        ok: "<%= i18n.__('ok') %>",
+        error: "<%= i18n.__('error') %>",
+        success: "<%= i18n.__('success') %>",
+    };
+    const site_label=<%- JSON.stringify(site_label)%>;
+    const deviceList=<%- JSON.stringify(deviceList)%>;
+    let map, infoWindow, configOpened;
+    const latlongList=[];
+    const searchData=document.getElementById("searchData");
+    const searchDataBtn=document.getElementById("searchDataBtn");
+    const inputSearchShow=document.getElementById("inputSearchShow");
+    const tableDevices=document.getElementById("tableDevices");
+    console.log(deviceList);
+
+
+    function createTableRow(device) {
+        return `<div class="text-sm p-2 flex items-center justify-between w-full">
+                        <span>${device.device_name||device.gateway_name}</span>
+                        <div class="flex items-center gap-4">
+                            ${device.lat==null||device.long==null? "":
+                `<button onclick="navigateToDevice(${device.gateway_id},${device.device_id})" class="px-1 inline-flex items-center justify-center text-red-500"><i class='bx bxs-pin'></i></button>`}
+                            <button id="updateDevice${device.gateway_id}${device.device_id}" class="px-1 inline-flex items-center justify-center text-blue-500"><i class='bx bxs-pencil'></i></button>
+                            <button class="px-1 inline-flex items-center justify-center text-black"><i class='bx bxs-trash'></i></button>
+                        </div>
+                    </div>`;
+    }
+
+    function renderTable(filteredData) {
+        tableDevices.innerHTML="";
+
+        if (filteredData.length===0) {
+            tableDevices.innerHTML=`
+                <div class="text-sm px-2 flex items-center w-full">
+                    <p class="w-full text-center">No result</p>
+                </div>`;
+            return;
+        }
+
+        filteredData.forEach((device) => {
+            tableDevices.innerHTML+=createTableRow(device);
+            setTimeout(() => {
+                document.getElementById(`updateDevice${device.gateway_id}${device.device_id}`).addEventListener("click", () => {
+                    toggleModal(device);
+                    navigateToDevice(device.gateway_id, device.device_id)
+                });
+            }, 100);
+        });
+
+    }
+
+    function initMap() {
+        const defaultLocation={ lat: 13.736717, lng: 100.523186 };
+        const mapProp={
+            center: defaultLocation,
+            zoom: 18,
+            disableDefaultUI: true,
+            styles: [
+                { featureType: "poi", stylers: [{ visibility: "off" }] },
+                { featureType: "transit", stylers: [{ visibility: "off" }] },
+            ],
+        };
+        map=new google.maps.Map(document.getElementById("googleMap"), mapProp);
+        infoWindow=new google.maps.InfoWindow({ disableAutoPan: true });
+        const bounds=new google.maps.LatLngBounds();
+
+        deviceList.forEach((device, index) => {
+            if (device.lat==null||device.long==null) return;
+
+            const position={
+                lat: device.lat,
+                lng: device.long
+            };
+            const marker=new google.maps.Marker({
+                position: position,
+                draggable: true,
+                map: map,
+                title: device.type=="device"? `[${device.gateway_id}] | [${device.device_id}]${device.device_name}`:`[${device.gateway_id}]${device.gateway_name}`
+            });
+            device.marker=marker;
+            bounds.extend(position);
+
+            device.marker.addListener("click", () => {
+                toggleModal(device);
+            });
+
+            device.marker.addListener("dragend", (event) => {
+                const lat=event.latLng.lat().toFixed(6);
+                const lng=event.latLng.lng().toFixed(6);
+                map.panTo(new google.maps.LatLng(lat, lng));
+                map.setZoom(18);
+                device.lat=parseFloat(lat);
+                device.long=parseFloat(lng);
+            });
+        })
+
+        map.fitBounds(bounds);
+    }
+
+    async function editDevice() {
+
+        showLoading();
+
+        let valid=true;
+
+        const form=document.getElementById(`EditDeviceForm`);
+        const formData=new FormData(form);
+        const lat=formData.get(`lat`);
+        const long=formData.get(`long`);
+        const deviceName=formData.get(`DeviceName`);
+        const gatewayId=formData.get(`GatewayID`);
+        const deviceId=formData.get(`DeviceID`);
+
+        document.getElementById("deviceError").classList.toggle("hidden", gatewayId!=""&&deviceId!="");
+
+        valid=deviceName
+        if (!valid) {
+            hideLoading();
+            return;
+        }
+
+        let msg, status;
+        try {
+            const response=await fetch(`/api/${site_label}/edit-devices`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    gateway_id: parseInt(gatewayId),
+                    device_id: parseInt(deviceId),
+                    device_name: deviceName,
+                    lat: parseFloat(lat),
+                    long: parseFloat(long),
+                }),
+            });
+
+            const result=await response.json();
+            if (!response.ok) {
+                status=0
+                msg=result.message
+            } else {
+                status=1
+                msg=result.message
+            }
+        } catch (error) {
+            console.error("Error:", error.message);
+            status=0
+            msg=error.message
+        } finally {
+            setTimeout(() => {
+                hideLoading();
+            }, 1500)
+            setTimeout(() => {
+                console.log(status)
+                if (status==0) {
+                    showModalPopup(msg, false, false);
+                } else {
+                    const updateDevice=deviceList.find(item => item.gateway_id==gatewayId&&item.device_id==deviceId);
+                    updateDevice.device_name=deviceName;
+                    updateDevice.lat=parseFloat(lat);
+                    updateDevice.long=parseFloat(long);
+                    showModalPopup(msg, true, false);
+                    initMap();
+                    renderTable(deviceList);
+                    navigateToDevice(gatewayId, deviceId);
+                }
+            }, 1500);
+        }
+
+    }
+
+    function toggleModal(device) {
+        let content=`
+            <form id="EditDeviceForm" class="w-full flex flex-col justify-between space-y-4">
+                 <input type="hidden" id="GatewayID${device.gateway_id}${device.device_id}" name="GatewayID" value="${device.gateway_id}">
+                  <input type="hidden" id="DeviceID${device.gateway_id}${device.device_id}" name="DeviceID" value="${device.device_id}">
+                <div class="grid grid-cols-6 gap-4">
+                    <div class="col-span-6">
+                        <label class="block text-sm font-medium dark:text-white">
+                            Device Name
+                        </label>
+                        <div class="flex items-center relative">
+                            <input type="text" id="DeviceName${device.gateway_id}${device.device_id}" name="DeviceName"
+                                class="z-20 block w-full ps-4 p-2 text-sm rounded-lg border text-light-text  bg-light-background border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300"
+                                value="${device.device_name||device.gateway_name}" placeholder="Lamp101, Lamp102" autocomplete="off" />
+                        </div>
+                        <p id="deviceError" class="text-red-500 text-xs hidden">Please input device name.</p>
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <label class="block text-sm font-medium dark:text-white">Latitude</label>
+                        <input type="text" id="lat${device.gateway_id}${device.device_id}" name="lat" value="${parseFloat(device.lat).toFixed(6)}"
+                            class="z-20 block w-full ps-4 p-2 text-sm rounded-lg border text-light-text  bg-light-background border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300"
+                            placeholder="Click on map" readonly />
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <label class="block text-sm font-medium dark:text-white">Longitude</label>
+                        <input type="text" id="long${device.gateway_id}${device.device_id}" name="long" value="${parseFloat(device.long).toFixed(6)}"
+                            class="z-20 block w-full ps-4 p-2 text-sm rounded-lg border text-light-text  bg-light-background border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300"
+                            placeholder="Click on map" readonly />
+                    </div>
+                </div>
+            </form>
+            </div>
+            <div class="flex items-center justify-end p-4 space-x-3 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <button type="button" onclick="closeModal()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg">Close</button>
+                 <button type="button" onclick="editDevice()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Edit Device</button>   
+            </div>
+        `;
+        showModal(`${device.device_name||device.gateway_name}`, content);
+    }
+
+    function navigateToDevice(gatewayId, deviceId) {
+        const device=deviceList.find(item => item.gateway_id==gatewayId&&item.device_id==deviceId);
+        let customContent=`
+        <p class="font-semibold">${device.device_name||device.gateway_name}</p>
+        <p class="font-semibold">Latitude: <span id="pinLat-${gatewayId}-${deviceId}">${device.lat.toFixed(6)}<span></p>
+        <p class="font-semibold">Longitude: <span id="pinLong-${gatewayId}-${deviceId}"><span>${device.long.toFixed(6)}</p>`;
+        map.panTo(device.marker.position);
+        infoWindow.setContent(customContent);
+        infoWindow.open(map, device.marker);
+    }
+
+    function showLoading() {
+        const loadingElem=document.createElement("div");
+        loadingElem.id="loading-overlay";
+        loadingElem.innerHTML=`
+        <div class="fixed inset-0 flex items-center justify-center bg-black/80 z-50">
+            <div class="flex items-center justify-center w-56 h-32 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+                <div role="status">
+                    <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                        viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                            fill="currentColor" />
+                        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                            fill="currentFill" />
+                    </svg>
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    `;
+        document.body.appendChild(loadingElem);
+    }
+
+    function hideLoading() {
+        const loadingElem=document.getElementById("loading-overlay");
+        if (loadingElem) {
+            loadingElem.remove();
+        }
+    }
+
+    renderTable(deviceList);
+</script>
