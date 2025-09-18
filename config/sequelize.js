@@ -7,9 +7,10 @@ const { Sequelize } = require("sequelize");
 // });
 
 const sequelize = new Sequelize("IOTServer_Lekise", "sa", "Archi_123456", {
-  host: "localhost",
+  host: "archismarthome.com",
   dialect: "mssql",
   logging: false,
+  port: 11230
 });
 
 const testConnection = async () => {
