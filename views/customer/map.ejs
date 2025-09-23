@@ -7,7 +7,7 @@
     class="h-[300px] w-full lg:w-[300px] lg:h-full flex flex-col rounded-lg bg-gradient-to-br from-[#F4F6F8] via-[#ECE9F9] via-70% to-[#F7E6F2] dark:from-[#171717] dark:via-[#23212B] dark:via-70% dark:to-[#2B2527]"
   >
     <div id="tabMap" class="flex flex-col w-full h-full px-2 py-4 space-y-4">
-      <div class="w-full flex items-center justify-end">
+      <!-- <div class="w-full flex items-center justify-end">
         <input
           id="log-checkbox"
           type="checkbox"
@@ -19,7 +19,7 @@
           class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
           >Write Log</label
         >
-      </div>
+      </div> -->
 
       <div class="flex items-center relative">
         <input
@@ -91,782 +91,782 @@
 ></script>
 
 <script>
-  var translations={
-      createMember: "<%= i18n.__('createMember') %>",
-      enabled: "<%= i18n.__('enabled') %>",
-      disabled: "<%= i18n.__('disabled') %>",
-      status: "<%= i18n.__('status') %>",
-      username: "<%= i18n.__('username') %>",
-      memberName: "<%= i18n.__('memberName') %>",
-      email: "<%= i18n.__('email') %>",
-      role: "<%= i18n.__('role') %>",
-      cancle: "<%= i18n.__('cancle') %>",
-      create: "<%= i18n.__('create') %>",
-      change: "<%= i18n.__('change') %>",
-      showing: "<%= i18n.__('showing') %>",
-      to: "<%= i18n.__('to') %>",
-      of: "<%= i18n.__('of') %>",
-      entries: "<%= i18n.__('entries') %>",
-      delete: "<%= i18n.__('delete') %>",
-      deleteConfirm: "<%= i18n.__('deleteConfirm') %>",
-      textDelete: "<%= i18n.__('textDelete') %>",
-      ok: "<%= i18n.__('ok') %>",
-      error: "<%= i18n.__('error') %>",
-      success: "<%= i18n.__('success') %>",
-      noMember: "<%= i18n.__('noMember') %>",
-  };
-  const devicesList=<%- JSON.stringify(devicesList)%>;
-  const siteID= <%- JSON.stringify(site_id)%>;
-  console.log(devicesList);
+    var translations={
+        createMember: "<%= i18n.__('createMember') %>",
+        enabled: "<%= i18n.__('enabled') %>",
+        disabled: "<%= i18n.__('disabled') %>",
+        status: "<%= i18n.__('status') %>",
+        username: "<%= i18n.__('username') %>",
+        memberName: "<%= i18n.__('memberName') %>",
+        email: "<%= i18n.__('email') %>",
+        role: "<%= i18n.__('role') %>",
+        cancle: "<%= i18n.__('cancle') %>",
+        create: "<%= i18n.__('create') %>",
+        change: "<%= i18n.__('change') %>",
+        showing: "<%= i18n.__('showing') %>",
+        to: "<%= i18n.__('to') %>",
+        of: "<%= i18n.__('of') %>",
+        entries: "<%= i18n.__('entries') %>",
+        delete: "<%= i18n.__('delete') %>",
+        deleteConfirm: "<%= i18n.__('deleteConfirm') %>",
+        textDelete: "<%= i18n.__('textDelete') %>",
+        ok: "<%= i18n.__('ok') %>",
+        error: "<%= i18n.__('error') %>",
+        success: "<%= i18n.__('success') %>",
+        noMember: "<%= i18n.__('noMember') %>",
+    };
+    const devicesList=<%- JSON.stringify(devicesList)%>;
+    const siteID= <%- JSON.stringify(site_id)%>;
+  //   console.log(devicesList);
 
-  const tableBody=document.getElementById('tableDevices');
-  let currentOpened=null;
-  let map;
-  let infoWindow;
-  let ws;
-  let configOpened;
+    const tableBody=document.getElementById('tableDevices');
+    let currentOpened=null;
+    let map;
+    let infoWindow;
+    let ws;
+    let configOpened;
 
-  function createPanelRow(device) {
-      return `
-          <div class="w-full flex items-center gap-2 text-md font-medium dark:text-white">
-              <span class="relative flex h-2 w-2" id="activeStatusPanel${device.gateway_id}${device.device_id}">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${device.controls[0].last_value==1? "bg-green-500":"bg-red-500"}"></span>
-                  <span class="relative inline-flex rounded-full h-2 w-2 ${device.controls[0].last_value==1? "bg-green-500":"bg-red-500"}"></span>
-              </span>
-              <h3>${device.device_name} <span class="text-xs">#${device.device_id}</span></h3>
-              <span id="badgeStatusPanel${device.gateway_id}${device.device_id}" class="${device.controls[2].last_value==1? "bg-green-200 text-green-800":"bg-red-200 text-red-800"} text-xs font-medium me-2 px-2.5 py-0.5 rounded">
-                  ${device.controls[2].last_value==1? "ON":"OFF"}
-              </span>
-          </div>
-          <div class="flex items-center justify-start gap-2 w-full">
-              <button class="w-[110px] h-[30px] bg-green-400 rounded-md text-black"
-                  id="btnPowerOn${device.gateway_id}${device.device_id}"
-                  ${device.controls[0].last_value==1? "":"disabled"}>
-                  Power On
-              </button>
-              <button class="w-[110px] h-[30px] bg-red-400 rounded-md text-black"
-                  id="btnPowerOff${device.gateway_id}${device.device_id}"
-                  ${device.controls[0].last_value==1? "":"disabled"}>
-                  Power Off
-              </button>
-          </div>
-          <div class="flex flex-col items-start gap-2 w-full">
-              <div class="flex space-x-2">
-                  <h5 class="text-black dark:text-white">Brightness</h5>
-                  <h5 class="text-black dark:text-white">
-                      <span id="rangeBrightnessValue${device.gateway_id}${device.device_id}">
-                          ${device.controls[1].last_value}
-                      </span>%
-                  </h5>
-              </div>
-          </div>
-          <div class="w-full flex flex-col justify-center space-y-2">
-              <div class="w-full flex items-center">
-                  <input id="rangeBrightness${device.gateway_id}${device.device_id}"
-                      ${device.controls[0].last_value==1? "":"disabled"}
-                      value="${device.controls[1].last_value}" min="0" max="100"
-                      type="range"
-                      class="inputRange"
-                      style="background: linear-gradient(90deg, #3b82f6 ${(device.controls[1].last_value/100)*100
-          }%, #374151 ${(device.controls[1].last_value/100)*100
-          }%);" />
-              </div>
-              <div class="grid grid-cols-3">
-                  <label>0</label>
-                  <label class="text-center">50</label>
-                  <label class="text-end">100</label>
-              </div>
-          </div>
-      `;
-  }
+    function createPanelRow(device) {
+        return `
+            <div class="w-full flex items-center gap-2 text-md font-medium dark:text-white">
+                <span class="relative flex h-2 w-2" id="activeStatusPanel${device.gateway_id}${device.device_id}">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${device.controls[0].last_value==1? "bg-green-500":"bg-red-500"}"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 ${device.controls[0].last_value==1? "bg-green-500":"bg-red-500"}"></span>
+                </span>
+                <h3>${device.device_name} <span class="text-xs">#${device.device_id}</span></h3>
+                <span id="badgeStatusPanel${device.gateway_id}${device.device_id}" class="${device.controls[2].last_value==1? "bg-green-200 text-green-800":"bg-red-200 text-red-800"} text-xs font-medium me-2 px-2.5 py-0.5 rounded">
+                    ${device.controls[2].last_value==1? "ON":"OFF"}
+                </span>
+            </div>
+            <div class="flex items-center justify-start gap-2 w-full">
+                <button class="w-[110px] h-[30px] bg-green-400 rounded-md text-black"
+                    id="btnPowerOn${device.gateway_id}${device.device_id}"
+                    ${device.controls[0].last_value==1? "":"disabled"}>
+                    Power On
+                </button>
+                <button class="w-[110px] h-[30px] bg-red-400 rounded-md text-black"
+                    id="btnPowerOff${device.gateway_id}${device.device_id}"
+                    ${device.controls[0].last_value==1? "":"disabled"}>
+                    Power Off
+                </button>
+            </div>
+            <div class="flex flex-col items-start gap-2 w-full">
+                <div class="flex space-x-2">
+                    <h5 class="text-black dark:text-white">Brightness</h5>
+                    <h5 class="text-black dark:text-white">
+                        <span id="rangeBrightnessValue${device.gateway_id}${device.device_id}">
+                            ${device.controls[1].last_value}
+                        </span>%
+                    </h5>
+                </div>
+            </div>
+            <div class="w-full flex flex-col justify-center space-y-2">
+                <div class="w-full flex items-center">
+                    <input id="rangeBrightness${device.gateway_id}${device.device_id}"
+                        ${device.controls[0].last_value==1? "":"disabled"}
+                        value="${device.controls[1].last_value}" min="0" max="100"
+                        type="range"
+                        class="inputRange"
+                        style="background: linear-gradient(90deg, #3b82f6 ${(device.controls[1].last_value/100)*100
+            }%, #374151 ${(device.controls[1].last_value/100)*100
+            }%);" />
+                </div>
+                <div class="grid grid-cols-3">
+                    <label>0</label>
+                    <label class="text-center">50</label>
+                    <label class="text-end">100</label>
+                </div>
+            </div>
+        `;
+    }
 
-  function createTableRow(device) {
-      if (device.type=='gateway') {
-          return `
-                  <div class="text-sm px-2 flex items-center w-full">
-                      <button id="btnNavigateToLamp${device.gateway_id}" class="navigate relative p-2 w-full h-full flex items-center space-x-2 r rounded-lg">
-                          <span class="relative flex h-2 w-2" id="activeStatus${device.gateway_id}">
-                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${device.status===1? 'bg-green-500':device.status===undefined? 'bg-gray-500':'bg-red-500'}"></span>
-                              <span class="relative inline-flex rounded-full h-2 w-2 ${device.status===1? 'bg-green-500':device.status==undefined? 'bg-gray-500':'bg-red-500'}"></span>
-                          </span>
-                          <span>${device.gateway_name}</span>
-                          <span id="badgeStatus${device.gateway_id}" class="${device.status==1? "bg-green-200 text-green-800":device.status==undefined? "bg-gray-200 text-gray-800":"bg-red-200 text-red-800"} text-xs font-medium me-2 px-2.5 py-0.5 rounded">GW</span>
-                      </button>
-                  </div>
-              `
-      } else {
-          return `
-                  <div class="text-sm px-2 flex items-center w-full">
-                      <button id="btnNavigateToLamp${device.gateway_id}${device.device_id}" class="navigate relative p-2 w-full h-full flex items-center space-x-2 r rounded-lg">
-                          <span class="relative flex h-2 w-2" id="activeStatus${device.gateway_id}${device.device_id}">
-                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${device.controls[0].last_value==1? "bg-green-500":"bg-red-500"}"></span>
-                              <span class="relative inline-flex rounded-full h-2 w-2 ${device.controls[0].last_value==1? "bg-green-500":"bg-red-500"}"></span>
-                          </span>
-                          <span>${device.device_name}</span>
-                          <span id="badgeStatus${device.gateway_id}${device.device_id}" class="${device.controls[2].last_value==1? "bg-green-200 text-green-800":"bg-red-200 text-red-800"} text-xs font-medium me-2 px-2.5 py-0.5 rounded">
-                          ${device.controls[2].last_value==1? "ON":"OFF"}</span>
-                      </button>
-                      <button id="btnConfigLamp${device.gateway_id}${device.device_id}"
-                      data-gateway-id="${device.gateway_id}"
-                      data-device-id="${device.device_id}"
-                      class="px-4 py-2"><i class='bx bxs-chevron-right' ></i></button>
-                  </div>
-          `
-      }
-  }
+    function createTableRow(device) {
+        if (device.type=='gateway') {
+            return `
+                    <div class="text-sm px-2 flex items-center w-full">
+                        <button id="btnNavigateToLamp${device.gateway_id}" class="navigate relative p-2 w-full h-full flex items-center space-x-2 r rounded-lg">
+                            <span class="relative flex h-2 w-2" id="activeStatus${device.gateway_id}">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${device.status===1? 'bg-green-500':device.status===undefined? 'bg-gray-500':'bg-red-500'}"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 ${device.status===1? 'bg-green-500':device.status==undefined? 'bg-gray-500':'bg-red-500'}"></span>
+                            </span>
+                            <span>${device.gateway_name}</span>
+                            <span id="badgeStatus${device.gateway_id}" class="${device.status==1? "bg-green-200 text-green-800":device.status==undefined? "bg-gray-200 text-gray-800":"bg-red-200 text-red-800"} text-xs font-medium me-2 px-2.5 py-0.5 rounded">GW</span>
+                        </button>
+                    </div>
+                `
+        } else {
+            return `
+                    <div class="text-sm px-2 flex items-center w-full">
+                        <button id="btnNavigateToLamp${device.gateway_id}${device.device_id}" class="navigate relative p-2 w-full h-full flex items-center space-x-2 r rounded-lg">
+                            <span class="relative flex h-2 w-2" id="activeStatus${device.gateway_id}${device.device_id}">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${device.controls[0].last_value==1? "bg-green-500":"bg-red-500"}"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 ${device.controls[0].last_value==1? "bg-green-500":"bg-red-500"}"></span>
+                            </span>
+                            <span>${device.device_name}</span>
+                            <span id="badgeStatus${device.gateway_id}${device.device_id}" class="${device.controls[2].last_value==1? "bg-green-200 text-green-800":"bg-red-200 text-red-800"} text-xs font-medium me-2 px-2.5 py-0.5 rounded">
+                            ${device.controls[2].last_value==1? "ON":"OFF"}</span>
+                        </button>
+                        <button id="btnConfigLamp${device.gateway_id}${device.device_id}"
+                        data-gateway-id="${device.gateway_id}"
+                        data-device-id="${device.device_id}"
+                        class="px-4 py-2"><i class='bx bxs-chevron-right' ></i></button>
+                    </div>
+            `
+        }
+    }
 
-  function renderTable(filteredData) {
-      tableBody.innerHTML="";
+    function renderTable(filteredData) {
+        tableBody.innerHTML="";
 
-      if (filteredData.length===0) {
-          tableBody.innerHTML=`
-              <div class="text-sm px-2 flex items-center w-full">
-                  <p class="w-full text-center">No result</p>
-              </div>`;
-          return;
-      }
+        if (filteredData.length===0) {
+            tableBody.innerHTML=`
+                <div class="text-sm px-2 flex items-center w-full">
+                    <p class="w-full text-center">No result</p>
+                </div>`;
+            return;
+        }
 
-      filteredData.forEach(device => {
-          if (device.type=='gateway') {
-              if (device.gateway_lat==null||device.gateway_long==null) return
-          } else {
-              if (device.lat==null||device.long==null) return
-          }
+        filteredData.forEach(device => {
+            if (device.type=='gateway') {
+                if (device.gateway_lat==null||device.gateway_long==null) return
+            } else {
+                if (device.lat==null||device.long==null) return
+            }
 
-          tableBody.innerHTML+=createTableRow(device);
-      })
+            tableBody.innerHTML+=createTableRow(device);
+        })
 
-      setTimeout(() => {
-          filteredData.forEach(device => {
-              const btnNavigate=document.getElementById(`btnNavigateToLamp${device.gateway_id}${device.device_id||""}`);
-              if (btnNavigate) {
-                  btnNavigate.addEventListener('click', () => {
-                      navigateToLamp(device)
-                  });
-              }
-              const btnConfig=document.getElementById(`btnConfigLamp${device.gateway_id}${device.device_id||""}`);
-              if (btnConfig) {
-                  btnConfig.addEventListener('click', (e) => {
-                      const gatewayID=e.currentTarget.getAttribute("data-gateway-id");
-                      const deviceID=e.currentTarget.getAttribute("data-device-id");
-                      const device=devicesList.find(d => d.gateway_id==gatewayID&&d.device_id==deviceID);
-                      document.getElementById('bodyPanel').innerHTML=createPanelRow(device)
-                      document.getElementById("devicePanel").classList.remove("hidden");
-                      document.getElementById("tabMap").classList.add("hidden");
-                      const powerOn=document.getElementById(`btnPowerOn${device.gateway_id}${device.device_id||""}`);
-                      if (powerOn) {
-                          powerOn.addEventListener('click', () => {
-                              sendWs('on', device)
-                              sendUsage('on', device)
-                          })
-                      }
-                      const powerOff=document.getElementById(`btnPowerOff${device.gateway_id}${device.device_id||""}`);
-                      if (powerOff) {
-                          powerOff.addEventListener('click', () => {
-                              sendWs('off', device)
-                              sendUsage('off', device)
-                          })
-                      }
-                      const rangeBright=document.getElementById(`rangeBrightness${device.gateway_id}${device.device_id||""}`)
-                      if (rangeBright) {
-                          rangeBright.addEventListener('input', (e) => {
-                              const ratio=(e.target.value-e.target.min)/(e.target.max-e.target.min)*100;
-                              e.target.style.background=`linear-gradient(90deg, #3b82f6 ${ratio}%, #374151 ${ratio}%)`;
-                              let valueBright=document.getElementById(`rangeBrightnessValue${device.gateway_id}${device.device_id}`)
-                              valueBright.innerText=e.target.value;
-                          })
-                          rangeBright.addEventListener('change', (e) => {
-                              const value=parseInt(e.target.value)
-                              sendWs('bright', device, value)
-                              sendUsage('bright', device, value)
-                          })
-                      }
-                  });
-                  document.getElementById("closePanel").addEventListener("click", () => {
-                      document.getElementById("devicePanel").classList.add("hidden");
-                      document.getElementById("tabMap").classList.remove("hidden");
-                  });
-              }
-          });
-      }, 250);
-  }
+        setTimeout(() => {
+            filteredData.forEach(device => {
+                const btnNavigate=document.getElementById(`btnNavigateToLamp${device.gateway_id}${device.device_id||""}`);
+                if (btnNavigate) {
+                    btnNavigate.addEventListener('click', () => {
+                        navigateToLamp(device)
+                    });
+                }
+                const btnConfig=document.getElementById(`btnConfigLamp${device.gateway_id}${device.device_id||""}`);
+                if (btnConfig) {
+                    btnConfig.addEventListener('click', (e) => {
+                        const gatewayID=e.currentTarget.getAttribute("data-gateway-id");
+                        const deviceID=e.currentTarget.getAttribute("data-device-id");
+                        const device=devicesList.find(d => d.gateway_id==gatewayID&&d.device_id==deviceID);
+                        document.getElementById('bodyPanel').innerHTML=createPanelRow(device)
+                        document.getElementById("devicePanel").classList.remove("hidden");
+                        document.getElementById("tabMap").classList.add("hidden");
+                        const powerOn=document.getElementById(`btnPowerOn${device.gateway_id}${device.device_id||""}`);
+                        if (powerOn) {
+                            powerOn.addEventListener('click', () => {
+                                sendWs('on', device)
+                                // sendUsage('on', device)
+                            })
+                        }
+                        const powerOff=document.getElementById(`btnPowerOff${device.gateway_id}${device.device_id||""}`);
+                        if (powerOff) {
+                            powerOff.addEventListener('click', () => {
+                                sendWs('off', device)
+                                // sendUsage('off', device)
+                            })
+                        }
+                        const rangeBright=document.getElementById(`rangeBrightness${device.gateway_id}${device.device_id||""}`)
+                        if (rangeBright) {
+                            rangeBright.addEventListener('input', (e) => {
+                                const ratio=(e.target.value-e.target.min)/(e.target.max-e.target.min)*100;
+                                e.target.style.background=`linear-gradient(90deg, #3b82f6 ${ratio}%, #374151 ${ratio}%)`;
+                                let valueBright=document.getElementById(`rangeBrightnessValue${device.gateway_id}${device.device_id}`)
+                                valueBright.innerText=e.target.value;
+                            })
+                            rangeBright.addEventListener('change', (e) => {
+                                const value=parseInt(e.target.value)
+                                sendWs('bright', device, value)
+                                // sendUsage('bright', device, value)
+                            })
+                        }
+                    });
+                    document.getElementById("closePanel").addEventListener("click", () => {
+                        document.getElementById("devicePanel").classList.add("hidden");
+                        document.getElementById("tabMap").classList.remove("hidden");
+                    });
+                }
+            });
+        }, 250);
+    }
 
-  function filterTable() {
-      const searchValue=document.getElementById('searchData').value.trim().toLowerCase();
-      const isOnlineValue=document.getElementById('selectIsOnline').value;
-      const onOffValue=document.getElementById('selectOnOff').value;
+    function filterTable() {
+        const searchValue=document.getElementById('searchData').value.trim().toLowerCase();
+        const isOnlineValue=document.getElementById('selectIsOnline').value;
+        const onOffValue=document.getElementById('selectOnOff').value;
 
-      if (!searchValue&&!isOnlineValue&&!onOffValue) {
-          renderTable(devicesList);
-      }
+        if (!searchValue&&!isOnlineValue&&!onOffValue) {
+            renderTable(devicesList);
+        }
 
-      const filteredDevices=devicesList.filter(device => {
-          const matchesSearch=searchValue==""||
-              device.device_name?.toLowerCase().includes(searchValue)||
-              device.gateway_name?.toLowerCase().includes(searchValue)
+        const filteredDevices=devicesList.filter(device => {
+            const matchesSearch=searchValue==""||
+                device.device_name?.toLowerCase().includes(searchValue)||
+                device.gateway_name?.toLowerCase().includes(searchValue)
 
-          const matchesIsOnline=isOnlineValue==""||
-              device.controls?.[0]?.last_value==isOnlineValue||device.status==isOnlineValue;
+            const matchesIsOnline=isOnlineValue==""||
+                device.controls?.[0]?.last_value==isOnlineValue||device.status==isOnlineValue;
 
-          const matchesOnOff=onOffValue==""||
-              device.controls?.[2]?.last_value==onOffValue||device.status==onOffValue;
+            const matchesOnOff=onOffValue==""||
+                device.controls?.[2]?.last_value==onOffValue||device.status==onOffValue;
 
-          return matchesSearch&&matchesIsOnline&&matchesOnOff;
-      })
+            return matchesSearch&&matchesIsOnline&&matchesOnOff;
+        })
 
-      renderTable(filteredDevices);
-  }
+        renderTable(filteredDevices);
+    }
 
-  renderTable(devicesList)
-  document.getElementById('searchData').addEventListener('input', filterTable);
-  document.getElementById('selectIsOnline').addEventListener('change', filterTable);
-  document.getElementById('selectOnOff').addEventListener('change', filterTable);
+    renderTable(devicesList)
+    document.getElementById('searchData').addEventListener('input', filterTable);
+    document.getElementById('selectIsOnline').addEventListener('change', filterTable);
+    document.getElementById('selectOnOff').addEventListener('change', filterTable);
 
-  function navigateToLamp(device) {
-      let customContent;
-      if (device.type=='gateway') {
-          currentOpened={ gateway_id: device.gateway_id, device_id: 0 }
-          customContent=`
-                          <div class="flex flex-col text-black gap-y-[8px] font-medium w-full">
-                              <p>Name: ${device.gateway_name}</p>
-                              <p>Type: Gateway</p>
-                              <p>Status:
-                                  <span id="status${device.gateway_id}" class="${device.status==0? "text-red-500":"text-green-500"||""}">
-                                  ${device.status==0? "Offline":"Online"||""}
-                                  </span>
-                              </p>
-                              <button class="bg-red-300 px-[8px] py-[4px] rounded-[4px] w-full" onclick="closeInfoWindow()">Close</button>
-                          </div>
-                          `;
-      } else {
-          const battery=device.controls.find(d => d.control_id==10)
-          currentOpened={ gateway_id: device.gateway_id, device_id: device.device_id }
-          customContent=`
-                          <div class="flex flex-col text-black gap-y-[8px] font-medium w-32">
-                              <p>Name: ${device.device_name}</p>
-                              <p>Type: ${device.device_style}</p>
-                              <p>Status:
-                                  <span id="status${device.gateway_id}${device.device_id}"
-                                  class="${device.controls[0]?.last_value==1? "text-green-500":"text-red-500"}">
-                                  ${device.controls[0]?.last_value==1? "Online":"Offline"}</span>
-                              </p>
-                              <p>Brightness: <span id="bright${device.gateway_id}${device.device_id}">${device.controls[1].last_value}</span>%</p>
-                              <p>Battery: <span id="batt${device.gateway_id}${device.device_id}">${battery.last_value}</span>%</p>
-                              <button class="bg-red-300 px-[8px] py-[4px] rounded-[4px] w-full" onclick="closeInfoWindow()">Close</button>
-                          </div>
-                          `;
-      }
-      map.panTo(device.marker.position);
-      infoWindow.setContent(customContent);
-      infoWindow.open(map, device.marker);
-      document.querySelectorAll(`.navigate`).forEach(btn => btn.classList.remove("activeMarker"));
-      document.getElementById(`btnNavigateToLamp${device.gateway_id}${device.device_id||""}`).classList.add("activeMarker");
-  }
+    function navigateToLamp(device) {
+        let customContent;
+        if (device.type=='gateway') {
+            currentOpened={ gateway_id: device.gateway_id, device_id: 0 }
+            customContent=`
+                            <div class="flex flex-col text-black gap-y-[8px] font-medium w-full">
+                                <p>Name: ${device.gateway_name}</p>
+                                <p>Type: Gateway</p>
+                                <p>Status:
+                                    <span id="status${device.gateway_id}" class="${device.status==0? "text-red-500":"text-green-500"||""}">
+                                    ${device.status==0? "Offline":"Online"||""}
+                                    </span>
+                                </p>
+                                <button class="bg-red-300 px-[8px] py-[4px] rounded-[4px] w-full" onclick="closeInfoWindow()">Close</button>
+                            </div>
+                            `;
+        } else {
+            const battery=device.controls.find(d => d.control_id==10)
+            currentOpened={ gateway_id: device.gateway_id, device_id: device.device_id }
+            customContent=`
+                            <div class="flex flex-col text-black gap-y-[8px] font-medium w-32">
+                                <p>Name: ${device.device_name}</p>
+                                <p>Type: ${device.device_style}</p>
+                                <p>Status:
+                                    <span id="status${device.gateway_id}${device.device_id}"
+                                    class="${device.controls[0]?.last_value==1? "text-green-500":"text-red-500"}">
+                                    ${device.controls[0]?.last_value==1? "Online":"Offline"}</span>
+                                </p>
+                                <p>Brightness: <span id="bright${device.gateway_id}${device.device_id}">${device.controls[1].last_value}</span>%</p>
+                                <p>Battery: <span id="batt${device.gateway_id}${device.device_id}">${battery.last_value}</span>%</p>
+                                <button class="bg-red-300 px-[8px] py-[4px] rounded-[4px] w-full" onclick="closeInfoWindow()">Close</button>
+                            </div>
+                            `;
+        }
+        map.panTo(device.marker.position);
+        infoWindow.setContent(customContent);
+        infoWindow.open(map, device.marker);
+        document.querySelectorAll(`.navigate`).forEach(btn => btn.classList.remove("activeMarker"));
+        document.getElementById(`btnNavigateToLamp${device.gateway_id}${device.device_id||""}`).classList.add("activeMarker");
+    }
 
-  function scrollToContent(device) {
-      const target=document.getElementById(`btnNavigateToLamp${device.gateway_id}${device.device_id||""}`)
-      if (tableBody&&target) {
-          tableBody.scrollTo({
-              top: target.offsetTop-tableBody.offsetTop,
-              behavior: "smooth"
-          });
-      }
-  }
+    function scrollToContent(device) {
+        const target=document.getElementById(`btnNavigateToLamp${device.gateway_id}${device.device_id||""}`)
+        if (tableBody&&target) {
+            tableBody.scrollTo({
+                top: target.offsetTop-tableBody.offsetTop,
+                behavior: "smooth"
+            });
+        }
+    }
 
-  function selectIcon(type) {
-      let icon;
-      switch (type) {
-          case "gateway_offline":
-              icon={
-                  url: "/images/devices_icon/gateway_offline.png",
-                  scaledSize: new google.maps.Size(48, 48),
-              };
-              break;
-          case "gateway_online":
-              icon={
-                  url: "/images/devices_icon/gateway_online.png",
-                  scaledSize: new google.maps.Size(48, 48),
-              };
-              break;
-          case "lamp_offline":
-              icon={
-                  url: "/images/devices_icon/lamp_offline.png",
-                  scaledSize: new google.maps.Size(48, 48),
-              };
-              break;
-          case "lamp_on":
-              icon={
-                  url: "/images/devices_icon/lamp_on.png",
-                  scaledSize: new google.maps.Size(48, 48),
-              };
-              break;
-          case "lamp_off":
-              icon={
-                  url: "/images/devices_icon/lamp_off.png",
-                  scaledSize: new google.maps.Size(48, 48),
-              };
-              break;
-          default:
-              icon=null;
-      }
+    function selectIcon(type) {
+        let icon;
+        switch (type) {
+            case "gateway_offline":
+                icon={
+                    url: "/images/devices_icon/gateway_offline.png",
+                    scaledSize: new google.maps.Size(48, 48),
+                };
+                break;
+            case "gateway_online":
+                icon={
+                    url: "/images/devices_icon/gateway_online.png",
+                    scaledSize: new google.maps.Size(48, 48),
+                };
+                break;
+            case "lamp_offline":
+                icon={
+                    url: "/images/devices_icon/lamp_offline.png",
+                    scaledSize: new google.maps.Size(48, 48),
+                };
+                break;
+            case "lamp_on":
+                icon={
+                    url: "/images/devices_icon/lamp_on.png",
+                    scaledSize: new google.maps.Size(48, 48),
+                };
+                break;
+            case "lamp_off":
+                icon={
+                    url: "/images/devices_icon/lamp_off.png",
+                    scaledSize: new google.maps.Size(48, 48),
+                };
+                break;
+            default:
+                icon=null;
+        }
 
-      return icon;
-  }
+        return icon;
+    }
 
-  function myMap(filteredDevices=devicesList) {
-      const mapProp={
-          center: {
-              lat: 13.788805941974436,
-              lng: 100.6048926829935
-          },
-          zoom: 18,
-          disableDefaultUI: true,
-          styles: [
-              { featureType: "poi", stylers: [{ visibility: "off" }] },
-              { featureType: "transit", stylers: [{ visibility: "off" }] },
-          ],
-      };
-      map=new google.maps.Map(document.getElementById("googleMap"), mapProp);
+    function myMap(filteredDevices=devicesList) {
+        const mapProp={
+            center: {
+                lat: 13.788805941974436,
+                lng: 100.6048926829935
+            },
+            zoom: 18,
+            disableDefaultUI: true,
+            styles: [
+                { featureType: "poi", stylers: [{ visibility: "off" }] },
+                { featureType: "transit", stylers: [{ visibility: "off" }] },
+            ],
+        };
+        map=new google.maps.Map(document.getElementById("googleMap"), mapProp);
 
-      infoWindow=new google.maps.InfoWindow({ disableAutoPan: true });
+        infoWindow=new google.maps.InfoWindow({ disableAutoPan: true });
 
-      hideInfoWindowCloseButton();
+        hideInfoWindowCloseButton();
 
-      const bounds=new google.maps.LatLngBounds();
+        const bounds=new google.maps.LatLngBounds();
 
-      filteredDevices.forEach((device, index) => {
-          const position={
-              lat: device.lat??device.gateway_lat,
-              lng: device.long??device.gateway_long
-          };
-          if (position.lat&&position.lng) {
-              if (device.type=="gateway") {
-                  let icon=selectIcon('gateway_offline')
-                  const marker=new google.maps.Marker({
-                      position: position,
-                      map: map,
-                      icon: icon,
-                      title: `[${device.gateway_id}] | ${device.gateway_name}`,
-                  });
-                  device.marker=marker;
-                  bounds.extend(position);
-                  marker.addListener("click", () => {
-                      currentOpened={ gateway_id: device.gateway_id, device_id: 0 }
-                      const customContent=`
-                          <div class="flex flex-col text-black gap-y-[8px] font-medium w-full">
-                              <p>Name: ${device.gateway_name}</p>
-                              <p>Type: Gateway</p>
-                              <p>Status:
-                                  <span id="status${device.gateway_id}" class="${device.status==0? "text-red-500":"text-green-500"||""}">
-                                  ${device.status==0? "Offline":"Online"||""}
-                                  </span>
-                              </p>
-                              <button class="bg-red-300 px-[8px] py-[4px] rounded-[4px] w-full" onclick="closeInfoWindow()">Close</button>
-                          </div>
-                          `;
-                      infoWindow.setContent(customContent);
-                      infoWindow.open(map, marker);
-                      document.querySelectorAll(`.navigate`).forEach(btn => btn.classList.remove("activeMarker"));
-                      document.getElementById(`btnNavigateToLamp${device.gateway_id}${device.device_id||""}`).classList.add("activeMarker");
-                      scrollToContent(device)
-                  });
-              } else {
-                  const isOnline=device.controls?.[0]?.last_value;
-                  const isStatus=device.controls?.[2]?.last_value;
-                  const battery=device.controls.find((d) => d.control_id==10)
+        filteredDevices.forEach((device, index) => {
+            const position={
+                lat: device.lat??device.gateway_lat,
+                lng: device.long??device.gateway_long
+            };
+            if (position.lat&&position.lng) {
+                if (device.type=="gateway") {
+                    let icon=selectIcon('gateway_offline')
+                    const marker=new google.maps.Marker({
+                        position: position,
+                        map: map,
+                        icon: icon,
+                        title: `[${device.gateway_id}] | ${device.gateway_name}`,
+                    });
+                    device.marker=marker;
+                    bounds.extend(position);
+                    marker.addListener("click", () => {
+                        currentOpened={ gateway_id: device.gateway_id, device_id: 0 }
+                        const customContent=`
+                            <div class="flex flex-col text-black gap-y-[8px] font-medium w-full">
+                                <p>Name: ${device.gateway_name}</p>
+                                <p>Type: Gateway</p>
+                                <p>Status:
+                                    <span id="status${device.gateway_id}" class="${device.status==0? "text-red-500":"text-green-500"||""}">
+                                    ${device.status==0? "Offline":"Online"||""}
+                                    </span>
+                                </p>
+                                <button class="bg-red-300 px-[8px] py-[4px] rounded-[4px] w-full" onclick="closeInfoWindow()">Close</button>
+                            </div>
+                            `;
+                        infoWindow.setContent(customContent);
+                        infoWindow.open(map, marker);
+                        document.querySelectorAll(`.navigate`).forEach(btn => btn.classList.remove("activeMarker"));
+                        document.getElementById(`btnNavigateToLamp${device.gateway_id}${device.device_id||""}`).classList.add("activeMarker");
+                        scrollToContent(device)
+                    });
+                } else {
+                    const isOnline=device.controls?.[0]?.last_value;
+                    const isStatus=device.controls?.[2]?.last_value;
+                    const battery=device.controls.find((d) => d.control_id==10)
 
-                  let icon=selectIcon('lamp_offline')
+                    let icon=selectIcon('lamp_offline')
 
-                  if (isOnline==1) {
-                      if (isStatus==0) {
-                          icon=selectIcon('lamp_off');
-                      } else if (isStatus==1) {
-                          icon=selectIcon('lamp_on');
-                      }
-                  }
+                    if (isOnline==1) {
+                        if (isStatus==0) {
+                            icon=selectIcon('lamp_off');
+                        } else if (isStatus==1) {
+                            icon=selectIcon('lamp_on');
+                        }
+                    }
 
-                  const marker=new google.maps.Marker({
-                      position: position,
-                      map: map,
-                      icon: icon,
-                      title: `[${device.gateway_id}] | [${device.device_id}]${device.device_name}`,
-                  });
+                    const marker=new google.maps.Marker({
+                        position: position,
+                        map: map,
+                        icon: icon,
+                        title: `[${device.gateway_id}] | [${device.device_id}]${device.device_name}`,
+                    });
 
-                  device.marker=marker;
-                  bounds.extend(position);
-                  marker.addListener("click", () => {
-                      currentOpened={ gateway_id: device.gateway_id, device_id: device.device_id }
-                      const customContent=`
-                          <div class="flex flex-col text-black gap-y-[8px] font-medium w-32">
-                              <p>Name: ${device.device_name}</p>
-                              <p>Type: ${device.device_style}</p>
-                              <p>Status:
-                                  <span id="status${device.gateway_id}${device.device_id}"
-                                  class="${device.controls[0]?.last_value==1? "text-green-500":"text-red-500"}">
-                                  ${device.controls[0]?.last_value==1? "Online":"Offline"}</span>
-                              </p>
-                              <p>Brightness: <span id="bright${device.gateway_id}${device.device_id}">${device.controls[1].last_value}</span>%</p>
-                              <p>Battery: <span id="batt${device.gateway_id}${device.device_id}">${battery.last_value}</span>%</p>
-                              <button class="bg-red-300 px-[8px] py-[4px] rounded-[4px] w-full" onclick="closeInfoWindow()">Close</button>
-                          </div>
-                          `;
-                      infoWindow.setContent(customContent);
-                      infoWindow.open(map, marker);
-                      document.querySelectorAll(`.navigate`).forEach(btn => btn.classList.remove("activeMarker"));
-                      document.getElementById(`btnNavigateToLamp${device.gateway_id}${device.device_id}`).classList.add("activeMarker");
-                      scrollToContent(device)
-                  });
-              }
-          }
+                    device.marker=marker;
+                    bounds.extend(position);
+                    marker.addListener("click", () => {
+                        currentOpened={ gateway_id: device.gateway_id, device_id: device.device_id }
+                        const customContent=`
+                            <div class="flex flex-col text-black gap-y-[8px] font-medium w-32">
+                                <p>Name: ${device.device_name}</p>
+                                <p>Type: ${device.device_style}</p>
+                                <p>Status:
+                                    <span id="status${device.gateway_id}${device.device_id}"
+                                    class="${device.controls[0]?.last_value==1? "text-green-500":"text-red-500"}">
+                                    ${device.controls[0]?.last_value==1? "Online":"Offline"}</span>
+                                </p>
+                                <p>Brightness: <span id="bright${device.gateway_id}${device.device_id}">${device.controls[1].last_value}</span>%</p>
+                                <p>Battery: <span id="batt${device.gateway_id}${device.device_id}">${battery.last_value}</span>%</p>
+                                <button class="bg-red-300 px-[8px] py-[4px] rounded-[4px] w-full" onclick="closeInfoWindow()">Close</button>
+                            </div>
+                            `;
+                        infoWindow.setContent(customContent);
+                        infoWindow.open(map, marker);
+                        document.querySelectorAll(`.navigate`).forEach(btn => btn.classList.remove("activeMarker"));
+                        document.getElementById(`btnNavigateToLamp${device.gateway_id}${device.device_id}`).classList.add("activeMarker");
+                        scrollToContent(device)
+                    });
+                }
+            }
 
-      })
+        })
 
-      map.fitBounds(bounds);
-  }
-
-
-  function hideInfoWindowCloseButton() {
-      const style=document.createElement('style');
-      style.innerHTML=`
-      .gm-ui-hover-effect {
-          display: none !important;
-      }
-  `;
-      document.head.appendChild(style);
-  }
+        map.fitBounds(bounds);
+    }
 
 
-  function closeInfoWindow() {
-      if (infoWindow) {
-          infoWindow.close();
-          currentOpened=null;
-          document.querySelectorAll('.navigate').forEach(btn => {
-              btn.classList.remove('bg-white');
-              btn.classList.remove('dark:bg-black');
-          });
-          document.querySelectorAll(`.navigate`).forEach(btn => btn.classList.remove("activeMarker"));
-      }
-  }
+    function hideInfoWindowCloseButton() {
+        const style=document.createElement('style');
+        style.innerHTML=`
+        .gm-ui-hover-effect {
+            display: none !important;
+        }
+    `;
+        document.head.appendChild(style);
+    }
 
-  connectWS()
 
-  function connectWS() {
-        ws=new WebSocket("ws://192.168.1.66:8000/echo");
-    //   ws=new WebSocket("wss://archismarthome.com:8001/echo");
-      console.log("Connection : "+ws.url);
+    function closeInfoWindow() {
+        if (infoWindow) {
+            infoWindow.close();
+            currentOpened=null;
+            document.querySelectorAll('.navigate').forEach(btn => {
+                btn.classList.remove('bg-white');
+                btn.classList.remove('dark:bg-black');
+            });
+            document.querySelectorAll(`.navigate`).forEach(btn => btn.classList.remove("activeMarker"));
+        }
+    }
 
-      ws.onmessage=(event) => {
-          // console.log("data : "+event.data);
-          const obj=JSON.parse(event.data);
-          checkCommand(obj.cmd, obj.param)
-      }
-      ws.onopen=(event) => {
-          console.log("onopen : "+JSON.stringify(event));
-          sendLogin();
-      }
-      ws.onclose=(event) => {
-          console.log("onclose : code("+event.code+"), reason("+event.reason+")");
-      }
-  }
+    connectWS()
 
-  function sendLogin() {
-      const data=JSON.stringify({ "cmd": 1, "param": { "Username": "bird", "Password": "123456789" } })
-      ws.send(data);
-  }
+    function connectWS() {
+        //   ws=new WebSocket("ws://192.168.1.66:8000/echo");
+        ws=new WebSocket("wss://cloudbatt.com:8001/echo");
+        console.log("Connection : "+ws.url);
 
-  function checkCommand(cmd, payload) {
-      if (cmd==1) {
-          // res.LoginResult
-          if (payload.Success==1) {
-              ws.send(JSON.stringify({
-                  cmd: 32,
-                  param: {},
-              })
-              );
-          }
-          console.log("Login :"+(payload.Success==1? "Success":"Failed"));
-      } else if (cmd==31) {
-          const { Ctrl, Device, Member, V }=payload
-          console.log({ Ctrl, Device, Member, V })
-          const dev=devicesList.find(dev => dev.gateway_id==Member&&dev.device_id==Device);
-          if (dev!=null) {
-              if (dev.device_style==3) {
-                  if (Ctrl==0) {
-                      // online-offline
-                      dev.controls[0].last_value=V
-                      dev.marker.setIcon(selectIcon(V==1? 'lamp_on':'lamp_offline')||console.warn("Invalid icon returned"));
+        ws.onmessage=(event) => {
+            // console.log("data : "+event.data);
+            const obj=JSON.parse(event.data);
+            checkCommand(obj.cmd, obj.param)
+        }
+        ws.onopen=(event) => {
+            console.log("onopen : "+JSON.stringify(event));
+            sendLogin();
+        }
+        ws.onclose=(event) => {
+            console.log("onclose : code("+event.code+"), reason("+event.reason+")");
+        }
+    }
 
-                      document.querySelectorAll(`#activeStatus${Member}${Device}, #activeStatusPanel${Member}${Device}`).forEach(el => {
-                          el.innerHTML=`
-                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${V==1? "bg-green-500":"bg-red-500"}"></span>
-                          <span class="relative inline-flex rounded-full h-2 w-2 ${V==1? "bg-green-500":"bg-red-500"}"></span>`
-                      })
+    function sendLogin() {
+        const data=JSON.stringify({ "cmd": 1, "param": { "Username": "bird", "Password": "123456789" } })
+        ws.send(data);
+    }
 
-                      if (currentOpened?.gateway_id==Member&&currentOpened?.device_id==Device) {
-                          let elem=document.getElementById(`status${Member}${Device}`);
-                          if (elem) {
-                              elem.innerText=V==1? 'Online':'Offline';
-                              updateClass(elem, V==1? 'text-red-500':'text-green-500', V==1? 'text-green-500':'text-red-500');
-                          }
-                      }
-                      document.querySelectorAll(`#btnPowerOn${Member}${Device}, #btnPowerOff${Member}${Device}, #rangeBrightness${Member}${Device}`)
-                          .forEach(el => el.disabled=V==0);
-                  } else if (Ctrl==1) {
-                      // brightness
-                      dev.controls[1].last_value=V
-                      let range=document.getElementById(`rangeBrightness${Member}${Device}`);
-                      if (range) {
-                          const activeColor="#3b82f6";
-                          const inactiveColor="#374151";
-                          range.value=V
-                          const ratio=(range.value-range.min)/(range.max-range.min)*100;
-                          range.style.background=`linear-gradient(90deg, ${activeColor} ${ratio}%, ${inactiveColor} ${ratio}%)`;
-                          let label=document.getElementById(`rangeBrightnessValue${Member}${Device}`);
-                          label.innerText=V;
-                      }
-                      if (currentOpened?.gateway_id==Member&&currentOpened?.device_id==Device) {
-                          let elem=document.getElementById(`bright${Member}${Device}`);
-                          if (elem) {
-                              elem.innerText=V
-                          }
-                      }
-                  } else if (Ctrl==2) {
-                      // on-off
-                      dev.controls[2].last_value=V
-                      dev.marker.setIcon(selectIcon(V==1? 'lamp_on':'lamp_off')||console.warn("Invalid icon returned"));
-                      document.querySelectorAll(`#badgeStatus${Member}${Device}, #badgeStatusPanel${Member}${Device}`)
-                          .forEach(el => {
-                              if (V==1) {
-                                  el.innerText="ON"
-                                  updateClass(el, "bg-red-200", "bg-green-200")
-                                  updateClass(el, "text-red-800", "text-green-800")
-                              } else {
-                                  el.innerText="OFF"
-                                  updateClass(el, "bg-green-200", "bg-red-200")
-                                  updateClass(el, "text-green-800", "text-red-800")
-                              }
-                          })
-                      let labelStatus=document.getElementById(`label${Member}${Device}`)
-                      if (labelStatus) {
-                          labelStatus.innerText=V==1? 'On':'Off';
-                          updateClass(labelStatus, V==1? 'text-red-500':'text-green-500', V==1? 'text-green-500':'text-red-500');
-                      }
-                  } else if (Ctrl==10) {
-                      const batt=dev.controls.find(d => d.control_id==Ctrl)
-                      if (batt) {
-                          batt.last_value=V
-                          if (currentOpened?.gateway_id==Member&&currentOpened?.device_id==Device) {
-                              document.getElementById(`batt${Member}${Device}`).innerText=V
-                          }
-                      }
-                  }
-              }
-          }
-      } else if (cmd==9) {
-          // gateway status
-          const { MemberID, Status }=payload
-          const device=devicesList.find(d => d.type=='gateway'&&d.gateway_id==MemberID);
-          device.status=Status;
-          const icon=Status==1? selectIcon('gateway_online'):selectIcon('gateway_offline');
-          if (icon) {
-              device.marker.setIcon(icon);
-          } else {
-              console.warn("Invalid icon returned");
-          }
-          const activeStatus=document.getElementById(`activeStatus${MemberID}`);
-          if (activeStatus) {
-              activeStatus.innerHTML=`
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${Status==1? "bg-green-500":"bg-red-500"}"></span>
-                  <span class="relative inline-flex rounded-full h-2 w-2 ${Status==1? "bg-green-500":"bg-red-500"}"></span>`
-          }
-          const badgeStatus=document.getElementById(`badgeStatus${MemberID}`)
-          if (badgeStatus) {
-              if (Status==1) {
-                  updateClass(badgeStatus, "bg-red-200", "bg-green-200")
-                  updateClass(badgeStatus, "text-red-800", "text-green-800")
-              } else {
-                  updateClass(badgeStatus, "bg-green-200", "bg-red-200")
-                  updateClass(badgeStatus, "text-green-800", "text-red-800")
-              }
-          }
-          if (currentOpened!=null) {
-              if (MemberID==currentOpened?.gateway_id&&0==currentOpened?.device_id) {
-                  let elem=document.getElementById(`status${MemberID}`);
-                  if (Status==1) {
-                      elem.innerText='Online'
-                      updateClass(elem, 'text-red-500', 'text-green-500');
-                  } else {
-                      elem.innerText='Offline'
-                      updateClass(elem, 'text-green-500', 'text-red-500');
-                  }
-              }
-          }
-      } else if (cmd==34) {
-          // res.friendinformation
-          const { Member }=payload;
-          console.log(Member)
-          devicesList.forEach(device => {
-              if (device.type=='gateway') {
-                  const id=String(device.gateway_id)
-                  device.status=Member[id]?.Status;
-                  const icon=Member[id]?.Status==1? selectIcon('gateway_online'):selectIcon('gateway_offline');
-                  if (icon) {
-                      device.marker.setIcon(icon);
-                  } else {
-                      console.warn("Invalid icon returned");
-                  }
-                  const activeStatus=document.getElementById(`activeStatus${id}`);
-                  if (activeStatus) {
-                      activeStatus.innerHTML=`
-                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${Member[id]?.Status==1? "bg-green-500":"bg-red-500"}"></span>
-                          <span class="relative inline-flex rounded-full h-2 w-2 ${Member[id]?.Status==1? "bg-green-500":"bg-red-500"}"></span>`
-                  }
-                  const badgeStatus=document.getElementById(`badgeStatus${id}`)
-                  if (badgeStatus) {
-                      if (Member[id]?.Status==1) {
-                          updateClass(badgeStatus, "bg-red-200", "bg-green-200")
-                          updateClass(badgeStatus, "text-red-800", "text-green-800")
-                      } else {
-                          updateClass(badgeStatus, "bg-green-200", "bg-red-200")
-                          updateClass(badgeStatus, "text-green-800", "text-red-800")
-                      }
-                  }
-              }
-          })
-      } else if (cmd==99) {
-          // reject command
-          const { Status, Message }=payload
-          if (Status==0) {
-              const content=`<p>${Message}</p>`
-              showModalPopup(content, false)
-          }
+    function checkCommand(cmd, payload) {
+        if (cmd==1) {
+            // res.LoginResult
+            if (payload.Success==1) {
+                ws.send(JSON.stringify({
+                    cmd: 32,
+                    param: {},
+                })
+                );
+            }
+            console.log("Login :"+(payload.Success==1? "Success":"Failed"));
+        } else if (cmd==31) {
+            const { Ctrl, Device, Member, V }=payload
+            console.log({ Ctrl, Device, Member, V })
+            const dev=devicesList.find(dev => dev.gateway_id==Member&&dev.device_id==Device);
+            if (dev!=null) {
+                if (dev.device_style==3) {
+                    if (Ctrl==0) {
+                        // online-offline
+                        dev.controls[0].last_value=V
+                        dev.marker.setIcon(selectIcon(V==1? 'lamp_on':'lamp_offline')||console.warn("Invalid icon returned"));
 
-      }
-  }
+                        document.querySelectorAll(`#activeStatus${Member}${Device}, #activeStatusPanel${Member}${Device}`).forEach(el => {
+                            el.innerHTML=`
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${V==1? "bg-green-500":"bg-red-500"}"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 ${V==1? "bg-green-500":"bg-red-500"}"></span>`
+                        })
 
-  function sendWs(type, device, value) {
-      if (type=='on') {
-          let dataBright;
-          let dataOnOff;
-          const bright=device?.controls[1]?.last_value;
-          if (bright==0) {
-              dataBright=JSON.stringify({
-                  cmd: 3,
-                  param: { Member: device.gateway_id, Device: device.device_id, Ctrl: 1, V: 100 },
-              });
-              dataOnOff=JSON.stringify({
-                  cmd: 3,
-                  param: { Member: device.gateway_id, Device: device.device_id, Ctrl: 2, V: 1 },
-              });
-          } else {
-              dataBright=JSON.stringify({
-                  cmd: 3,
-                  param: { Member: device.gateway_id, Device: device.device_id, Ctrl: 1, V: bright },
-              });
-              dataOnOff=JSON.stringify({
-                  cmd: 3,
-                  param: { Member: device.gateway_id, Device: device.device_id, Ctrl: 2, V: 1 },
-              });
-          }
-          ws.send(dataBright);
-          ws.send(dataOnOff);
-      } else if (type=='off') {
-          const dataOnOff=JSON.stringify({ "cmd": 3, "param": { "Member": device.gateway_id, "Device": device.device_id, "Ctrl": 2, "V": 0 } })
-          ws.send(dataOnOff)
-      } else if (type=='bright') {
-          let dataBright;
-          let dataOnOff;
-          if (value==0) {
-              dataBright=JSON.stringify({ "cmd": 3, "param": { "Member": device.gateway_id, "Device": device.device_id, "Ctrl": 1, "V": value } })
-              dataOnOff=JSON.stringify({ "cmd": 3, "param": { "Member": device.gateway_id, "Device": device.device_id, "Ctrl": 2, "V": 0 } })
-          } else {
-              dataBright=JSON.stringify({ "cmd": 3, "param": { "Member": device.gateway_id, "Device": device.device_id, "Ctrl": 1, "V": value } })
-              dataOnOff=JSON.stringify({ "cmd": 3, "param": { "Member": device.gateway_id, "Device": device.device_id, "Ctrl": 2, "V": 1 } })
-          }
-          ws.send(dataBright)
-          ws.send(dataOnOff)
-      } else if (type=='schedule') {
-          // ws.send=JSON.stringify({
-          //     "cmd": 77, "param": { "Member": device.gateway_id, "Device": device.device_id, "Ctrl": 1, "V": value }
-          // })
-      } else {
-          console.error('Invalid type specified:', type);
-          return;
-      }
-  }
+                        if (currentOpened?.gateway_id==Member&&currentOpened?.device_id==Device) {
+                            let elem=document.getElementById(`status${Member}${Device}`);
+                            if (elem) {
+                                elem.innerText=V==1? 'Online':'Offline';
+                                updateClass(elem, V==1? 'text-red-500':'text-green-500', V==1? 'text-green-500':'text-red-500');
+                            }
+                        }
+                        document.querySelectorAll(`#btnPowerOn${Member}${Device}, #btnPowerOff${Member}${Device}, #rangeBrightness${Member}${Device}`)
+                            .forEach(el => el.disabled=V==0);
+                    } else if (Ctrl==1) {
+                        // brightness
+                        dev.controls[1].last_value=V
+                        let range=document.getElementById(`rangeBrightness${Member}${Device}`);
+                        if (range) {
+                            const activeColor="#3b82f6";
+                            const inactiveColor="#374151";
+                            range.value=V
+                            const ratio=(range.value-range.min)/(range.max-range.min)*100;
+                            range.style.background=`linear-gradient(90deg, ${activeColor} ${ratio}%, ${inactiveColor} ${ratio}%)`;
+                            let label=document.getElementById(`rangeBrightnessValue${Member}${Device}`);
+                            label.innerText=V;
+                        }
+                        if (currentOpened?.gateway_id==Member&&currentOpened?.device_id==Device) {
+                            let elem=document.getElementById(`bright${Member}${Device}`);
+                            if (elem) {
+                                elem.innerText=V
+                            }
+                        }
+                    } else if (Ctrl==2) {
+                        // on-off
+                        dev.controls[2].last_value=V
+                        dev.marker.setIcon(selectIcon(V==1? 'lamp_on':'lamp_off')||console.warn("Invalid icon returned"));
+                        document.querySelectorAll(`#badgeStatus${Member}${Device}, #badgeStatusPanel${Member}${Device}`)
+                            .forEach(el => {
+                                if (V==1) {
+                                    el.innerText="ON"
+                                    updateClass(el, "bg-red-200", "bg-green-200")
+                                    updateClass(el, "text-red-800", "text-green-800")
+                                } else {
+                                    el.innerText="OFF"
+                                    updateClass(el, "bg-green-200", "bg-red-200")
+                                    updateClass(el, "text-green-800", "text-red-800")
+                                }
+                            })
+                        let labelStatus=document.getElementById(`label${Member}${Device}`)
+                        if (labelStatus) {
+                            labelStatus.innerText=V==1? 'On':'Off';
+                            updateClass(labelStatus, V==1? 'text-red-500':'text-green-500', V==1? 'text-green-500':'text-red-500');
+                        }
+                    } else if (Ctrl==10) {
+                        const batt=dev.controls.find(d => d.control_id==Ctrl)
+                        if (batt) {
+                            batt.last_value=V
+                            if (currentOpened?.gateway_id==Member&&currentOpened?.device_id==Device) {
+                                document.getElementById(`batt${Member}${Device}`).innerText=V
+                            }
+                        }
+                    }
+                }
+            }
+        } else if (cmd==9) {
+            // gateway status
+            const { MemberID, Status }=payload
+            const device=devicesList.find(d => d.type=='gateway'&&d.gateway_id==MemberID);
+            device.status=Status;
+            const icon=Status==1? selectIcon('gateway_online'):selectIcon('gateway_offline');
+            if (icon) {
+                device.marker.setIcon(icon);
+            } else {
+                console.warn("Invalid icon returned");
+            }
+            const activeStatus=document.getElementById(`activeStatus${MemberID}`);
+            if (activeStatus) {
+                activeStatus.innerHTML=`
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${Status==1? "bg-green-500":"bg-red-500"}"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 ${Status==1? "bg-green-500":"bg-red-500"}"></span>`
+            }
+            const badgeStatus=document.getElementById(`badgeStatus${MemberID}`)
+            if (badgeStatus) {
+                if (Status==1) {
+                    updateClass(badgeStatus, "bg-red-200", "bg-green-200")
+                    updateClass(badgeStatus, "text-red-800", "text-green-800")
+                } else {
+                    updateClass(badgeStatus, "bg-green-200", "bg-red-200")
+                    updateClass(badgeStatus, "text-green-800", "text-red-800")
+                }
+            }
+            if (currentOpened!=null) {
+                if (MemberID==currentOpened?.gateway_id&&0==currentOpened?.device_id) {
+                    let elem=document.getElementById(`status${MemberID}`);
+                    if (Status==1) {
+                        elem.innerText='Online'
+                        updateClass(elem, 'text-red-500', 'text-green-500');
+                    } else {
+                        elem.innerText='Offline'
+                        updateClass(elem, 'text-green-500', 'text-red-500');
+                    }
+                }
+            }
+        } else if (cmd==34) {
+            // res.friendinformation
+            const { Member }=payload;
+            console.log(Member)
+            devicesList.forEach(device => {
+                if (device.type=='gateway') {
+                    const id=String(device.gateway_id)
+                    device.status=Member[id]?.Status;
+                    const icon=Member[id]?.Status==1? selectIcon('gateway_online'):selectIcon('gateway_offline');
+                    if (icon) {
+                        device.marker.setIcon(icon);
+                    } else {
+                        console.warn("Invalid icon returned");
+                    }
+                    const activeStatus=document.getElementById(`activeStatus${id}`);
+                    if (activeStatus) {
+                        activeStatus.innerHTML=`
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${Member[id]?.Status==1? "bg-green-500":"bg-red-500"}"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 ${Member[id]?.Status==1? "bg-green-500":"bg-red-500"}"></span>`
+                    }
+                    const badgeStatus=document.getElementById(`badgeStatus${id}`)
+                    if (badgeStatus) {
+                        if (Member[id]?.Status==1) {
+                            updateClass(badgeStatus, "bg-red-200", "bg-green-200")
+                            updateClass(badgeStatus, "text-red-800", "text-green-800")
+                        } else {
+                            updateClass(badgeStatus, "bg-green-200", "bg-red-200")
+                            updateClass(badgeStatus, "text-green-800", "text-red-800")
+                        }
+                    }
+                }
+            })
+        } else if (cmd==99) {
+            // reject command
+            const { Status, Message }=payload
+            if (Status==0) {
+                const content=`<p>${Message}</p>`
+                showModalPopup(content, false)
+            }
 
-  async function sendUsage(type, device, value=null) {
-      // on-off = 2, bright = 1
-      if (document.getElementById('log-checkbox').checked) {
-          let data=[]
-          if (type==='on') {
-              const bright=device?.controls?.[1]?.last_value||100;
-              data.push(
-                  {
-                      gateway_id: device.gateway_id,
-                      device_id: device.device_id,
-                      control_id: 1,
-                      V: bright
-                  },
-                  {
-                      gateway_id: device.gateway_id,
-                      device_id: device.device_id,
-                      control_id: 2,
-                      V: 1
-                  }
-              );
-          } else if (type==='off') {
-              data.push(
-                  {
-                      gateway_id: device.gateway_id,
-                      device_id: device.device_id,
-                      control_id: 2,
-                      V: 0
-                  });
-          } else if (type==='bright') {
-              data.push(
-                  {
-                      gateway_id: device.gateway_id,
-                      device_id: device.device_id,
-                      control_id: 1,
-                      V: value
-                  },
-                  {
-                      gateway_id: device.gateway_id,
-                      device_id: device.device_id,
-                      control_id: 2,
-                      V: value===0? 0:1
-                  }
-              );
-          }
-          try {
-              const response=await fetch("/api/save-usage/"+siteID, {
-                  method: "POST",
-                  headers: {
-                      "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify(
-                      {
-                          type: 'usage',
-                          device_usage: data
-                      }),
-              });
-              const result=await response.json();
-              if (!response.ok) {
-                  throw new Error(result.message);
-              }
-          } catch (error) {
-              console.error("Error:", error.message);
-          }
-      }
-  }
+        }
+    }
 
-  function updateClass(element, removeClass, addClass) {
-      if (element) {
-          element.classList.remove(removeClass);
-          element.classList.add(addClass);
-      } else {
-          console.error("Element not found");
-      }
-  }
+    function sendWs(type, device, value) {
+        if (type=='on') {
+            let dataBright;
+            let dataOnOff;
+            const bright=device?.controls[1]?.last_value;
+            if (bright==0) {
+                dataBright=JSON.stringify({
+                    cmd: 3,
+                    param: { Member: device.gateway_id, Device: device.device_id, Ctrl: 1, V: 100 },
+                });
+                dataOnOff=JSON.stringify({
+                    cmd: 3,
+                    param: { Member: device.gateway_id, Device: device.device_id, Ctrl: 2, V: 1 },
+                });
+            } else {
+                dataBright=JSON.stringify({
+                    cmd: 3,
+                    param: { Member: device.gateway_id, Device: device.device_id, Ctrl: 1, V: bright },
+                });
+                dataOnOff=JSON.stringify({
+                    cmd: 3,
+                    param: { Member: device.gateway_id, Device: device.device_id, Ctrl: 2, V: 1 },
+                });
+            }
+            ws.send(dataBright);
+            ws.send(dataOnOff);
+        } else if (type=='off') {
+            const dataOnOff=JSON.stringify({ "cmd": 3, "param": { "Member": device.gateway_id, "Device": device.device_id, "Ctrl": 2, "V": 0 } })
+            ws.send(dataOnOff)
+        } else if (type=='bright') {
+            let dataBright;
+            let dataOnOff;
+            if (value==0) {
+                dataBright=JSON.stringify({ "cmd": 3, "param": { "Member": device.gateway_id, "Device": device.device_id, "Ctrl": 1, "V": value } })
+                dataOnOff=JSON.stringify({ "cmd": 3, "param": { "Member": device.gateway_id, "Device": device.device_id, "Ctrl": 2, "V": 0 } })
+            } else {
+                dataBright=JSON.stringify({ "cmd": 3, "param": { "Member": device.gateway_id, "Device": device.device_id, "Ctrl": 1, "V": value } })
+                dataOnOff=JSON.stringify({ "cmd": 3, "param": { "Member": device.gateway_id, "Device": device.device_id, "Ctrl": 2, "V": 1 } })
+            }
+            ws.send(dataBright)
+            ws.send(dataOnOff)
+        } else if (type=='schedule') {
+            // ws.send=JSON.stringify({
+            //     "cmd": 77, "param": { "Member": device.gateway_id, "Device": device.device_id, "Ctrl": 1, "V": value }
+            // })
+        } else {
+            console.error('Invalid type specified:', type);
+            return;
+        }
+    }
+
+    async function sendUsage(type, device, value=null) {
+        // on-off = 2, bright = 1
+      //   if (document.getElementById('log-checkbox').checked) {
+            let data=[]
+            if (type==='on') {
+                const bright=device?.controls?.[1]?.last_value||100;
+                data.push(
+                    {
+                        gateway_id: device.gateway_id,
+                        device_id: device.device_id,
+                        control_id: 1,
+                        V: bright
+                    },
+                    {
+                        gateway_id: device.gateway_id,
+                        device_id: device.device_id,
+                        control_id: 2,
+                        V: 1
+                    }
+                );
+            } else if (type==='off') {
+                data.push(
+                    {
+                        gateway_id: device.gateway_id,
+                        device_id: device.device_id,
+                        control_id: 2,
+                        V: 0
+                    });
+            } else if (type==='bright') {
+                data.push(
+                    {
+                        gateway_id: device.gateway_id,
+                        device_id: device.device_id,
+                        control_id: 1,
+                        V: value
+                    },
+                    {
+                        gateway_id: device.gateway_id,
+                        device_id: device.device_id,
+                        control_id: 2,
+                        V: value===0? 0:1
+                    }
+                );
+            }
+          //   try {
+          //       const response=await fetch("/api/save-usage/"+siteID, {
+          //           method: "POST",
+          //           headers: {
+          //               "Content-Type": "application/json",
+          //           },
+          //           body: JSON.stringify(
+          //               {
+          //                   type: 'usage',
+          //                   device_usage: data
+          //               }),
+          //       });
+          //       const result=await response.json();
+          //       if (!response.ok) {
+          //           throw new Error(result.message);
+          //       }
+          //   } catch (error) {
+          //       console.error("Error:", error.message);
+          //   }
+      //   }
+    }
+
+    function updateClass(element, removeClass, addClass) {
+        if (element) {
+            element.classList.remove(removeClass);
+            element.classList.add(addClass);
+        } else {
+            console.error("Element not found");
+        }
+    }
 </script>

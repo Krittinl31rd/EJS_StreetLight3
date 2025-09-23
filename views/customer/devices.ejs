@@ -823,8 +823,8 @@
     connectWS()
 
     function connectWS() {
-        ws=new WebSocket("ws://192.168.1.66:8000/echo");
-        // ws=new WebSocket("wss://archismarthome.com:8001/echo");
+        // ws=new WebSocket("ws://192.168.1.66:8000/echo");
+        ws=new WebSocket("wss://cloudbatt.com:8001/echo");
         console.log("Connection : "+ws.url);
 
         ws.onmessage=(event) => {
@@ -1488,25 +1488,25 @@
             }
         });
 
-        if (data.length>0) {
-            try {
-                const response=await fetch(`/api/save-usage/${siteID}`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        type: isGroup? 'usage_group':'usage',
-                        device_usage: data
-                    }),
-                });
+        // if (data.length>0) {
+        //     try {
+        //         const response=await fetch(`/api/save-usage/${siteID}`, {
+        //             method: "POST",
+        //             headers: { "Content-Type": "application/json" },
+        //             body: JSON.stringify({
+        //                 type: isGroup? 'usage_group':'usage',
+        //                 device_usage: data
+        //             }),
+        //         });
 
-                const result=await response.json();
-                if (!response.ok) {
-                    throw new Error(result.message);
-                }
-            } catch (error) {
-                console.error("Error:", error.message);
-            }
-        }
+        //         const result=await response.json();
+        //         if (!response.ok) {
+        //             throw new Error(result.message);
+        //         }
+        //     } catch (error) {
+        //         console.error("Error:", error.message);
+        //     }
+        // }
     }
 
 function showConfirmationModal(title, message) {
