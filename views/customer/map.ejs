@@ -552,7 +552,7 @@
 
     function connectWS() {
         //   ws=new WebSocket("ws://192.168.1.66:8000/echo");
-        ws=new WebSocket("wss://cloudbatt.com:8001/echo");
+        ws=new WebSocket("wss://cloudbatt.com:8000/echo");
         console.log("Connection : "+ws.url);
 
         ws.onmessage=(event) => {
