@@ -244,13 +244,13 @@
                         matchedDevices.forEach(device => {
                             sendWs('on', device)
                         })
-                        sendUsage('on', matchedDevices, null, true)
+                        // sendUsage('on', matchedDevices, null, true)
                     })
                     document.getElementById(`btnPowerOff`).addEventListener('click', () => {
                         matchedDevices.forEach(device => {
                             sendWs('off', device)
                         })
-                        sendUsage('off', matchedDevices, null, true)
+                        // sendUsage('off', matchedDevices, null, true)
                     })
                     document.getElementById(`rangeBrightness`).addEventListener('input', (e) => {
                         const ratio=(e.target.value-e.target.min)/(e.target.max-e.target.min)*100;
@@ -262,7 +262,7 @@
                         matchedDevices.forEach(device => {
                             sendWs('bright', device, value)
                         })
-                        sendUsage('bright', matchedDevices, value, true)
+                        // sendUsage('bright', matchedDevices, value, true)
                     })
                     document.getElementById('saveMangeDevice').addEventListener('click', () => {
                         handleSchedulConfig(matchedDevices)
@@ -272,12 +272,12 @@
                 matchedDevices.forEach(device => {
                     sendWs('on', device)
                 })
-                sendUsage('on', matchedDevices, null, true)
+                // sendUsage('on', matchedDevices, null, true)
             } else if (type=='off') {
                 matchedDevices.forEach(device => {
                     sendWs('off', device)
                 })
-                sendUsage('off', matchedDevices, null, true)
+                // sendUsage('off', matchedDevices, null, true)
             } else if (type=='bright') {
                 const value=parseInt(document.getElementById('inputBrightSelect').value)
                 if (isNaN(value)) {
@@ -288,7 +288,7 @@
                     matchedDevices.forEach(device => {
                         sendWs('bright', device, value)
                     })
-                    sendUsage('bright', matchedDevices, value, true)
+                    // sendUsage('bright', matchedDevices, value, true)
                 }
             }
         } else {
@@ -590,11 +590,11 @@
                         setTimeout(() => {
                             document.getElementById(`btnPowerOn${device.gateway_id}${device.device_id}`).addEventListener('click', () => {
                                 sendWs('on', device)
-                                sendUsage('on', device)
+                                // sendUsage('on', device)
                             })
                             document.getElementById(`btnPowerOff${device.gateway_id}${device.device_id}`).addEventListener('click', () => {
                                 sendWs('off', device)
-                                sendUsage('off', device)
+                                // sendUsage('off', device)
                             })
                             document.getElementById(`rangeBrightness${device.gateway_id}${device.device_id}`).addEventListener('input', (e) => {
                                 const ratio=(e.target.value-e.target.min)/(e.target.max-e.target.min)*100;
@@ -604,7 +604,7 @@
                             document.getElementById(`rangeBrightness${device.gateway_id}${device.device_id}`).addEventListener('change', (e) => {
                                 const value=parseInt(e.target.value)
                                 sendWs('bright', device, value)
-                                sendUsage('bright', device, value)
+                                // sendUsage('bright', device, value)
                             })
                             document.getElementById('saveMangeDevice').addEventListener('click', () => {
                                 handleSchedulConfig(device)
