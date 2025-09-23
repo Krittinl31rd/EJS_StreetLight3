@@ -65,21 +65,28 @@ readdirSync("./routes/").map((c) => {
 });
 
 // HTTP and HTTPS
-const HTTP_PORT = process.env.HTTP_PORT || 5000;
-const HTTPS_PORT = process.env.HTTPS_PORT || 5444;
+const HTTP_PORT = process.env.HTTP_PORT || 3001;
+// const HTTPS_PORT = process.env.HTTPS_PORT || 443;
 
 // HTTPS options (replace with your certs)
-const httpsOptions = {
-  key: fs.readFileSync(path.join(__dirname, "certs", "key.pem")),
-  cert: fs.readFileSync(path.join(__dirname, "certs", "cert.pem")),
-};
+// const httpsOptions = {
+// cert: fs.readFileSync("/root/Work/Nginx/SSl/_.archismartsolution.com.pem", "utf8"),
+//   key: fs.readFileSync("/root/Work/Nginx/SSl/privateKey.key", "utf8"),
+// };
 
-// Create HTTP server
+// Redirect all HTTP traffic to HTTPS
+// http.createServer((req, res) => {
+//   res.writeHead(301, { Location: "https://" + req.headers.host + req.url });
+//   res.end();
+// }).listen(HTTP_PORT, () => {
+//   console.log(`Redirecting all HTTP traffic to HTTPS on port ${HTTP_PORT}`);
+// });
+
 http.createServer(app).listen(HTTP_PORT, () => {
   console.log(`HTTP server running on port ${HTTP_PORT}`);
 });
 
-// Create HTTPS server
-https.createServer(httpsOptions, app).listen(HTTPS_PORT, () => {
-  console.log(`HTTPS server running on port ${HTTPS_PORT}`);
-});
+// HTTPS server
+// https.createServer(httpsOptions, app).listen(HTTPS_PORT, () => {
+//   console.log(`HTTPS server running on port ${HTTPS_PORT}`);
+// });
