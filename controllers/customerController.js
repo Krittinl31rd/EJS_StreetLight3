@@ -677,6 +677,8 @@ exports.GetLogFromGateway2 = async (req, res) => {
       }));
     }
 
+    aggregated.sort((a, b) => new Date(a.period) - new Date(b.period));
+
     res.status(200).json({
       message: "Success",
       data: aggregated,
