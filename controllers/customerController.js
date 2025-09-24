@@ -512,6 +512,181 @@ exports.GetLogFromGateway = async (req, res) => {
   }
 };
 
+exports.GetLogFromGateway2 = async (req, res) => {
+  const { site_id } = req.site;
+  try {
+    const { date_start, date_end, device_id, gateway_id } = req.query;
+
+    const startDate = date_start ? new Date(date_start) : null;
+    const endDate = date_end ? new Date(date_end) : null;
+
+    if (startDate) startDate.setUTCHours(0, 0, 0, 0);
+    if (endDate) endDate.setUTCHours(23, 59, 59, 999);
+
+    const query = `
+      SELECT
+          ll.type AS log_type,
+          ll.detail AS log_detail,
+          ll.created_at AS created_at
+      FROM Lamp_Log ll
+      WHERE site_id = :site_id AND ll.type = 'log'
+    `;
+    const result = await sequelize.query(query, {
+      replacements: { site_id },
+      type: sequelize.QueryTypes.SELECT,
+    });
+
+    // --- parse logs ---
+    let logs = result.flatMap((row) => {
+      const logDetails = JSON.parse(row.log_detail);
+      return logDetails
+        .filter((device) => {
+          const logDate = new Date(device.timestamp);
+          const matchesDate =
+            (!startDate || logDate >= startDate) &&
+            (!endDate || logDate <= endDate);
+          const matchesDevice =
+            device_id && gateway_id
+              ? device_id == device.device_id && gateway_id == device.gateway_id
+              : true;
+          return matchesDate && matchesDevice;
+        })
+        .map((device) => {
+          // UTC → +7
+          const utcDate = new Date(device.timestamp);
+          // const localDate = new Date(utcDate.getTime() + 7 * 60 * 60 * 1000);
+
+          // --- คำนวณค่า ---
+          const inputVal =
+            device.input && device.input.volt && device.input.current
+              ? device.input.volt * device.input.current
+              : 0;
+
+          const outputVal =
+            device.output && device.output.volt && device.output.current
+              ? device.output.volt * device.output.current
+              : 0;
+
+          const batteryVal =
+            device.battery && device.battery.level ? device.battery.level : 0;
+
+          return {
+            log_type: row.log_type,
+            gateway_id: device.gateway_id,
+            device_id: device.device_id,
+            input: inputVal,
+            output: outputVal,
+            battery: batteryVal,
+            env: device.env,
+            timestamp: utcDate,
+          };
+        });
+    });
+
+    if (logs.length === 0) {
+      return res.status(200).json({ message: "Success", data: [] });
+    }
+
+    // --- aggregation level ---
+    const rangeDays = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
+
+    let aggregated = [];
+
+    if (rangeDays <= 1) {
+      // ---- case: 1 วัน → hourly ----
+      const buckets = {};
+      logs.forEach((log) => {
+        const h = log.timestamp.getHours();
+        if (!buckets[h]) buckets[h] = [];
+        buckets[h].push(log);
+      });
+      aggregated = Object.entries(buckets).map(([hour, items]) => ({
+        period: `${hour}:00`,
+        // count: items.length,
+        avgInput: Number(
+          (
+            items.reduce((a, b) => a + (b.input || 0), 0) / items.length
+          ).toFixed(2)
+        ),
+        avgOutput: Number(
+          (
+            items.reduce((a, b) => a + (b.output || 0), 0) / items.length
+          ).toFixed(2)
+        ),
+        avgBattery: Number(
+          (
+            items.reduce((a, b) => a + (b.battery || 0), 0) / items.length
+          ).toFixed(2)
+        ),
+      }));
+    } else if (rangeDays <= 31) {
+      // ---- case: <= 31 วัน → daily ----
+      const buckets = {};
+      logs.forEach((log) => {
+        const key = log.timestamp.toISOString().slice(0, 10); // YYYY-MM-DD
+        if (!buckets[key]) buckets[key] = [];
+        buckets[key].push(log);
+      });
+      aggregated = Object.entries(buckets).map(([day, items]) => ({
+        period: day,
+        // count: items.length,
+        avgInput: Number(
+          (
+            items.reduce((a, b) => a + (b.input || 0), 0) / items.length
+          ).toFixed(2)
+        ),
+        avgOutput: Number(
+          (
+            items.reduce((a, b) => a + (b.output || 0), 0) / items.length
+          ).toFixed(2)
+        ),
+        avgBattery: Number(
+          (
+            items.reduce((a, b) => a + (b.battery || 0), 0) / items.length
+          ).toFixed(2)
+        ),
+      }));
+    } else {
+      // ---- case: > 31 วัน → monthly ----
+      const buckets = {};
+      logs.forEach((log) => {
+        const y = log.timestamp.getFullYear();
+        const m = log.timestamp.getMonth() + 1;
+        const key = `${y}-${String(m).padStart(2, "0")}`;
+        if (!buckets[key]) buckets[key] = [];
+        buckets[key].push(log);
+      });
+      aggregated = Object.entries(buckets).map(([month, items]) => ({
+        period: month,
+        // count: items.length,
+        avgInput: Number(
+          (
+            items.reduce((a, b) => a + (b.input || 0), 0) / items.length
+          ).toFixed(2)
+        ),
+        avgOutput: Number(
+          (
+            items.reduce((a, b) => a + (b.output || 0), 0) / items.length
+          ).toFixed(2)
+        ),
+        avgBattery: Number(
+          (
+            items.reduce((a, b) => a + (b.battery || 0), 0) / items.length
+          ).toFixed(2)
+        ),
+      }));
+    }
+
+    res.status(200).json({
+      message: "Success",
+      data: aggregated,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 exports.SiteMemberPage = async (req, res) => {
   res.json({ message: `welcome member page site ${req.params.site_id}` });
 };

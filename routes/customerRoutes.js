@@ -6,7 +6,6 @@ const {
   checkTest,
 } = require("../middleware/auth");
 const {
-  getLogFromGateway,
   AllSiteCustomerPage,
   DashboardSitePage,
   SiteMemberPage,
@@ -18,6 +17,7 @@ const {
   UsageByMember,
   ManageLog,
   GetLogFromGateway,
+  GetLogFromGateway2,
   ReportDevices,
   ReportMaintenance,
   getLog,
@@ -140,6 +140,12 @@ router.get(
   checkRole(ACCESS_ROLES.CUSTOMER),
   checkSiteRole([SITE_ROLES.ADMIN]),
   GetLogFromGateway
+);
+router.get(
+  "/api/get-chart2/:site_id",
+  checkRole(ACCESS_ROLES.CUSTOMER),
+  checkSiteRole([SITE_ROLES.ADMIN]),
+  GetLogFromGateway2
 );
 router.get(
   "/api/get-log/:site_id",

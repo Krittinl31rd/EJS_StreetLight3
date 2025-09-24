@@ -301,12 +301,16 @@ const dummy = (days = 30, entriesPerDay = 1440) => {
             current: parseFloat((1 + Math.random()).toFixed(2)),
           },
           battery: {
-            level: Math.floor(50 + Math.random() * 50),
+            batt_volt: parseFloat((12 + Math.random()).toFixed(2)),
+            capacity: parseFloat(Math.random() * 100),
+            health: parseFloat(Math.random() * 100),
+            cycle: parseFloat(Math.random() * 100),
+            level: Math.floor(Math.random() * 50),
             charge: Math.random() > 0.5 ? 1 : 0,
           },
           env: {
             temp: parseFloat((20 + Math.random() * 10).toFixed(1)),
-            humid: parseFloat((50 + Math.random() * 20).toFixed(1)),
+            humid: parseFloat(0),
           },
           timestamp: date,
         });
