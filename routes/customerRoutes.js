@@ -25,6 +25,7 @@ const {
   sitesListWithMemberId,
   siteListWithId,
   DeviceListInSite,
+  getMaintenanceLog,
 } = require("../controllers/customerController");
 const {
   CreateMember_AddToSite,
@@ -146,6 +147,12 @@ router.get(
   checkRole(ACCESS_ROLES.CUSTOMER),
   checkSiteRole([SITE_ROLES.ADMIN]),
   GetLogFromGateway2
+);
+router.get(
+  "/api/get-maintenance/:site_id",
+  checkRole(ACCESS_ROLES.CUSTOMER),
+  checkSiteRole([SITE_ROLES.ADMIN]),
+  getMaintenanceLog
 );
 router.get(
   "/api/get-log/:site_id",

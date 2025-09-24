@@ -98,6 +98,7 @@ exports.ReportDevices = async (req, res) => {
     allDevice: await deviceList(site_id),
   });
 };
+
 exports.ReportMaintenance = async (req, res) => {
   const { site_id, site_label, site_name, site_role } = req.site;
   res.render("customer/maintenance_report", {
@@ -1138,6 +1139,16 @@ const maintenanceListComplete = async (site_id) => {
       type: sequelize.QueryTypes.SELECT,
     });
     return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.getMaintenanceLog = async (req, res) => {
+  try {
+    const site_id = req.site.site_id;
+    const data = await maintenanceListComplete(site_id);
+    return res.status(200).json(data);
   } catch (err) {
     console.log(err);
   }
