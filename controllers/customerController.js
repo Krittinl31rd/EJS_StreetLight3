@@ -168,7 +168,7 @@ exports.UsageByMember = async (req, res) => {
           });
         });
         await Promise.all(promises);
-        console.log("usage is created");
+        // console.log("usage is created");
         res.status(200).json({ message: "Usage is created" });
       }
     } else if (type == "usage_group") {
@@ -189,7 +189,7 @@ exports.UsageByMember = async (req, res) => {
             type: sequelize.QueryTypes.INSERT,
           })
         );
-        console.log("usage is created");
+        // console.log("usage is created");
         res.status(200).json({ message: "Usage is created" });
       }
     }
@@ -221,7 +221,7 @@ exports.AddSchduleDevice = async (req, res) => {
         });
 
         if (existing.length > 0) {
-          console.log(device);
+          // console.log(device);
           const queryUpdate = `
                         UPDATE Lamp_Config 
                         SET detail = :detail, performed_by = :member_id, created_at = :created_at
@@ -241,7 +241,7 @@ exports.AddSchduleDevice = async (req, res) => {
             },
             type: sequelize.QueryTypes.UPDATE,
           });
-          console.log("Updated existing record");
+          // console.log("Updated existing record");
         } else {
           const queryInsert = `
                         INSERT INTO Lamp_Config
@@ -259,7 +259,7 @@ exports.AddSchduleDevice = async (req, res) => {
             },
             type: sequelize.QueryTypes.INSERT,
           });
-          console.log("Inserted new record");
+          // console.log("Inserted new record");
         }
       });
 
@@ -457,7 +457,7 @@ exports.GetLogFromGateway = async (req, res) => {
   const { site_id, site_label, site_name, site_role } = req.site;
   try {
     const { type, date_start, date_end, device_id, gateway_id } = req.query;
-    console.log(device_id);
+    // console.log(device_id);
     const startDate = date_start ? new Date(date_start) : null;
     const endDate = date_end ? new Date(date_end) : null;
 
@@ -597,7 +597,7 @@ const membersList = async (site_id, member_id, site_role) => {
       replacements: { site_id, member_id, site_role },
       type: sequelize.QueryTypes.SELECT,
     });
-    console.log(result);
+    // console.log(result);
     const siteMap = {};
 
     result.forEach((row) => {

@@ -1,230 +1,264 @@
 <div
-    class="flex-1 overflow-auto flex flex-col items-start justify-start gap-4 p-4 animate-fade-in-down transition-opacity duration-500 ease-out">
-    <h1 class="text-2xl font-semibold text-gray-800">Report | Maintenance</h1>
+  class="flex-1 overflow-auto flex flex-col items-start justify-start gap-4 p-4 animate-fade-in-down transition-opacity duration-500 ease-out"
+>
+  <h1 class="text-2xl font-semibold text-gray-800">Report | Maintenance</h1>
 
-    <form id="generateMaintenance" class="w-full grid grid-cols-4 gap-2">
-
-        <div class="col-span-4 w-full flex gap-2 justify-end">
-            <a type="reset"
-                class="inline-flex items-center justify-center gap-1 w-32 h-8 text-sm font-medium rounded-lg border cursor-pointer hover:bg-gray-200 dark:text-white">
-                <i class='bx bxs-download'></i> Export Data
-            </a>
-            <button type="reset"
-                class="block w-20 h-8 text-sm font-medium rounded-lg border hover:bg-gray-200 dark:text-white">
-                Reset
-            </button>
-        </div>
-
-        <div class="col-span-4 md:col-span-2 w-full flex flex-col gap-2 justify-center">
-            <label class="block text-sm font-medium dark:text-white">
-                Status
-            </label>
-            <div class="flex items-center gap-2">
-                <input id="radioRepair" type="radio" value="1" name="type" required
-                    class="w-4 h-4 rounded-lg  text-light-text  bg-light-background border border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300">
-                <label for="radioRepair" class="text-sm font-medium text-gray-900 dark:text-gray-300">
-                    Repair</label>
-                <input id="radioInspection" type="radio" value="3" name="type" required
-                    class="w-4 h-4 rounded-lg  text-light-text  bg-light-background border border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300">
-                <label for="radioInspection" class="text-sm font-medium text-gray-900 dark:text-gray-300">
-                    Inspection</label>
-            </div>
-        </div>
-        <div class="col-span-4 md:col-span-2 w-full flex flex-col gap-2 justify-start">
-            <label class="block text-sm font-medium dark:text-white">
-                <%= i18n.__('search') %>
-            </label>
-            <div class="flex items-center relative">
-                <input type="text" id="searchData" name="search_data"
-                    class="z-20 block w-full ps-4 p-2.5 text-sm rounded-lg rounded-r-none  border border-r-0  text-light-text  bg-light-background border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300"
-                    placeholder="Devices" autocomplete="off" required />
-                <button id="searchDataBtn" type="submit"
-                    class="z-20 flex items-center h-full px-4 py-1 rounded-r-lg text-xl bg-purple-500 dark:bg-[#77DDFF] text-white dark:text-black"><i
-                        class='bx bx-search'></i></button>
-                <!-- search recommend -->
-                <div id="inputSearchShow"
-                    class="hidden overflow-y-auto z-10 absolute w-full max-h-64 top-10 left-0 rounded-bl-lg rounded-br-lg border shadow-xl dark:border-gray-600  bg-white dark:bg-[#1C1E1F] ">
-                </div>
-            </div>
-        </div>
-
-    </form>
-
-    <div class="w-full flex-1 relative overflow-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left  text-light-text dark:text-dark-text">
-            <thead
-                class="text-xs uppercase text-light-text bg-light-background dark:bg-dark-primary dark:text-dark-text">
-                <tr>
-                    <th scope="col" class="px-6 py-3 w-[200px]">Lamp</th>
-                    <th scope="col" class="px-6 py-3 w-[300px]">Type</th>
-                    <th scope="col" class="px-6 py-3 w-[250px]">Resolved Date</th>
-                    <th scope="col" class="px-6 py-3 w-[150px]">Action</th>
-                </tr>
-            </thead>
-            <tbody id="reportTable"></tbody>
-        </table>
-
-
+  <form id="generateMaintenance" class="w-full grid grid-cols-4 gap-2">
+    <div class="col-span-4 w-full flex gap-2 justify-end">
+      <a
+        type="reset"
+        class="inline-flex items-center justify-center gap-1 w-32 h-8 text-sm font-medium rounded-lg border cursor-pointer hover:bg-gray-200 dark:text-white"
+      >
+        <i class="bx bxs-download"></i> Export Data
+      </a>
+      <button
+        type="reset"
+        class="block w-20 h-8 text-sm font-medium rounded-lg border hover:bg-gray-200 dark:text-white"
+      >
+        Reset
+      </button>
     </div>
-    <div id="paginationContainer" class="w-full flex items-center justify-between">
 
+    <div
+      class="col-span-4 md:col-span-2 w-full flex flex-col gap-2 justify-center"
+    >
+      <label class="block text-sm font-medium dark:text-white"> Status </label>
+      <div class="flex items-center gap-2">
+        <input
+          id="radioRepair"
+          type="radio"
+          value="1"
+          name="type"
+          required
+          class="w-4 h-4 rounded-lg text-light-text bg-light-background border border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300"
+        />
+        <label
+          for="radioRepair"
+          class="text-sm font-medium text-gray-900 dark:text-gray-300"
+        >
+          Repair</label
+        >
+        <input
+          id="radioInspection"
+          type="radio"
+          value="3"
+          name="type"
+          required
+          class="w-4 h-4 rounded-lg text-light-text bg-light-background border border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300"
+        />
+        <label
+          for="radioInspection"
+          class="text-sm font-medium text-gray-900 dark:text-gray-300"
+        >
+          Inspection</label
+        >
+      </div>
     </div>
+    <div
+      class="col-span-4 md:col-span-2 w-full flex flex-col gap-2 justify-start"
+    >
+      <label class="block text-sm font-medium dark:text-white">
+        <%= i18n.__('search') %>
+      </label>
+      <div class="flex items-center relative">
+        <input
+          type="text"
+          id="searchData"
+          name="search_data"
+          class="z-20 block w-full ps-4 p-2.5 text-sm rounded-lg rounded-r-none border border-r-0 text-light-text bg-light-background border-gray-300 dark:text-dark-text dark:bg-dark-background dark:border-gray-800 focus:ring-0 focus:border-gray-300"
+          placeholder="Devices"
+          autocomplete="off"
+          required
+        />
+        <button
+          id="searchDataBtn"
+          type="submit"
+          class="z-20 flex items-center h-full px-4 py-1 rounded-r-lg text-xl bg-purple-500 dark:bg-[#77DDFF] text-white dark:text-black"
+        >
+          <i class="bx bx-search"></i>
+        </button>
+        <!-- search recommend -->
+        <div
+          id="inputSearchShow"
+          class="hidden overflow-y-auto z-10 absolute w-full max-h-64 top-10 left-0 rounded-bl-lg rounded-br-lg border shadow-xl dark:border-gray-600 bg-white dark:bg-[#1C1E1F]"
+        ></div>
+      </div>
+    </div>
+  </form>
+
+  <div class="w-full flex-1 relative overflow-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-light-text dark:text-dark-text">
+      <thead
+        class="text-xs uppercase text-light-text bg-light-background dark:bg-dark-primary dark:text-dark-text"
+      >
+        <tr>
+          <th scope="col" class="px-6 py-3 w-[200px]">Lamp</th>
+          <th scope="col" class="px-6 py-3 w-[300px]">Type</th>
+          <th scope="col" class="px-6 py-3 w-[250px]">Resolved Date</th>
+          <th scope="col" class="px-6 py-3 w-[150px]">Action</th>
+        </tr>
+      </thead>
+      <tbody id="reportTable"></tbody>
+    </table>
+  </div>
+  <div
+    id="paginationContainer"
+    class="w-full flex items-center justify-between"
+  ></div>
 </div>
 
 <script>
-    var translations={
-        createMember: "<%= i18n.__('createMember') %>",
-        enabled: "<%= i18n.__('enabled') %>",
-        disabled: "<%= i18n.__('disabled') %>",
-        status: "<%= i18n.__('status') %>",
-        username: "<%= i18n.__('username') %>",
-        memberName: "<%= i18n.__('memberName') %>",
-        email: "<%= i18n.__('email') %>",
-        role: "<%= i18n.__('role') %>",
-        cancle: "<%= i18n.__('cancle') %>",
-        create: "<%= i18n.__('create') %>",
-        change: "<%= i18n.__('change') %>",
-        showing: "<%= i18n.__('showing') %>",
-        to: "<%= i18n.__('to') %>",
-        of: "<%= i18n.__('of') %>",
-        entries: "<%= i18n.__('entries') %>",
-        delete: "<%= i18n.__('delete') %>",
-        deleteConfirm: "<%= i18n.__('deleteConfirm') %>",
-        textDelete: "<%= i18n.__('textDelete') %>",
-        ok: "<%= i18n.__('ok') %>",
-        error: "<%= i18n.__('error') %>",
-        success: "<%= i18n.__('success') %>",
-        noMember: "<%= i18n.__('noMember') %>",
-    };
-    const data=<%- JSON.stringify(maintenanceList)%>;
-    const tableBody=document.getElementById('reportTable');
-    const paginationContainer=document.getElementById('paginationContainer');
-    console.log(data)
-    let currentPage=1;
-    const itemsPerpage=20;
+  var translations={
+      createMember: "<%= i18n.__('createMember') %>",
+      enabled: "<%= i18n.__('enabled') %>",
+      disabled: "<%= i18n.__('disabled') %>",
+      status: "<%= i18n.__('status') %>",
+      username: "<%= i18n.__('username') %>",
+      memberName: "<%= i18n.__('memberName') %>",
+      email: "<%= i18n.__('email') %>",
+      role: "<%= i18n.__('role') %>",
+      cancle: "<%= i18n.__('cancle') %>",
+      create: "<%= i18n.__('create') %>",
+      change: "<%= i18n.__('change') %>",
+      showing: "<%= i18n.__('showing') %>",
+      to: "<%= i18n.__('to') %>",
+      of: "<%= i18n.__('of') %>",
+      entries: "<%= i18n.__('entries') %>",
+      delete: "<%= i18n.__('delete') %>",
+      deleteConfirm: "<%= i18n.__('deleteConfirm') %>",
+      textDelete: "<%= i18n.__('textDelete') %>",
+      ok: "<%= i18n.__('ok') %>",
+      error: "<%= i18n.__('error') %>",
+      success: "<%= i18n.__('success') %>",
+      noMember: "<%= i18n.__('noMember') %>",
+  };
+  const data=<%- JSON.stringify(maintenanceList)%>;
+  const tableBody=document.getElementById('reportTable');
+  const paginationContainer=document.getElementById('paginationContainer');
+  // console.log(data)
+  let currentPage=1;
+  const itemsPerpage=20;
 
-    function createTableRow(log, index) {
-        const row=document.createElement("tr");
-        row.className="bg-gray-50 hover:bg-gray-100 border-b dark:bg-dark-secondary dark:hover:bg-dark-primary dark:border-b-gray-800";
+  function createTableRow(log, index) {
+      const row=document.createElement("tr");
+      row.className="bg-gray-50 hover:bg-gray-100 border-b dark:bg-dark-secondary dark:hover:bg-dark-primary dark:border-b-gray-800";
 
-        row.innerHTML=`
-                    <td class="px-6 py-4 w-[150px]">
-                        <div class="">
-                            <div class="text-base font-semibold">${log.device_name}</div>
-                            <div class="font-normal text-gray-500">${log.technician_id}</div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4 max-w-[150px]">
-                         <div class="">
-                            <div class="text-xs text-gray-500">${log.maintenance_type}</div>
-                            <p class="truncate">${log.description}</p>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="">
-                            <div class="text-xs text-gray-500">MM/DD/YY</div>
-                            <div class="">${log.maintenance_date==null? "-":formatDate(log.maintenance_date)}</div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="w-full flex items-center gap-1">
-                            <button id="btnInfo${index}${log.gateway_id}${log.device_id}" type="button" class="inline-flex items-center justify-center w-8 h-8 text-sm font-medium rounded-lg border hover:bg-gray-200 dark:text-white">
-                                <i class='bx bxs-info-circle'></i>
-                            <button>
-                            <button type="button" class="inline-flex items-center justify-center w-8 h-8 text-sm font-medium rounded-lg border hover:bg-gray-200 dark:text-white">
-                                <i class='bx bxs-file-pdf text-red-500' ></i>
-                            <button>
-                        </div>
-                    </td>`;
-        return row;
-    }
+      row.innerHTML=`
+                  <td class="px-6 py-4 w-[150px]">
+                      <div class="">
+                          <div class="text-base font-semibold">${log.device_name}</div>
+                          <div class="font-normal text-gray-500">${log.technician_id}</div>
+                      </div>
+                  </td>
+                  <td class="px-6 py-4 max-w-[150px]">
+                       <div class="">
+                          <div class="text-xs text-gray-500">${log.maintenance_type}</div>
+                          <p class="truncate">${log.description}</p>
+                      </div>
+                  </td>
+                  <td class="px-6 py-4">
+                      <div class="">
+                          <div class="text-xs text-gray-500">MM/DD/YY</div>
+                          <div class="">${log.maintenance_date==null? "-":formatDate(log.maintenance_date)}</div>
+                      </div>
+                  </td>
+                  <td class="px-6 py-4">
+                      <div class="w-full flex items-center gap-1">
+                          <button id="btnInfo${index}${log.gateway_id}${log.device_id}" type="button" class="inline-flex items-center justify-center w-8 h-8 text-sm font-medium rounded-lg border hover:bg-gray-200 dark:text-white">
+                              <i class='bx bxs-info-circle'></i>
+                          <button>
+                          <button type="button" class="inline-flex items-center justify-center w-8 h-8 text-sm font-medium rounded-lg border hover:bg-gray-200 dark:text-white">
+                              <i class='bx bxs-file-pdf text-red-500' ></i>
+                          <button>
+                      </div>
+                  </td>`;
+      return row;
+  }
 
-    function renderTable(page, filteredData) {
-        tableBody.innerHTML="";
+  function renderTable(page, filteredData) {
+      tableBody.innerHTML="";
 
-        if (filteredData.length===0) {
-            tableBody.innerHTML=`
-            <tr>
-                <td colspan="6" class="text-center text-gray-500 dark:text-gray-400 py-4">
-                    No results found
-                </td>
-            </tr>
-        `;
-            updatePaginationButtons(filteredData);
-            return;
-        }
+      if (filteredData.length===0) {
+          tableBody.innerHTML=`
+          <tr>
+              <td colspan="6" class="text-center text-gray-500 dark:text-gray-400 py-4">
+                  No results found
+              </td>
+          </tr>
+      `;
+          updatePaginationButtons(filteredData);
+          return;
+      }
 
-        const start=(page-1)*itemsPerpage;
-        const end=start+itemsPerpage;
-        const paginatedItems=filteredData.slice(start, end);
+      const start=(page-1)*itemsPerpage;
+      const end=start+itemsPerpage;
+      const paginatedItems=filteredData.slice(start, end);
 
-        paginatedItems.forEach((log, index) => {
-            tableBody.appendChild(createTableRow(log, index));
+      paginatedItems.forEach((log, index) => {
+          tableBody.appendChild(createTableRow(log, index));
 
-            const btnInfo=document.getElementById(`btnInfo${index}${log.gateway_id}${log.device_id}`)
-            btnInfo.addEventListener('click', () => {
-                let elem=`
-                <ul>
-                    <li>Device Name: ${log.device_name}</li>
-                    <li>Maintenance Type: ${log.maintenance_type}</li>    
-                    <li>Description: ${log.description}</li>        
-                    <li>Technicain: ${log.technician_id}</li>        
-                    <li>Date: ${log.maintenance_date==null? "-":formatDate(log.maintenance_date)}</li>        
-                </ul>`
-                showModal(`${log.device_name}`, elem, true);
-            })
-        });
-        updatePaginationButtons(filteredData);
-    }
+          const btnInfo=document.getElementById(`btnInfo${index}${log.gateway_id}${log.device_id}`)
+          btnInfo.addEventListener('click', () => {
+              let elem=`
+              <ul>
+                  <li>Device Name: ${log.device_name}</li>
+                  <li>Maintenance Type: ${log.maintenance_type}</li>
+                  <li>Description: ${log.description}</li>
+                  <li>Technicain: ${log.technician_id}</li>
+                  <li>Date: ${log.maintenance_date==null? "-":formatDate(log.maintenance_date)}</li>
+              </ul>`
+              showModal(`${log.device_name}`, elem, true);
+          })
+      });
+      updatePaginationButtons(filteredData);
+  }
 
-    function updatePaginationButtons(filteredData) {
-        paginationContainer.innerHTML="";
-        const totalPages=Math.ceil(filteredData.length/itemsPerpage);
-        paginationContainer.innerHTML=`
-        <div class="block">${translations.showing} ${(currentPage-1)*itemsPerpage+1} ${translations.to} 
-            ${Math.min(currentPage*itemsPerpage, filteredData.length)} ${translations.of} ${filteredData.length} ${translations.entries}</div>
-        <div class="flex items-center gap-2">
-            <button id="prevBtn"
-                class="inline-flex items-center hover:bg-light-primary hover:dark:bg-dark-primary rounded-full p-2">
-                <i class='bx bx-chevron-left'></i>
-            </button>
-            <span>${currentPage} / ${totalPages}</span>
-            <button id="nextBtn"
-                class="inline-flex items-center hover:bg-light-primary hover:dark:bg-dark-primary rounded-full p-2">
-                <i class='bx bx-chevron-right'></i>
-            </button>
-        </div>`;
-        const prevBtn=document.getElementById('prevBtn');
-        prevBtn.disabled=currentPage==1;
-        prevBtn.addEventListener("click", () => changePage(currentPage-1, filteredData));
-        const nextBtn=document.getElementById('nextBtn');
-        nextBtn.disabled=currentPage==totalPages;
-        nextBtn.addEventListener("click", () => changePage(currentPage+1, filteredData));
-    }
-
-
-    function changePage(page, filteredData) {
-        if (page>=1&&page<=Math.ceil(logData.length/itemsPerpage)) {
-            currentPage=page;
-            renderTable(page, filteredData);
-        }
-    }
-
-    renderTable(currentPage, data);
+  function updatePaginationButtons(filteredData) {
+      paginationContainer.innerHTML="";
+      const totalPages=Math.ceil(filteredData.length/itemsPerpage);
+      paginationContainer.innerHTML=`
+      <div class="block">${translations.showing} ${(currentPage-1)*itemsPerpage+1} ${translations.to}
+          ${Math.min(currentPage*itemsPerpage, filteredData.length)} ${translations.of} ${filteredData.length} ${translations.entries}</div>
+      <div class="flex items-center gap-2">
+          <button id="prevBtn"
+              class="inline-flex items-center hover:bg-light-primary hover:dark:bg-dark-primary rounded-full p-2">
+              <i class='bx bx-chevron-left'></i>
+          </button>
+          <span>${currentPage} / ${totalPages}</span>
+          <button id="nextBtn"
+              class="inline-flex items-center hover:bg-light-primary hover:dark:bg-dark-primary rounded-full p-2">
+              <i class='bx bx-chevron-right'></i>
+          </button>
+      </div>`;
+      const prevBtn=document.getElementById('prevBtn');
+      prevBtn.disabled=currentPage==1;
+      prevBtn.addEventListener("click", () => changePage(currentPage-1, filteredData));
+      const nextBtn=document.getElementById('nextBtn');
+      nextBtn.disabled=currentPage==totalPages;
+      nextBtn.addEventListener("click", () => changePage(currentPage+1, filteredData));
+  }
 
 
-    function formatDate(date) {
-        if (!date) return "";
-        const d=new Date(date);
-        const year=d.getUTCFullYear();
-        const month=String(d.getUTCMonth()+1).padStart(2, "0");
-        const day=String(d.getUTCDate()).padStart(2, "0");
-        const hour=String(d.getUTCHours()).padStart(2, "0");
-        const min=String(d.getUTCMinutes()).padStart(2, "0");
-        const sec=String(d.getUTCSeconds()).padStart(2, "0");
+  function changePage(page, filteredData) {
+      if (page>=1&&page<=Math.ceil(logData.length/itemsPerpage)) {
+          currentPage=page;
+          renderTable(page, filteredData);
+      }
+  }
 
-        return `${day}-${month}-${year} T${hour}:${min}:${sec}`;
-    }
+  renderTable(currentPage, data);
 
 
+  function formatDate(date) {
+      if (!date) return "";
+      const d=new Date(date);
+      const year=d.getUTCFullYear();
+      const month=String(d.getUTCMonth()+1).padStart(2, "0");
+      const day=String(d.getUTCDate()).padStart(2, "0");
+      const hour=String(d.getUTCHours()).padStart(2, "0");
+      const min=String(d.getUTCMinutes()).padStart(2, "0");
+      const sec=String(d.getUTCSeconds()).padStart(2, "0");
+
+      return `${day}-${month}-${year} T${hour}:${min}:${sec}`;
+  }
 </script>

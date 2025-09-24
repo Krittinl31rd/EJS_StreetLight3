@@ -587,7 +587,7 @@
             console.log("Login :"+(payload.Success==1? "Success":"Failed"));
         } else if (cmd==31) {
             const { Ctrl, Device, Member, V }=payload
-            console.log({ Ctrl, Device, Member, V })
+            // console.log({ Ctrl, Device, Member, V })
             const dev=devicesList.find(dev => dev.gateway_id==Member&&dev.device_id==Device);
             if (dev!=null) {
                 if (dev.device_style==3) {
@@ -704,7 +704,7 @@
         } else if (cmd==34) {
             // res.friendinformation
             const { Member }=payload;
-            console.log(Member)
+            // console.log(Member)
             devicesList.forEach(device => {
                 if (device.type=='gateway') {
                     const id=String(device.gateway_id)
