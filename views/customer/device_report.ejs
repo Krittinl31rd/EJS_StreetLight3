@@ -185,7 +185,7 @@
     </div>
     <canvas
       id="reportChart"
-      style="width: 100% !important; height: 500px !important"
+      style="width: 90% !important; height: 500px !important"
     ></canvas>
   </div>
 </div>
@@ -392,7 +392,7 @@
 
       try {
         // console.log(filterDevice)
-          const response=await fetch(`/api/get-chart/${site_id}?${new URLSearchParams({
+          const response=await fetch(`/api/get-chart2/${site_id}?${new URLSearchParams({
               type,
               date_start: dateStart,
               date_end: dateEnd,
@@ -406,14 +406,21 @@
           if (!response.ok) throw new Error("Failed to fetch data");
 
           const { data }=await response.json();
+
           if (!data.length) throw new Error("No data available");
 
-          let labels=data.map(item => item.timestamp);
+          let labels=data.map(item => item.period);
           let datasets={
-              input: data.map(item => parseFloat(item.input.volt*item.input.current)),
-              output: data.map(item => parseFloat(item.output.volt*item.output.current)),
-              battery: data.map(item => parseFloat(item.battery.level))
+              input: data.map(item =>item.avgInput),
+              output: data.map(item => item.avgOutput),
+              battery: data.map(item => item.avgBattery)
           };
+          // let labels=data.map(item => item.timestamp);
+          // let datasets={
+          //     input: data.map(item => parseFloat(item.input.volt*item.input.current)),
+          //     output: data.map(item => parseFloat(item.output.volt*item.output.current)),
+          //     battery: data.map(item => parseFloat(item.battery.level))
+          // };
 
 
           lastSearch={
@@ -456,17 +463,17 @@
 
       const { label, yLabel, borderColor, backgroundColor }=chartConfigs[type];
 
-      const formattedLabels=labels.map(timestamp => {
-          const date=new Date(timestamp);
-          const hours=String(date.getUTCHours()).padStart(2, '0');
-          const minutes=String(date.getUTCMinutes()).padStart(2, '0');
-          const seconds=String(date.getUTCSeconds()).padStart(2, '0');
-          return `T${hours}:${minutes}:${seconds}`;
-      });
+      // const formattedLabels=labels.map(timestamp => {
+      //     const date=new Date(timestamp);
+      //     const hours=String(date.getUTCHours()).padStart(2, '0');
+      //     const minutes=String(date.getUTCMinutes()).padStart(2, '0');
+      //     const seconds=String(date.getUTCSeconds()).padStart(2, '0');
+      //     return `T${hours}:${minutes}:${seconds}`;
+      // });
 
       if (chartList[chartId]) {
           const chart=chartList[chartId];
-          chart.data.labels=formattedLabels;
+          chart.data.labels=labels;
           chart.data.datasets[0].data=data;
           chart.data.datasets[0].label=label;
           chart.data.datasets[0].borderColor=borderColor;
@@ -480,17 +487,17 @@
           chartList[chartId]=new Chart(ctx, {
               type: 'line',
               data: {
-                  labels: formattedLabels,
+                  labels: labels,
                   datasets: [{
                       label,
                       data,
                       borderColor,
                       backgroundColor,
-                      fill: true,
+                      fill: false,
                       tension: 0.0,
-                      borderWidth: 1.5,
-                      pointRadius: 0,
-                      pointHoverRadius: 2
+                      borderWidth: 2,
+                      pointRadius: 2,
+                      pointHoverRadius: 4
                   }]
               },
               options: {
