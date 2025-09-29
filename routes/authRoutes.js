@@ -16,6 +16,7 @@ router.post("/api/loginv2", LoginThird);
 router.get("/api/logout", Logout);
 router.post("/api/register", Register);
 
+router.get("/", LoginPage);
 router.get("/login", LoginPage);
 router.get("/401", Page401);
 router.get("/403", Page403);
