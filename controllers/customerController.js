@@ -1144,6 +1144,76 @@ const maintenanceListComplete = async (site_id) => {
   }
 };
 
+const summaryOverviews = async (site_id) => {
+  try {
+    const query = `
+      SELECT
+          lc.site_id AS site_id,
+          lg.id AS gateway_id,
+          d.DeviceID AS device_id,
+          dc.ControlID AS control_id,
+          dc.LastValue AS last_value
+      FROM Lamp_Contracts lc
+      JOIN Lamp_Gateways lg 
+          ON lc.id = lg.contract_id
+      LEFT JOIN Devices d 
+          ON d.MemberID = lg.id AND d.DeviceStyleID = 3
+      LEFT JOIN DevicetControl dc 
+          ON dc.MemberID = lg.id AND dc.DeviceID = d.DeviceID
+      WHERE lc.site_id = :site_id
+      ORDER BY lc.site_id, lg.id, d.DeviceID;
+    `;
+
+    const rows = await sequelize.query(query, {
+      replacements: { site_id },
+      type: sequelize.QueryTypes.SELECT,
+    });
+
+    const gatewaySet = new Set();
+    const deviceSet = new Set();
+    let key;
+    let deviceOffline = 0;
+    let deviceOnline = 0;
+
+    rows.forEach((row) => {
+      gatewaySet.add(row.gateway_id);
+      key = `${row.gateway_id}-${row.device_id}`;
+      deviceSet.add(key);
+
+      if (row.control_id == 0) {
+        if (row.last_value == 0) {
+          deviceOffline++;
+        } else if (row.last_value == 1) {
+          deviceOnline++;
+        }
+      }
+    });
+
+    return {
+      gwTotal: gatewaySet.size,
+      gwOffline: 0,
+      gwOnline: 0,
+      deviceTotal: deviceSet.size,
+      deviceOffline,
+      deviceOnline,
+      // raw: rows,
+    };
+  } catch (err) {
+    console.error("Error in summaryOverviews:", err);
+    throw err;
+  }
+};
+
+exports.getOverviews = async (req, res) => {
+  try {
+    const site_id = req.site.site_id;
+    const data = await summaryOverviews(site_id);
+    return res.status(200).json(data);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 exports.getMaintenanceLog = async (req, res) => {
   try {
     const site_id = req.site.site_id;

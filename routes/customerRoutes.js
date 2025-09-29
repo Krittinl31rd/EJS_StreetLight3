@@ -26,6 +26,7 @@ const {
   siteListWithId,
   DeviceListInSite,
   getMaintenanceLog,
+  getOverviews,
 } = require("../controllers/customerController");
 const {
   CreateMember_AddToSite,
@@ -165,6 +166,12 @@ router.get(
   checkRole(ACCESS_ROLES.CUSTOMER),
   checkSiteRole([SITE_ROLES.ADMIN]),
   DeviceListInSite
+);
+router.get(
+  "/api/get-overviews/:site_id",
+  checkRole(ACCESS_ROLES.CUSTOMER),
+  checkSiteRole([SITE_ROLES.ADMIN]),
+  getOverviews
 );
 
 module.exports = router;
