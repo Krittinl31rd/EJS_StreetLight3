@@ -1,9 +1,9 @@
 <div
-    class="p-4 flex-1 overflow-y-hidden overflow-x-hidden flex flex-col items-start justify-start gap-4 animate-fade-in-down transition-opacity duration-500 ease-out">
-
-    <% sites_list.forEach(site=> { %>
-        <p>
-            <%= site.id %> | <%= site.name %> | <%= site.description %>
-        </p>
-        <% }) %>
+  class="flex-1 overflow-y-hidden overflow-x-hidden flex flex-col items-start justify-start gap-4 p-4 animate-fade-in-down transition-opacity duration-500 ease-out space-y-2"
+>
+  <div class="w-full">
+    <h1 class="text-2xl font-bold mb-1">
+      <%= my_site.id %> | <%= my_site.name %> | <%= my_site.description %>
+    </h1>
+  </div>
 </div>

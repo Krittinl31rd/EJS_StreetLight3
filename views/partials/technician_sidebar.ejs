@@ -23,6 +23,16 @@
         </a>
 
         <ul class="space-y-2 font-medium mt-[48px]">
+                            <li>
+                    <a href="/technician/home"
+                        class="w-full flex items-center p-2 rounded-lg group <%= isActiveRoute('/dashboard', currentRoute) %>">
+                        <i
+                            class='bx bxs-home transition duration-75 text-gray-900  dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white'></i>
+                        <span class="ms-3 font-semibold ">
+                            Home
+                        </span>
+                    </a>
+                </li>
             <li>
                 <a href="/technician/sites"
                     class="w-full flex items-center p-2 rounded-lg group <%= isActiveRoute('/technician/sites', currentRoute) %>">
@@ -34,16 +44,6 @@
                 </a>
             </li>
             <% if (site_role=='Admin' ) { %>
-                <li>
-                    <a href="/technician/<%= site_label %>"
-                        class="w-full flex items-center p-2 rounded-lg group <%= isActiveRoute('/dashboard', currentRoute) %>">
-                        <i
-                            class='bx bxs-home transition duration-75 text-gray-900  dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white'></i>
-                        <span class="ms-3 font-semibold ">
-                            Home
-                        </span>
-                    </a>
-                </li>
                 <li>
                     <a href="/technician/<%= site_label %>/devices"
                         class="w-full flex items-center p-2 rounded-lg group <%= isActiveRoute('/devices', currentRoute) %>">

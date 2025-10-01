@@ -4,7 +4,7 @@
   <div class="w-full">
     <h1 class="text-2xl font-bold mb-1">Company Co., Ltd</h1>
     <p class="text-gray-500 font-semibold">
-      <%= siteName.name %>, <%= siteName.description %>
+      Welcome back, <span class="text-cyan-500"><%= member.member_name %></span>
     </p>
   </div>
 
@@ -37,52 +37,130 @@
     </div>
 
     <div
+      id="overviewElement"
       class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
-    >
-      <div class="bg-cyan-500/15 rounded-lg p-4">
-        <h3 class="text-sm font-semibold text-cyan-500 mb-1">Online</h3>
-        <div class="flex items-baseline ms-6">
-          <span class="text-light-text dark:text-dark-text text-2xl font-bold"
-            >1964</span
-          >
-          <span class="text-sm text-light-text dark:text-dark-text ml-1"
-            >/2000</span
-          >
-        </div>
-      </div>
-
-      <div class="bg-yellow-400/25 rounded-lg p-4">
-        <h3 class="text-sm font-semibold text-yellow-500 mb-1">In Repair</h3>
-        <div class="flex items-baseline ms-6">
-          <span class="text-light-text dark:text-dark-text text-2xl font-bold"
-            >5</span
-          >
-          <span class="text-sm text-light-text dark:text-dark-text ml-1"
-            >/26</span
-          >
-        </div>
-      </div>
-
-      <div class="bg-red-500/25 rounded-lg p-4">
-        <h3 class="text-sm font-semibold text-red-500 mb-1">Not Checked</h3>
-        <div class="flex items-baseline ms-6">
-          <span class="text-light-text dark:text-dark-text text-2xl font-bold"
-            >0</span
-          >
-        </div>
-      </div>
-
-      <div class="bg-orange-500/25 rounded-lg p-4">
-        <h3 class="text-sm font-semibold text-orange-500 mb-1">
-          Batt Never Full
-        </h3>
-        <div class="flex items-baseline ms-6">
-          <span class="text-light-text dark:text-dark-text text-2xl font-bold"
-            >999</span
-          >
-          <span class="text-sm text-orange-400 ml-1">in 3 Days</span>
-        </div>
-      </div>
-    </div>
+    ></div>
   </div>
 </div>
+
+<script>
+      var ws;
+      const {id} = <%- JSON.stringify(member)%>;
+      const overviewData = [
+        {
+        title: "Gateway Online",
+        value: 0,
+        max: 0,
+        bg: "bg-green-500/25",
+        textH3: "text-emerald-500"
+      },
+        {
+        title: "Gateway Offline",
+        value: 0,
+              max: 0,
+        bg: "bg-pink-500/25",
+        textH3: "text-rose-500"
+      },
+      {
+        title: "Lamp Online",
+        value: 0,
+        max: 0,
+        bg: "bg-cyan-500/25",
+        textH3: "text-cyan-500"
+      },
+        {
+        title: "Lamp Offline",
+        value: 0,
+              max: 0,
+        bg: "bg-red-500/25",
+        textH3: "text-red-500"
+      },
+    ]
+      const overviewElement = document.getElementById("overviewElement");
+
+      function renderOverview(){
+        overviewElement.innerHTML = "";
+        overviewData.forEach(item => {
+          overviewElement.innerHTML +=
+          `<div class="${item.bg} rounded-lg p-4">
+          <h3 class="text-sm font-semibold ${item.textH3} mb-1">${item.title}</h3>
+          <div class="flex items-baseline ms-6">
+            <span class="text-light-text dark:text-dark-text text-2xl font-bold"
+              >${item.value}</span
+            >
+            <span class="text-sm text-light-text dark:text-dark-text ml-1"
+              >/${item.max}</span
+            >
+          </div>
+        </div>`
+        })
+      }
+  renderOverview();
+
+
+          function connectWS() {
+            ws=new WebSocket("ws://192.168.1.66:8001/echo");
+            // ws=new WebSocket("wss://cloudbatt.com:8000/echo");
+            console.log("Connection : "+ws.url);
+
+            ws.onmessage=(event) => {
+                // console.log("data : "+event.data);
+                const obj=JSON.parse(event.data);
+                checkCommand(obj.cmd, obj.param)
+            }
+            ws.onopen=(event) => {
+                console.log("onopen : "+JSON.stringify(event));
+                sendLogin();
+            }
+            ws.onclose=(event) => {
+                console.log("onclose : code("+event.code+"), reason("+event.reason+")");
+            }
+        }
+
+        function sendLogin() {
+            const data=JSON.stringify({ "cmd": 1, "param": { "Username": "bird", "Password": "123456789" } })
+            ws.send(data);
+        }
+
+        function checkCommand (cmd, payload) {
+          // console.log({cmd, payload})
+            if (cmd==1) {
+                // res.LoginResult
+                if (payload.Success==true) {
+                    ws.send(JSON.stringify({
+                        cmd: 999,
+                        param: {lamp_member_id:id},
+                    })
+                    );
+                }
+                console.log("Login :"+(payload.Success==1? "Success":"Failed"));
+            }else if (cmd == 999){
+              if(payload.Success == true){
+              overviewData[0].value = payload.onlineGateway;
+              overviewData[0].max = payload.totalGateway;
+              overviewData[1].value = payload.offlineGateway;
+              overviewData[1].max = payload.totalGateway;
+              overviewData[2].value = payload.onlineDevice;
+              overviewData[2].max = payload.totalDevice;
+              overviewData[3].value = payload.offlineDevice;
+              overviewData[3].max = payload.totalDevice;
+              renderOverview();
+              }
+            }else if (cmd == 998){
+              const {DeviceID, MemberID, Status, Type} = payload;
+              if(Type == "Gateway"){
+                overviewData[0].value = Status == 1 ? overviewData[0].value + 1 : overviewData[0].value - 1;
+                overviewData[1].value = Status == 0 ? overviewData[1].value + 1 : overviewData[1].value - 1;
+                renderOverview();
+              }else if (Type == "Device"){
+                overviewData[2].value = Status == 1 ? overviewData[2].value + 1 : overviewData[2].value - 1;
+                overviewData[3].value = Status == 0 ? overviewData[3].value + 1 : overviewData[3].value - 1;
+                renderOverview();
+              }
+            }
+          }
+
+
+
+        connectWS();
+</script>

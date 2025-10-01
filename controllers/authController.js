@@ -98,9 +98,9 @@ exports.Login = async (req, res) => {
       if (payload.role == "Owner") {
         res.redirect("/dashboard");
       } else if (payload.role == "Customer") {
-        res.redirect("/customer/sites");
+        res.redirect("/customer/home");
       } else if (payload.role == "Technician") {
-        res.redirect("/technician/sites");
+        res.redirect("/technician/home");
       }
     });
   } catch (err) {

@@ -40,13 +40,18 @@ router.get(
   checkRole(ACCESS_ROLES.CUSTOMER),
   AllSiteCustomerPage
 );
-// router.get('/customer/site/:site_id', checkRole(ACCESS_ROLES.CUSTOMER), checkSiteRole([SITE_ROLES.ADMIN, SITE_ROLES.MEMBER]), DashboardSitePage);
 router.get(
-  "/customer/:site_label",
+  "/customer/home",
   checkRole(ACCESS_ROLES.CUSTOMER),
-  checkSiteRole([SITE_ROLES.ADMIN, SITE_ROLES.MEMBER]),
   DashboardSitePage
 );
+// router.get('/customer/site/:site_id', checkRole(ACCESS_ROLES.CUSTOMER), checkSiteRole([SITE_ROLES.ADMIN, SITE_ROLES.MEMBER]), DashboardSitePage);
+// router.get(
+//   "/customer/:site_label",
+//   checkRole(ACCESS_ROLES.CUSTOMER),
+//   checkSiteRole([SITE_ROLES.ADMIN, SITE_ROLES.MEMBER]),
+//   DashboardSitePage
+// );
 // router.get('/customer/manage/site/:site_id', checkRole(ACCESS_ROLES.CUSTOMER), checkSiteRole([SITE_ROLES.ADMIN]), ManageSitePage);
 router.get(
   "/customer/:site_label/manage",

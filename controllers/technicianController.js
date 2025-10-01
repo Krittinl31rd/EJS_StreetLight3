@@ -19,17 +19,16 @@ exports.AllSiteTechnicianPage = async (req, res) => {
 };
 
 exports.TechnicianHome = async (req, res) => {
-  const { site_id, site_label, site_name, site_role } = req.site;
-  const [siteName] = await getSiteName(site_id);
+  // const { site_id, site_label, site_name, site_role } = req.site;
+  // const [siteName] = await getSiteName(site_id);
+  const site_role = null;
   res.render("technician/home", {
     layout: technicianLayout,
-    title: `Technician | ${site_name}`,
+    title: "Technician | LeKise The Lamp",
     currentRoute: `/dashboard`,
     member: req.member,
     messages: req.flash(),
     site_role,
-    site_label,
-    siteName,
   });
 };
 

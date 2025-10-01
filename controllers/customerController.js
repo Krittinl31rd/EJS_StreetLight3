@@ -10,7 +10,7 @@ exports.AllSiteCustomerPage = async (req, res) => {
   res.render("customer/all_sites", {
     layout: customerLayout,
     tab: "customer_sites",
-    title: "Customer | LeKise The Lamp",
+    title: "Customer | Sites",
     currentRoute: "/customer/sites",
     member: req.member,
     messages: req.flash(),
@@ -20,22 +20,22 @@ exports.AllSiteCustomerPage = async (req, res) => {
 };
 
 exports.DashboardSitePage = async (req, res) => {
-  const { site_id, site_label, site_name, site_role } = req.site;
-  const [siteName] = await getSiteName(site_id);
+  // const { site_id, site_label, site_name, site_role } = req.site;
+  // const [siteName] = await getSiteName(site_id);
+  const site_role = null;
   res.render("customer/site", {
     layout: customerLayout,
-    title: `${site_role} | ${site_name}`,
+    title: "Customer | Home",
     currentRoute: `/dashboard`,
     member: req.member,
     messages: req.flash(),
     site_role,
-    site_label,
-    siteName,
   });
 };
 
 exports.ManageSitePage = async (req, res) => {
   const { site_id, site_label, site_name, site_role } = req.site;
+  const [mySite] = await sitesList(site_id);
   res.render("customer/site_manager", {
     layout: customerLayout,
     title: `${site_role} | ${site_name}`,
@@ -44,7 +44,7 @@ exports.ManageSitePage = async (req, res) => {
     messages: req.flash(),
     site_role,
     site_label,
-    sites_list: await sitesList(site_id),
+    my_site: mySite,
   });
 };
 
